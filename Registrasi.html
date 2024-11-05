@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I-Trashy - Registrasi</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="left-side">
+            <a href="#" class="back-button">
+                <img src="assets/icon/back icon.png" alt="Back" class="back-icon">
+            </a>
+            <div class="brand">
+                <img src="assets/image/Logo Itrashy.png" alt="I-Trashy Logo" class="logo">
+                <h1>I-Trashy.</h1>
+                <p>Solusi pengelolaan sampah untuk rumah tangga dan bisnis</p>
+            </div>
+        </div>
+        
+        <div class="right-side">
+            <div class="login-header">
+                <div class="nav-buttons">
+                    <button class="nav-btn active">Daftar</button>
+                    <button class="nav-btn login-btn">Login</button>
+                </div>
+            </div>
+            
+            <div class="login-form">
+                <h2>Hello!<br><span class="opening">Yuk, kelola sampahmu bersama kami</span></h2>
+                
+                <form>
+                    <div class="form-group">
+                        <input type="text" id="text" placeholder="Nama Lengkap" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="tel" id="tel" placeholder="No. Handphone" required>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="email" id="email" placeholder="Email" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <input type="password" id="password" placeholder="Password" required>
+                        <img src="assets/icon/eye icon.png.png" alt="Toggle Password" class="toggle-password">
+                    </div>
+                    
+                    <div class="forgot-password">
+                        <a href="LupaPassword.html">Lupa password?</a>
+                    </div>
+                    
+                    <div class="terms">
+                        <label>
+                            <input type="checkbox" required>
+                            <span>Saya setuju untuk</span>
+                            <a href="#">Ketentuan Layanan</a>
+                            <span>&</span>
+                            <a href="#">Kebijakan Privasi</a>
+                        </label>
+                    </div>
+                    
+                    <button type="submit" class="login-button">Daftar</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
