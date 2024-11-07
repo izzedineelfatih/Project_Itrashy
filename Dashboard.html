@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard I-Trashy</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+</head>
+<body class="body-dashboard">
+  <div class="dashboard">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="assets/image/Logo Itrashy.png" alt="logo Itrashy">
+        <h2>I-Trashy</h2>
+      </div>  
+      
+      <div class="sidebar-nav">
+        <nav>
+          <a href="#" class="menu-item active">
+            <img src="assets/icon/dashboard.png" alt="Dashboard Icon" class="menu-icon"> Dashboard
+          </a>
+          <a href="#" class="menu-item">
+            <img src="assets/icon/jemput.png" alt="Jemput Sampah Icon" class="menu-icon"> Jemput Sampah
+          </a>
+          <a href="#" class="menu-item">
+            <img src="assets/icon/poin.png" alt="TrashPay Icon" class="menu-icon"> Tukar Poin
+          </a>
+          <a href="#" class="menu-item">
+            <img src="assets/icon/edukasi.png" alt="Tukar Poin Icon" class="menu-icon"> Edukasi
+          </a>
+          <a href="#" class="menu-item">
+            <img src="assets/icon/pencapaian.png" alt="TrashPay Icon" class="menu-icon"> Pencapaian
+          </a>
+          <a href="#" class="menu-item">
+            <img src="assets/icon/riwayat.png" alt="Tukar Poin Icon" class="menu-icon"> Riwayat
+          </a>
+        </nav>
+      </div>
+      <div class="settings">
+        <a href="#" class="settings-set"><img src="assets/icon/settings.png" alt="keluar icon"> Pengaturan</a>
+        <a href="#" class="settings-out"><img src="assets/icon/log-out.png" alt="keluar icon"> Keluar</a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Header -->
+      <header class="banner">
+        <h1>Selamat Pagi, Atalaric</h1>
+        <p>30 Kg sampah sudah kamu kumpulkan</p>
+        <button class="jemput-btn">Jemput Sampah</button>
+      </header>
+
+      <!-- Balance Section -->
+      <section class="balance">
+        <div class="balance-actions">
+          <h2>Rp 50.000</h2>
+          <div class="submenu-item">
+            <button><img src="assets/icon/transfer.png" alt="Transfer Icon"></button>
+            <div><p>Transfer</p></div>
+          </div>
+
+          <div class="submenu-item">
+            <button><img src="assets/icon/tagihan.png" alt="Tagihan Icon"></button>
+            <div><p>Tagihan</p></div>
+          </div>
+          
+          <div class="submenu-item">
+            <button><img src="assets/icon/donasi.png" alt="Donasi Icon"></button>
+            <div><p>Donasi</p></div>
+          </div>
+
+          <div class="submenu-item">
+            <button><img src="assets/icon/poin.png" alt="Tukar Poin Icon"></button>
+            <div><p>Tukar Poin</p></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Latest News Section with Horizontal Scroll -->
+      <section class="latest-news">
+        <h3>Terbaru</h3>
+        <div class="news-container">
+          <div class="news-card">
+            <img src="news1.jpg" alt="News 1">
+            <h4>Belajar Mengelola Sampah Sejak Dini</h4>
+            <p>Membangun generasi peduli lingkungan...</p>
+          </div>
+          <div class="news-card">
+            <img src="news2.jpg" alt="News 2">
+            <h4>Rusaknya Pantai Akibat Sampah</h4>
+            <p>Dampak lingkungan yang mengkhawatirkan...</p>
+          </div>
+          <div class="news-card">
+            <img src="news3.jpg" alt="News 3">
+            <h4>Kasus Penyu Mati</h4>
+            <p>Ancaman nyata sampah laut...</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Sidebar Right -->
+    <aside class="right-sidebar">
+      <!-- Profile Section -->
+      <div class="profile-section">
+        <img src="profile-pic.jpg" alt="Profile Picture" class="profile-pic">
+        <p class="profile-name">M Abizar Atalaric</p>
+      </div>
+      <!-- Pickup Schedule -->
+      <div class="pickup-schedule">
+        <h3>Jadwal Penjemputan</h3>
+        <p>Belum ada penjemputan yang harus dilakukan nih!</p>
+      </div>
+      <!-- Stats Section -->
+      <div class="stats">
+        <h4>Sampah Terkumpul</h4>
+        <div class="chart">[Chart here]</div>
+        <h4>Jejak Karbon Terkurangi</h4>
+        <div class="chart">[Chart here]</div>
+      </div>
+    </aside>
+  </div>
+</body>
+</html>

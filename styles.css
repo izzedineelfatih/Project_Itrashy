@@ -197,6 +197,239 @@ input[type="password"] {
     background-color: #3258d3;
 }
 
+
+/* //////BAGIAN DASHBOARD////////// */
+.body-dashboard {
+    display: flex;
+}
+
+.dashboard {
+    display: flex;
+    width: 100%;
+}
+
+.sidebar {
+    width: 230px;
+    background-color: white;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+}
+
+.sidebar h2 {
+    font-size: 1.2rem;
+    color: #000000;
+    font-weight: 300;
+}
+
+.sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: 5px;
+}
+
+.sidebar-logo img {
+    width: 30px;
+    height: 38px;
+}
+
+.sidebar nav a {
+    display: flex;
+    align-items: center;
+    color: #000000;
+    padding: 10px;
+    margin-bottom: 15px;
+    text-decoration: none;
+    font-weight: 400;
+    font-size: 0.9rem;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    position: relative;
+}
+
+.menu-item .menu-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.menu-item:hover {
+    font-weight: bold;
+    color: #3968DA;
+}
+
+.menu-item.active {
+    background-color: #3968DA;
+    color: white;
+    margin-left: -20px;
+    padding-left: 30px; 
+    margin-right: 10px;
+    font-weight: 500;
+    border-radius: 0 15px 15px 0;
+}
+
+.menu-item.active .menu-icon {
+    filter: brightness(0) invert(1);
+}
+
+.settings a {
+    display: flex;
+    align-items: center;
+    color: #000000;
+    font-weight: 400;
+    padding: 10px;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.settings-set:hover {
+    font-weight: bold;
+    color: #3968DA;
+}
+
+.settings-out:hover {
+    font-weight: bold;
+    color: #FE5722;
+}
+
+.settings a img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+.banner {
+    background-color: #e0f7fa;
+    padding: 20px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.banner h1 {
+    font-size: 1.2rem;
+}
+
+.jemput-btn {
+    background-color: #1a73e8;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.balance {
+    margin-top: 20px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.balance h2 {
+    font-size: 1.5rem;
+    color: #1a73e8;
+}
+
+.balance-actions {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.balance-actions button {
+    background-color: #f4f4f4;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.balance-actions button img {
+    width: 20px;
+}
+
+.latest-news {
+    margin-top: 20px;
+}
+
+.latest-news h3 {
+    margin-bottom: 10px;
+}
+
+.news-container {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+}
+
+.news-card {
+    min-width: 200px;
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.news-card img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.right-sidebar {
+    background-color: white;
+    width: 250px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-pic {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.profile-name {
+    font-weight: bold;
+}
+
+.pickup-schedule,
+.stats {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.stats h4 {
+    margin-top: 10px;
+}
+
 /* Responsive Design */
 @media (max-width: 968px) {
     .container {
@@ -227,3 +460,19 @@ input[type="password"] {
         padding: 0.5rem 1rem;
     }
 }
+
+ /* Responsive Design
+ @media (max-width: 768px) {
+    .sidebar,
+    .right-sidebar {
+      display: none;
+    }
+  
+    .main-content {
+      padding: 10px;
+    }
+  
+    .balance-actions {
+      flex-direction: column;
+    }
+  } */
