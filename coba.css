@@ -1,0 +1,167 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 250px 1fr 300px;
+    min-height: 100vh;
+    background: #f5f6fa;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    background: white;
+    padding: 20px;
+    border-right: 1px solid #eee;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.logo img {
+    width: 40px;
+    height: 40px;
+}
+
+.section-title {
+    font-size: 12px;
+    color: #666;
+    margin: 20px 0 10px;
+}
+
+.sidebar ul {
+    list-style: none;
+}
+
+.sidebar li {
+    padding: 12px 15px;
+    margin: 5px 0;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sidebar li:hover {
+    background: #f5f6fa;
+}
+
+.sidebar li.active {
+    background: #4070f4;
+    color: white;
+}
+
+.settings {
+    margin-top: auto;
+}
+
+.logout {
+    color: #ff4757;
+}
+
+/* Main Content Styles */
+.main-content {
+    padding: 20px;
+}
+
+.banner {
+    background: #4CAF50;
+    padding: 30px;
+    border-radius: 15px;
+    color: white;
+    margin-bottom: 20px;
+    background-image: url('banner-bg.png');
+    background-size: cover;
+}
+
+.balance-card {
+    background: linear-gradient(to right, #ffe0b2, #a5d6a7);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.balance {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.actions {
+    display: flex;
+    gap: 15px;
+    justify-content: space-between;
+}
+
+.actions button {
+    padding: 10px;
+    border: none;
+    background: white;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Right Sidebar Styles */
+.right-sidebar {
+    background: white;
+    padding: 20px;
+    border-left: 1px solid #eee;
+}
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.profile img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.statistics .chart {
+    margin: 15px 0;
+    height: 200px;
+    background: #f5f6fa;
+    border-radius: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .container {
+        grid-template-columns: 250px 1fr;
+    }
+    .right-sidebar {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        grid-template-columns: 1fr;
+    }
+    .sidebar {
+        display: none;
+    }
+    .actions {
+        flex-wrap: wrap;
+    }
+    .actions button {
+        flex: 1 1 40%;
+    }
+}

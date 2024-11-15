@@ -8,6 +8,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 </head>
 <body class="body-dashboard">
   <div class="dashboard">
@@ -29,7 +32,7 @@
           <a href="#" class="menu-item">
             <img src="assets/icon/poin.png" alt="TrashPay Icon" class="menu-icon"> Tukar Poin
           </a>
-          <a href="#" class="menu-item">
+          <a href="edukasi.html" class="menu-item">
             <img src="assets/icon/edukasi.png" alt="Tukar Poin Icon" class="menu-icon"> Edukasi
           </a>
           <a href="#" class="menu-item">
@@ -49,16 +52,29 @@
     <!-- Main Content -->
     <main class="main-content">
       <!-- Header -->
-      <header class="banner">
-        <h1>Selamat Pagi, Atalaric</h1>
-        <p>30 Kg sampah sudah kamu kumpulkan</p>
-        <button class="jemput-btn">Jemput Sampah</button>
-      </header>
+      <div class="slider-container">
+        <div class="slides">
+            <div class="slide">
+                <img src="assets/image/poster4.png" alt="Slide 1">
+                <button class="slide-button">Jemput Sampah</button>
+            </div>
+            <div class="slide">
+                <img src="assets/image/poster1.png" alt="Slide 2">
+            </div>
+            <div class="slide">
+                <img src="assets/image/poster3.png" alt="Slide 3">
+            </div>
+        </div>
+      </div>
+    
 
       <!-- Balance Section -->
       <section class="balance">
         <div class="balance-actions">
-          <h2>Rp 50.000</h2>
+          <div class="submenu-poin">
+            <img src="assets/icon/poin logo.png" alt="Poin Logo">
+            <h2>Rp 50.000</h2>
+          </div>
           <div class="submenu-item">
             <button><img src="assets/icon/transfer.png" alt="Transfer Icon"></button>
             <div><p>Transfer</p></div>
@@ -86,17 +102,17 @@
         <h3>Terbaru</h3>
         <div class="news-container">
           <div class="news-card">
-            <img src="news1.jpg" alt="News 1">
+            <img src="assets/image/gambar2.png" alt="News 1">
             <h4>Belajar Mengelola Sampah Sejak Dini</h4>
             <p>Membangun generasi peduli lingkungan...</p>
           </div>
           <div class="news-card">
-            <img src="news2.jpg" alt="News 2">
+            <img src="assets/image/gambar1.png" alt="News 2">
             <h4>Rusaknya Pantai Akibat Sampah</h4>
             <p>Dampak lingkungan yang mengkhawatirkan...</p>
           </div>
           <div class="news-card">
-            <img src="news3.jpg" alt="News 3">
+            <img src="assets/image/gambar3.png" alt="News 3">
             <h4>Kasus Penyu Mati</h4>
             <p>Ancaman nyata sampah laut...</p>
           </div>
@@ -108,22 +124,45 @@
     <aside class="right-sidebar">
       <!-- Profile Section -->
       <div class="profile-section">
-        <img src="profile-pic.jpg" alt="Profile Picture" class="profile-pic">
+        <img src="assets/icon/notifikasi.png" alt="logo Itrashy" class="notif-pic">
+        |
+        <img src="assets/image/profile.jpg" alt="Profile Picture" class="profile-pic">
         <p class="profile-name">M Abizar Atalaric</p>
       </div>
-      <!-- Pickup Schedule -->
-      <div class="pickup-schedule">
-        <h3>Jadwal Penjemputan</h3>
-        <p>Belum ada penjemputan yang harus dilakukan nih!</p>
+      
+      <!-- Schedule Card -->
+      <div class="card mb-2">
+        <div class="card-body">
+            <h2 class="h5 mb-2">Jadwal Penjemputan</h2>
+            <p class="text-center text-muted py-2 mb-0">
+                Belum ada penjemputan yang harus dilakukan nih!
+            </p>
+        </div>
       </div>
-      <!-- Stats Section -->
-      <div class="stats">
-        <h4>Sampah Terkumpul</h4>
-        <div class="chart">[Chart here]</div>
-        <h4>Jejak Karbon Terkurangi</h4>
-        <div class="chart">[Chart here]</div>
+
+      <!-- Collected Waste Card -->
+      <div class="card mb-2">
+          <div class="card-body">
+              <h2 class="h5 mb-3">Sampah Terkumpul</h2>
+              <div style="height: 150px;">
+                  <canvas id="wasteChart"></canvas>
+              </div>
+          </div>
+      </div>
+
+      <!-- Carbon Footprint Card -->
+      <div class="card">
+          <div class="card-body">
+              <h2 class="h5 mb-3">Jejak Karbon Terkurangi</h2>
+              <div style="height: 150px;">
+                  <canvas id="carbonChart"></canvas>
+              </div>
+          </div>
       </div>
     </aside>
   </div>
+
+  <script src="script.js" defer></script>
+
 </body>
 </html>
