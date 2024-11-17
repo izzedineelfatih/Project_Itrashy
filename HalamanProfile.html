@@ -1,120 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profil - I-Trashy</title>
-    <link rel="stylesheet" href="style.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-  </head>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>I-Trashy</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container d-flex">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <img src="assets/image/Logo Itrashy.png" alt="logo Itrashy" />
+        <h2>I-Trashy</h2>
+      </div>
 
-  <body>
-    <div class="container">
-      <!-- Sidebar -->
-      <div class="sidebar">
-        <div class="sidebar-logo">
-          <img src="logo.png" alt="I-Trashy Logo" />
-          <h2>I-Trashy</h2>
-        </div>
+      <div class="sidebar-nav">
         <nav>
-          <a href="#" class="menu-item">
-            <img src="dashboard-icon.png" class="menu-icon" alt="" /> Dashboard
+          <a href="Dashboard.html" class="menu-item">
+            <img src="assets/icon/dashboard.png" alt="Dashboard Icon" class="menu-icon" />
+            Dashboard
           </a>
           <a href="#" class="menu-item">
-            <img src="pickup-icon.png" class="menu-icon" alt="" /> Jemput Sampah
+            <img src="assets/icon/jemput.png" alt="Jemput Sampah Icon" class="menu-icon" />
+            Jemput Sampah
           </a>
           <a href="#" class="menu-item">
-            <img src="trashpay-icon.png" class="menu-icon" alt="" /> TrashPay
+            <img src="assets/icon/poin.png" alt="TrashPay Icon" class="menu-icon" />
+            Tukar Poin
+          </a>
+          <a href="#" class="menu-item ">
+            <img src="assets/icon/edukasi.png" alt="Tukar Poin Icon" class="menu-icon" />
+            Edukasi
           </a>
           <a href="#" class="menu-item">
-            <img src="points-icon.png" class="menu-icon" alt="" /> Tukar Poin
-          </a>
-          <a href="#" class="menu-item">
-            <img src="education-icon.png" class="menu-icon" alt="" /> Edukasi
-          </a>
-          <a href="#" class="menu-item">
-            <img src="achievement-icon.png" class="menu-icon" alt="" />
+            <img src="assets/icon/pencapaian.png" alt="TrashPay Icon" class="menu-icon" />
             Pencapaian
           </a>
           <a href="#" class="menu-item">
-            <img src="history-icon.png" class="menu-icon" alt="" /> Riwayat
+            <img src="assets/icon/riwayat.png" alt="Tukar Poin Icon" class="menu-icon" />
+            Riwayat
           </a>
         </nav>
-        <div class="settings">
-          <a href="#" class="settings-set">
-            <img src="settings-icon.png" alt="" /> Pengaturan
-          </a>
-          <a href="#" class="settings-out">
-            <img src="logout-icon.png" alt="" /> Keluar
-          </a>
+      </div>
+      <div class="settings">
+        <a href="#" class="settings-set">
+          <img src="assets/icon/settings.png" alt="keluar icon" />
+          Pengaturan
+        </a>
+        <a href="#" class="settings-out">
+          <img src="assets/icon/log-out.png" alt="keluar icon" /> Keluar
+        </a>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content p-4">
+      
+      <header class="header-section-profil d-flex align-items-right justify-content-between">
+        <h3>Profil</h3>
+        <div>
+          <button class="btn btn-primary edit-btn">Edit Profil</button>
+          <button class="btn btn-danger logout-btn">Keluar</button>
+        </div>
+      </header>
+      <div class="profile-info d-flex align-items-center gap-4">
+        <img src="assets/icon/user.png" class="profile-img" alt="Profile Image">
+        <div>
+          <h5>RM Joglo</h5>
+          <p>Pengguna Wiraswasta/Bisnis</p>
         </div>
       </div>
-
-      <!-- Content -->
-      <div class="content">
-        <div class="header">
-          <h2>Profil</h2>
-          <div class="page-header">
-            <div class="notification-icon">
-              <i class="fas fa-bell"></i>
-            </div>
-            <div class="user-profile">
-              <img src="profile-pic.jpg" alt="User Profile" class="user-img" />
-              <span class="user-name">M Abizar Atalaric</span>
-            </div>
+      <div class="profile-form mt-4">
+        <form>
+          <div class="mb-3">
+            <label for="namaBisnis" class="form-label">Nama Bisnis</label>
+            <input type="text" class="form-control" id="namaBisnis" value="RM Joglo">
           </div>
-        </div>
-        <div class="profile-info">
-          <img
-            src="gambar/profile.jpeg"
-            alt="Profile Picture"
-            class="profile-img"
-          />
-          <div class="profile-details">
-            <h3>RM Joglo</h3>
-            <p>Pengguna Wiraswasta/Bisnis</p>
+          <div class="mb-3">
+            <label for="jenisBisnis" class="form-label">Jenis Bisnis</label>
+            <input type="text" class="form-control" id="jenisBisnis" value="Cafe & Resto">
           </div>
-
-          <button class="edit-btn" >
-            <i class="fas fa-edit"></i> Edit Profil
-          </button>
-          <button class="logout-btn" >
-            <i class="fas fa-sign-out"></i> Keluar
-          </button>
-        </div>
-
-        <div class="profile-form">
-          <form>
-            <div class="form-group">
-              <label>Nama Bisnis</label>
-              <input type="text" value="RM Joglo" disabled />
-            </div>
-            <div class="form-group">
-              <label>Jenis Bisnis</label>
-              <input type="text" value="Cafe & Resto" disabled />
-            </div>
-            <div class="form-group">
-              <label>Email</label>
-              <input type="email" value="mabizartalaric@gmail.com" disabled />
-            </div>
-            <div class="form-group">
-              <label>No. Handphone</label>
-              <input type="tel" value="+62 812 3456 7890" disabled />
-            </div>
-            <div class="form-group">
-              <label>Password</label>
-              <input type="password" value="********" disabled />
-            </div>
-          </form>
-        </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" value="mabizartalaric@gmail.com">
+          </div>
+          <div class="mb-3">
+            <label for="phone" class="form-label">No. Handphone</label>
+            <input type="text" class="form-control" id="phone" value="+62 812 3456 7890">
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" value="********">
+          </div>
+        </form>
       </div>
-    </div>
-  </body>
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
 </html>
