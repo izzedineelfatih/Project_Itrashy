@@ -155,6 +155,20 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+.page-title {
+  display: flex;
+  align-items: center; /* Agar ikon dan teks sejajar secara vertikal */
+}
+
+.page-title a {
+  text-decoration: none; /* Menghapus garis bawah pada link */
+  color: black; /* Tetap membuat ikon berwarna hitam */
+}
+
+.page-title i {
+  margin-right: 10px; /* Memberi jarak antara ikon dan teks */
+}
+
 
 .page-title {
   font-size: 24px;
@@ -358,6 +372,14 @@ body {
 
 
 /* Konten Video */
+.header-section-video {
+  width: 88%;
+  left: 179px;
+  position: absolute;
+  background-color: #ffffff;
+  padding: 10px;
+  margin-bottom: 20px;
+}
 
 .video-player {
   margin-top: 100px;
@@ -475,6 +497,145 @@ body {
     color: #666;
   }
 /* Halaman Profile */
+
+.header-section-profile {
+  width: 84.7%;
+  left: 232px;
+  position: absolute;
+  background-color: #ffffff;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.profile-container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.profile-header {
+  border-radius: 50%;
+  margin-left: 40px;
+  margin-top: 150px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-img {
+  width: 120px;
+  height: 110px;
+  border-radius: 100%;
+  margin-right: 20px;
+}
+.profile-details{
+  margin-left: 20px;
+}
+
+.profile-details h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+
+.profile-details p {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #555;
+}
+
+.profile-actions {
+  position: absolute;
+  top: 150px;
+  right: 80px;
+  display: flex;
+  gap: 10px;
+}
+
+.edit-button, .logout-button {
+  width: 155px;
+  height: auto;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+}
+
+
+.edit-button:hover, .logout-button:hover {
+  background-color: #ddd;
+}
+.edit-button {
+  background-color:white;
+  color: blue;
+}
+
+.logout-button {
+  background-color: white;
+  color: red;
+}
+
+.fa-pencil {
+  display: inline-block;
+  padding: 8px;
+  margin-right: 10px;
+  background-color: blue; /* Warna latar belakang biru */
+  color: white; /* Warna ikon pensil putih */
+  border-radius: 50%; /* Membuat latar belakang bulat */
+  font-size: 15px; /* Ukuran ikon */
+  text-align: center;
+  line-height: 1;
+}
+.fa-sign-out {
+  margin-right: 10px;
+}
+.profile-body {
+  width: 100%;
+  display: flex;
+  padding: 10px;
+  background-color: white;
+  border-radius: 10px;
+  margin-top: 50px;
+  margin-left: 40px;
+}
+
+.profile-info {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.profile-container {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  justify-content: space-between;
+  font-size: 1rem;
+  font-weight: 500;
+  gap: 50px;
+  width: 700px;
+}
+
+.profile-container input {
+  background-color: #f3f3f3;
+  margin-top: 10px;
+  border-radius: 15px;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  box-shadow: rgba(0, 0, 0, 0.1);
+  outline: none;
+  border: none;
+  width: 100%;
+  height: 30px;
+  box-sizing: border-box;
+  padding: 10px;
+
+}
+
+
+
+
 
 
 /* Responsive Design */
