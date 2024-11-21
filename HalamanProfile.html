@@ -3,118 +3,302 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Profil - I-Trashy</title>
+    <title>Profile Page</title>
     <link rel="stylesheet" href="style.css" />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+    rel="stylesheet"
+  />
     <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
   </head>
-
   <body>
     <div class="container">
-      <!-- Sidebar -->
-      <div class="sidebar">
+      <!-- Sidebar Kiri -->
+      <aside class="sidebar">
         <div class="sidebar-logo">
-          <img src="logo.png" alt="I-Trashy Logo" />
+          <img src="assets/image/Logo Itrashy.png" alt="Logo I-Trashy" />
           <h2>I-Trashy</h2>
         </div>
-        <nav>
-          <a href="#" class="menu-item">
-            <img src="dashboard-icon.png" class="menu-icon" alt="" /> Dashboard
-          </a>
-          <a href="#" class="menu-item">
-            <img src="pickup-icon.png" class="menu-icon" alt="" /> Jemput Sampah
-          </a>
-          <a href="#" class="menu-item">
-            <img src="trashpay-icon.png" class="menu-icon" alt="" /> TrashPay
-          </a>
-          <a href="#" class="menu-item">
-            <img src="points-icon.png" class="menu-icon" alt="" /> Tukar Poin
-          </a>
-          <a href="#" class="menu-item">
-            <img src="education-icon.png" class="menu-icon" alt="" /> Edukasi
-          </a>
-          <a href="#" class="menu-item">
-            <img src="achievement-icon.png" class="menu-icon" alt="" />
-            Pencapaian
-          </a>
-          <a href="#" class="menu-item">
-            <img src="history-icon.png" class="menu-icon" alt="" /> Riwayat
-          </a>
-        </nav>
+        <div class="sidebar-nav">
+          <nav>
+            <a href="#" class="menu-item">
+              <img
+                src="assets/icon/dashboard.png"
+                alt="Dashboard Icon"
+                class="menu-icon"
+              />
+              Dashboard
+            </a>
+            <a href="#" class="menu-item">
+              <img
+                src="assets/icon/jemput.png"
+                alt="Jemput Sampah Icon"
+                class="menu-icon"
+              />
+              Jemput Sampah
+            </a>
+            <a href="#" class="menu-item">
+              <img
+                src="assets/icon/poin.png"
+                alt="TrashPay Icon"
+                class="menu-icon"
+              />
+              Tukar Poin
+            </a>
+            <a href="edukasi.html" class="menu-item active">
+              <img
+                src="assets/icon/edukasi.png"
+                alt="Tukar Poin Icon"
+                class="menu-icon"
+              />
+              Edukasi
+            </a>
+            <a href="#" class="menu-item">
+              <img
+                src="assets/icon/pencapaian.png"
+                alt="TrashPay Icon"
+                class="menu-icon"
+              />
+              Pencapaian
+            </a>
+            <a href="#" class="menu-item">
+              <img
+                src="assets/icon/riwayat.png"
+                alt="Tukar Poin Icon"
+                class="menu-icon"
+              />
+              Riwayat
+            </a>
+          </nav>
+        </div>
         <div class="settings">
           <a href="#" class="settings-set">
-            <img src="settings-icon.png" alt="" /> Pengaturan
+            <img src="assets/icon/settings.png" alt="keluar icon" />
+            Pengaturan
           </a>
           <a href="#" class="settings-out">
-            <img src="logout-icon.png" alt="" /> Keluar
+            <img src="assets/icon/log-out.png" alt="keluar icon" /> Keluar
           </a>
         </div>
-      </div>
+      </aside>
 
-      <!-- Content -->
-      <div class="content">
-        <div class="header">
-          <h2>Profil</h2>
-          <div class="page-header">
-            <div class="notification-icon">
-              <i class="fas fa-bell"></i>
+      <!-- Main Content -->
+      <main class="main-content">
+        <div class="header-section-profile">
+          <header class="page-header">
+            <div class="page-title">
+              <a href="edukasi.html"
+                ><i class="fa fa-chevron-left" aria-hidden="true"></i
+              ></a>
+              Profil
             </div>
-            <div class="user-profile">
-              <img src="profile-pic.jpg" alt="User Profile" class="user-img" />
-              <span class="user-name">M Abizar Atalaric</span>
+            <div class="profile">
+              <a href="notifikasi.html">
+                <img
+                  src="assets/icon/notifikasi.png"
+                  alt=""
+                  class="notification-icon"
+                />
+              </a>
+              <div class="user-profile">
+                <img src="gambar/profile.jpeg" alt="Profile" />
+              </div>
+              <span>Kevin Tri Putra</span>
             </div>
+          </header>
+        </div>
+
+        <!-- Profile Body Section -->
+        <div class="profile-header">
+          <div class="profile-img-container" style="position: relative;">
+            <img src="gambar/profile.jpeg" alt="Profile" class="profile-img" id="profile-picture" />
+            <!-- Input File untuk Unggah Foto -->
+            <input type="file" id="upload-photo" style="display: none;" accept="image/*" />
+          </div>
+          <div class="profile-details"> 
+            <h2>RM Joglo</h2>
+            <p>Pengguna Wirausaha/Bisnis</p>
+          </div>
+          <div class="profile-actions">
+            <button class="edit-button"><i class="fa fa-pencil" aria-hidden="true"></i>Edit Profil</button>
+            <button class="logout-button"><i class="fa fa-sign-out" aria-hidden="true"></i>Keluar</button>
           </div>
         </div>
-        <div class="profile-info">
-          <img
-            src="gambar/profile.jpeg"
-            alt="Profile Picture"
-            class="profile-img"
-          />
-          <div class="profile-details">
-            <h3>RM Joglo</h3>
-            <p>Pengguna Wiraswasta/Bisnis</p>
+        
+        <div class="profile-body">
+         
+          <div class="profile-container">
+            <div>
+              <label for="business-name">Nama Bisnis</label>
+              <input type="text" id="business-name" value="RM Joglo" disabled>
+            </div>
+            <div>
+              <label for="business-type">Jenis Bisnis</label>
+              <input type="text" id="business-type" value="Cafe & Resto" disabled>
+            </div>
+            <div>
+              <label for="email">Email</label>
+              <input type="email" id="email" value="mabizaratalaric@gmail.com" disabled>
+            </div>
+            <div>
+              <label for="phone">No. Handphone</label>
+              <input type="tel" id="phone" value="+62 812 3456 7890" disabled>
+            </div>
+            <div>
+              <label for="password">Password</label>
+              <input type="password" id="password" value="********" disabled>
+            </div>
           </div>
-
-          <button class="edit-btn" >
-            <i class="fas fa-edit"></i> Edit Profil
-          </button>
-          <button class="logout-btn" >
-            <i class="fas fa-sign-out"></i> Keluar
-          </button>
+          </div>
         </div>
+      </main>
+      <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const editButton = document.querySelector(".edit-button");
+  const logoutButton = document.querySelector(".logout-button");
+  const profileContainer = document.querySelector(".profile-body");
+  const inputs = document.querySelectorAll(".profile-container input");
+  const profilePicture = document.querySelector(".profile-img");
+  const profileNameElement = document.querySelector(".profile-details h2");
+  const profileNameText = profileNameElement.firstChild; // Ambil teks nama profil
 
-        <div class="profile-form">
-          <form>
-            <div class="form-group">
-              <label>Nama Bisnis</label>
-              <input type="text" value="RM Joglo" disabled />
-            </div>
-            <div class="form-group">
-              <label>Jenis Bisnis</label>
-              <input type="text" value="Cafe & Resto" disabled />
-            </div>
-            <div class="form-group">
-              <label>Email</label>
-              <input type="email" value="mabizartalaric@gmail.com" disabled />
-            </div>
-            <div class="form-group">
-              <label>No. Handphone</label>
-              <input type="tel" value="+62 812 3456 7890" disabled />
-            </div>
-            <div class="form-group">
-              <label>Password</label>
-              <input type="password" value="********" disabled />
-            </div>
-          </form>
-        </div>
-      </div>
+  // Membuat tombol "Simpan"
+  const saveButton = document.createElement("button");
+  saveButton.textContent = "Simpan";
+  saveButton.className = "save-button";
+  saveButton.style.display = "none"; // Awalnya disembunyikan
+  saveButton.style.marginTop = "20px";
+  saveButton.style.padding = "10px 20px";
+  saveButton.style.border = "none";
+  saveButton.style.borderRadius = "8px";
+  saveButton.style.backgroundColor = "blue";
+  saveButton.style.color = "white";
+  saveButton.style.cursor = "pointer";
+
+  // Membuat wrapper untuk tombol simpan
+  const saveButtonWrapper = document.createElement("div");
+  saveButtonWrapper.style.textAlign = "center";
+  saveButtonWrapper.appendChild(saveButton);
+
+  // Menambahkan tombol ke bawah form
+  profileContainer.parentElement.appendChild(saveButtonWrapper);
+
+  // Membuat input file untuk mengganti foto
+  const uploadPhotoInput = document.createElement("input");
+  uploadPhotoInput.type = "file";
+  uploadPhotoInput.accept = "image/*";
+  uploadPhotoInput.style.display = "none"; // Disembunyikan
+  document.body.appendChild(uploadPhotoInput);
+
+  // Membuat ikon kamera
+  const cameraIcon = document.createElement("span");
+  cameraIcon.innerHTML = '<i class="fa fa-camera"></i>';
+  cameraIcon.style.cursor = "pointer";
+  cameraIcon.style.position = "absolute";
+  cameraIcon.style.bottom = "10px";
+  cameraIcon.style.right = "10px";
+  cameraIcon.style.backgroundColor = "black";
+  cameraIcon.style.color = "white";
+  cameraIcon.style.borderRadius = "50%";
+  cameraIcon.style.width = "30px";
+  cameraIcon.style.height = "30px";
+  cameraIcon.style.display = "flex";
+  cameraIcon.style.alignItems = "center";
+  cameraIcon.style.justifyContent = "center";
+  cameraIcon.style.display = "none"; // Awalnya disembunyikan
+
+  // Tambahkan ikon kamera ke profile header
+  profilePicture.parentElement.style.position = "relative";
+  profilePicture.parentElement.appendChild(cameraIcon);
+
+  // Membuat ikon pensil untuk mengganti teks nama profil
+  const editNameIcon = document.createElement("span");
+  editNameIcon.innerHTML = '<i class="fa fa-pencil"></i>';
+  editNameIcon.style.cursor = "pointer";
+  editNameIcon.style.marginLeft = "10px";
+  editNameIcon.style.color = "gray";
+  editNameIcon.style.fontSize = "14px";
+  editNameIcon.style.display = "none"; // Awalnya disembunyikan
+  profileNameElement.appendChild(editNameIcon);
+
+  let isEditing = false;
+
+  editButton.addEventListener("click", () => {
+    if (!isEditing) {
+      console.log("Edit mode aktif");
+
+      // Aktifkan input
+      inputs.forEach((input) => {
+        input.disabled = false;
+      });
+
+      // Tampilkan tombol simpan, ikon kamera, dan ikon pensil
+      saveButton.style.display = "inline-block";
+      cameraIcon.style.display = "flex";
+      editNameIcon.style.display = "inline";
+
+      isEditing = true;
+    }
+  });
+
+  saveButton.addEventListener("click", () => {
+    console.log("Perubahan disimpan");
+
+    // Nonaktifkan input
+    inputs.forEach((input) => {
+      input.disabled = true;
+    });
+
+    // Sembunyikan tombol simpan, ikon kamera, dan ikon pensil
+    saveButton.style.display = "none";
+    cameraIcon.style.display = "none";
+    editNameIcon.style.display = "none";
+
+    isEditing = false;
+  });
+
+  // Event untuk ikon kamera (mengganti foto)
+  cameraIcon.addEventListener("click", () => {
+    uploadPhotoInput.click(); // Trigger input file
+  });
+
+  // Event saat file dipilih
+  uploadPhotoInput.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        profilePicture.src = e.target.result; // Update foto profil
+        console.log("Foto profil berhasil diganti");
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Event untuk ikon pensil (mengganti teks nama profil)
+  editNameIcon.addEventListener("click", () => {
+    const newName = prompt("Masukkan nama baru:", profileNameText.textContent.trim());
+    if (newName) {
+      profileNameText.textContent = newName; // Update nama profil
+      console.log(`Nama profil diperbarui menjadi: ${newName}`);
+    }
+  });
+
+  // Logout button
+  logoutButton.addEventListener("click", () => {
+    alert("Anda akan keluar.");
+  });
+});
+
+
+
+
+
+
+    </script>
     </div>
   </body>
 </html>
