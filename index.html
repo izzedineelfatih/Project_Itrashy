@@ -12,51 +12,17 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
 </head>
-<body class="body-dashboard">
+<body class="body-menu">
   <div class="dashboard">
     <!-- Sidebar -->
-    <aside class="sidebar">
-      <div class="sidebar-logo">
-        <img src="assets/image/Logo Itrashy.png" alt="logo Itrashy">
-        <h2>I-Trashy</h2>
-      </div>  
-      
-      <div class="sidebar-nav">
-        <nav>
-          <a href="#" class="menu-item active">
-            <img src="assets/icon/dashboard.png" alt="Dashboard Icon" class="menu-icon"> Dashboard
-          </a>
-          <a href="#" class="menu-item">
-            <img src="assets/icon/jemput.png" alt="Jemput Sampah Icon" class="menu-icon"> Jemput Sampah
-          </a>
-          <a href="#" class="menu-item">
-            <img src="assets/icon/poin.png" alt="TrashPay Icon" class="menu-icon"> Tukar Poin
-          </a>
-          <a href="edukasi.html" class="menu-item">
-            <img src="assets/icon/edukasi.png" alt="Tukar Poin Icon" class="menu-icon"> Edukasi
-          </a>
-          <a href="#" class="menu-item">
-            <img src="assets/icon/pencapaian.png" alt="TrashPay Icon" class="menu-icon"> Pencapaian
-          </a>
-          <a href="#" class="menu-item">
-            <img src="assets/icon/riwayat.png" alt="Tukar Poin Icon" class="menu-icon"> Riwayat
-          </a>
-        </nav>
-      </div>
-      <div class="settings">
-        <a href="#" class="settings-set"><img src="assets/icon/settings.png" alt="keluar icon"> Pengaturan</a>
-        <a href="#" class="settings-out"><img src="assets/icon/log-out.png" alt="keluar icon"> Keluar</a>
-      </div>
-    </aside>
+    <div id="sidebar"></div>
 
     <!-- Main Content -->
     <main class="main-content">
-      <!-- Header -->
       <div class="slider-container">
         <div class="slides">
             <div class="slide">
                 <img src="assets/image/poster4.png" alt="Slide 1">
-                <button class="slide-button">Jemput Sampah</button>
             </div>
             <div class="slide">
                 <img src="assets/image/poster1.png" alt="Slide 2">
@@ -100,7 +66,7 @@
       <!-- Latest News Section with Horizontal Scroll -->
       <section class="latest-news">
         <h3>Terbaru</h3>
-        <div class="news-container">
+        <div class="news-slide">
           <div class="news-card">
             <img src="assets/image/gambar2.png" alt="News 1">
             <h4>Belajar Mengelola Sampah Sejak Dini</h4>
@@ -113,7 +79,7 @@
           </div>
           <div class="news-card">
             <img src="assets/image/gambar3.png" alt="News 3">
-            <h4>Kasus Penyu Mati</h4>
+            <h4>Kasus Penyu Mati Akibat Sedotan</h4>
             <p>Ancaman nyata sampah laut...</p>
           </div>
         </div>
