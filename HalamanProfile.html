@@ -113,12 +113,12 @@
 
         <!-- Profile Body Section -->
         <div class="profile-header">
-          <img
-            src="gambar/profile.jpeg"
-            alt=""
-            class="profile-img"
-          />
-          <div class="profile-details">
+          <div class="profile-img-container" style="position: relative;">
+            <img src="gambar/profile.jpeg" alt="Profile" class="profile-img" id="profile-picture" />
+            <!-- Input File untuk Unggah Foto -->
+            <input type="file" id="upload-photo" style="display: none;" accept="image/*" />
+          </div>
+          <div class="profile-details"> 
             <h2>RM Joglo</h2>
             <p>Pengguna Wirausaha/Bisnis</p>
           </div>
@@ -127,33 +127,178 @@
             <button class="logout-button"><i class="fa fa-sign-out" aria-hidden="true"></i>Keluar</button>
           </div>
         </div>
+        
         <div class="profile-body">
          
-            <div class="profile-container">
-              <div class="namabisnis">
-                <h4>Nama Bisnis</h4>
-                <input type="text" id="nama-bisnis" required>
-              </div>
-              <div class="jenisbisnis">
-                <h4>Jenis Bisnis</h4>
-                <input type="text" id="jenis-bisnis" required>
-              </div>
-              <div class="email">
-                <h4>Email</h4>
-                <input type="email" id="Email"required>
-              </div>
-              <div class="handphone">
-                <h4>No Handphone</h4>
-                <input type="tel" id="Handphone" required>
-              </div>
-              <div class="password">
-                <h4>Password</h4>
-                <input type="password" id="nama-bisnis" required>
-              </div>
+          <div class="profile-container">
+            <div>
+              <label for="business-name">Nama Bisnis</label>
+              <input type="text" id="business-name" value="RM Joglo" disabled>
             </div>
+            <div>
+              <label for="business-type">Jenis Bisnis</label>
+              <input type="text" id="business-type" value="Cafe & Resto" disabled>
+            </div>
+            <div>
+              <label for="email">Email</label>
+              <input type="email" id="email" value="mabizaratalaric@gmail.com" disabled>
+            </div>
+            <div>
+              <label for="phone">No. Handphone</label>
+              <input type="tel" id="phone" value="+62 812 3456 7890" disabled>
+            </div>
+            <div>
+              <label for="password">Password</label>
+              <input type="password" id="password" value="********" disabled>
+            </div>
+          </div>
           </div>
         </div>
       </main>
+      <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const editButton = document.querySelector(".edit-button");
+  const logoutButton = document.querySelector(".logout-button");
+  const profileContainer = document.querySelector(".profile-body");
+  const inputs = document.querySelectorAll(".profile-container input");
+  const profilePicture = document.querySelector(".profile-img");
+  const profileNameElement = document.querySelector(".profile-details h2");
+  const profileNameText = profileNameElement.firstChild; // Ambil teks nama profil
+
+  // Membuat tombol "Simpan"
+  const saveButton = document.createElement("button");
+  saveButton.textContent = "Simpan";
+  saveButton.className = "save-button";
+  saveButton.style.display = "none"; // Awalnya disembunyikan
+  saveButton.style.marginTop = "20px";
+  saveButton.style.padding = "10px 20px";
+  saveButton.style.border = "none";
+  saveButton.style.borderRadius = "8px";
+  saveButton.style.backgroundColor = "blue";
+  saveButton.style.color = "white";
+  saveButton.style.cursor = "pointer";
+
+  // Membuat wrapper untuk tombol simpan
+  const saveButtonWrapper = document.createElement("div");
+  saveButtonWrapper.style.textAlign = "center";
+  saveButtonWrapper.appendChild(saveButton);
+
+  // Menambahkan tombol ke bawah form
+  profileContainer.parentElement.appendChild(saveButtonWrapper);
+
+  // Membuat input file untuk mengganti foto
+  const uploadPhotoInput = document.createElement("input");
+  uploadPhotoInput.type = "file";
+  uploadPhotoInput.accept = "image/*";
+  uploadPhotoInput.style.display = "none"; // Disembunyikan
+  document.body.appendChild(uploadPhotoInput);
+
+  // Membuat ikon kamera
+  const cameraIcon = document.createElement("span");
+  cameraIcon.innerHTML = '<i class="fa fa-camera"></i>';
+  cameraIcon.style.cursor = "pointer";
+  cameraIcon.style.position = "absolute";
+  cameraIcon.style.bottom = "10px";
+  cameraIcon.style.right = "10px";
+  cameraIcon.style.backgroundColor = "black";
+  cameraIcon.style.color = "white";
+  cameraIcon.style.borderRadius = "50%";
+  cameraIcon.style.width = "30px";
+  cameraIcon.style.height = "30px";
+  cameraIcon.style.display = "flex";
+  cameraIcon.style.alignItems = "center";
+  cameraIcon.style.justifyContent = "center";
+  cameraIcon.style.display = "none"; // Awalnya disembunyikan
+
+  // Tambahkan ikon kamera ke profile header
+  profilePicture.parentElement.style.position = "relative";
+  profilePicture.parentElement.appendChild(cameraIcon);
+
+  // Membuat ikon pensil untuk mengganti teks nama profil
+  const editNameIcon = document.createElement("span");
+  editNameIcon.innerHTML = '<i class="fa fa-pencil"></i>';
+  editNameIcon.style.cursor = "pointer";
+  editNameIcon.style.marginLeft = "10px";
+  editNameIcon.style.color = "gray";
+  editNameIcon.style.fontSize = "14px";
+  editNameIcon.style.display = "none"; // Awalnya disembunyikan
+  profileNameElement.appendChild(editNameIcon);
+
+  let isEditing = false;
+
+  editButton.addEventListener("click", () => {
+    if (!isEditing) {
+      console.log("Edit mode aktif");
+
+      // Aktifkan input
+      inputs.forEach((input) => {
+        input.disabled = false;
+      });
+
+      // Tampilkan tombol simpan, ikon kamera, dan ikon pensil
+      saveButton.style.display = "inline-block";
+      cameraIcon.style.display = "flex";
+      editNameIcon.style.display = "inline";
+
+      isEditing = true;
+    }
+  });
+
+  saveButton.addEventListener("click", () => {
+    console.log("Perubahan disimpan");
+
+    // Nonaktifkan input
+    inputs.forEach((input) => {
+      input.disabled = true;
+    });
+
+    // Sembunyikan tombol simpan, ikon kamera, dan ikon pensil
+    saveButton.style.display = "none";
+    cameraIcon.style.display = "none";
+    editNameIcon.style.display = "none";
+
+    isEditing = false;
+  });
+
+  // Event untuk ikon kamera (mengganti foto)
+  cameraIcon.addEventListener("click", () => {
+    uploadPhotoInput.click(); // Trigger input file
+  });
+
+  // Event saat file dipilih
+  uploadPhotoInput.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        profilePicture.src = e.target.result; // Update foto profil
+        console.log("Foto profil berhasil diganti");
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  // Event untuk ikon pensil (mengganti teks nama profil)
+  editNameIcon.addEventListener("click", () => {
+    const newName = prompt("Masukkan nama baru:", profileNameText.textContent.trim());
+    if (newName) {
+      profileNameText.textContent = newName; // Update nama profil
+      console.log(`Nama profil diperbarui menjadi: ${newName}`);
+    }
+  });
+
+  // Logout button
+  logoutButton.addEventListener("click", () => {
+    alert("Anda akan keluar.");
+  });
+});
+
+
+
+
+
+
+    </script>
     </div>
   </body>
 </html>
