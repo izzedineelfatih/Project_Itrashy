@@ -52,6 +52,7 @@
             padding-bottom: 10px;
             font-weight: 500;
             border-radius: 0 15px 15px 0;
+        }
 
         html, body {
             height: 100%;
@@ -124,17 +125,24 @@
                         </div>
 
                         <!-- Latest News -->
+                        <!-- Artikel Section -->
                         <div>
-                            <h3 class="font-bold text-lg mb-4">Terbaru</h3>
-                            <div class="relative">
-                                <div id="newsSlider" class="flex overflow-x-auto gap-4 pb-4 snap-x snap-mandatory">
-                                    <!-- News Card -->
-                                    <div class="bg-white rounded-lg shadow-md p-3 flex-shrink-0 snap-center w-[280px] md:w-[320px] hover:shadow-lg transition-shadow">
-                                        <img src="assets/image/gambar4.png" alt="Blog 1" class="rounded-lg h-32 md:h-40 w-full object-cover">
-                                        <h4 class="font-semibold mt-2 text-sm md:text-base">Belajar Mengelola Sampah Sejak Dini</h4>
-                                        <p class="text-xs md:text-sm text-gray-600 mt-1 line-clamp-2">Membangun generasi peduli Lingkungan untuk Masa Depan Lebih Bersih</p>
-                                        <p class="text-xs text-gray-600 mt-1">I-Trashy • 02 Januari 2024</p>
-                                    </div>
+                            <h3 class="text-xl font-bold mb-4">Terbaru</h3>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="bg-white rounded-lg shadow-md p-3">
+                                    <img src="assets/image/gambar2.png" alt="Belajar Mengelola Sampah" class="w-full h-32 md:h-40 object-cover rounded-lg">
+                                    <h4 class="font-semibold mt-2">Yuk, Belajar Mengelola Sampah Sejak Dini Secara Mandiri</h4>
+                                    <p class="text-sm text-gray-500 mt-1">I-Trashy • 02 Januari 2024</p>
+                                </div>
+                                <div class="bg-white rounded-lg shadow-md p-3">
+                                    <img src="assets/image/gambar8.png" alt="Kerajinan Daur Ulang" class="w-full h-32 md:h-40 object-cover rounded-lg">
+                                    <h4 class="font-semibold mt-2">Cara Membuat Kerajinan Daur Ulang dari Barang Bekas</h4>
+                                    <p class="text-sm text-gray-500 mt-1">Kompas.com • 02 Januari 2024</p>
+                                </div>
+                                <div class="bg-white rounded-lg shadow-md p-3">
+                                    <img src="assets/image/gambar7.png" alt="Pupuk Kompos" class="w-full h-32 md:h-40 object-cover rounded-lg">
+                                    <h4 class="font-semibold mt-2">Pupuk Kompos untuk Tanaman Kesayangan Anda</h4>
+                                    <p class="text-sm text-gray-500 mt-1">Detik.com • 02 Januari 2024</p>
                                 </div>
                             </div>
                         </div>
@@ -149,17 +157,17 @@
                         </div>
                         
                         <!-- Collected Garbage -->
-                        <div class="bg-white lg:bg-[#f5f6fb] rounded-lg shadow p-4 h-[200px]">
+                        <div class="bg-white lg:bg-[#f5f6fb] rounded-lg shadow p-4 h-[220px]">
                             <h4 class="font-bold text-lg mb-3">Sampah Terkumpul</h4>
-                            <div class="h-[180px]">
+                            <div class="h-[150px]">
                                 <canvas id="garbageChart"></canvas>
                             </div>
                         </div>
 
                         <!-- Carbon Footprint -->
-                        <div class="bg-white lg:bg-[#f5f6fb] rounded-lg shadow p-4 h-[200px]">
+                        <div class="bg-white lg:bg-[#f5f6fb] rounded-lg shadow p-4 h-[220px]">
                             <h4 class="font-bold text-lg mb-3">Jejak Karbon Terkurangi</h4>
-                            <div class="h-[180px]">
+                            <div class="h-[150px]">
                                 <canvas id="carbonChart"></canvas>
                             </div>
                         </div>
@@ -198,7 +206,7 @@
             const menu = document.getElementById('menu');
             const navLinks = document.querySelectorAll('.nav-link');
             const pageTitle = document.getElementById('pageTitle');
-            const currentPage = document.querySelector('[data-page-title]').dataset.pageTitle;
+            const currentPageTitle = document.querySelector('[data-page-title]').dataset.pageTitle;
 
             // Mobile menu toggles
             if (menuToggle && menuClose && menu) {
@@ -206,32 +214,27 @@
                 menuClose.addEventListener('click', () => menu.classList.add('-translate-x-full'));
             }
 
-            // Handle menu items
+            // Set active menu item and initial page title
             navLinks.forEach(link => {
                 const linkText = link.querySelector('span').textContent;
-                if (linkText === currentPage) {
+
+                if (linkText === currentPageTitle) {
                     link.classList.add('active');
                 }
 
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
+                link.addEventListener('click', () => {
+                    // Set active state (without preventing navigation)
                     navLinks.forEach(l => l.classList.remove('active'));
                     link.classList.add('active');
-                    
-                    const linkText = link.querySelector('span').textContent;
-                    if (linkText === 'Dashboard') {
-                        pageTitle.textContent = 'Halo, Atalaric👋';
-                    } else {
-                        pageTitle.textContent = linkText;
-                    }
                 });
             });
 
-            // Set initial page title
+            // Update page title
             if (pageTitle) {
-                pageTitle.textContent = currentPage === 'Dashboard' ? 'Halo, Atalaric👋' : currentPage;
+                pageTitle.textContent = currentPageTitle === 'Dashboard' ? 'Halo, Atalaric👋' : currentPageTitle;
             }
         }
+
 
         // Banner Slider
         let currentIndex = 0;
@@ -261,7 +264,7 @@
                 },
                 y: {
                     beginAtZero: true,
-                    suggestedMax: 50
+                    suggestedMax: 0
                 }
             }
         };
