@@ -4,16 +4,65 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet"> -->
-    <link rel="stylesheet" href="styles.css">
 </head>
-<body class="body-menu">
-    <div id="header"></div>
-    <div id="sidebar"></div>
+<body class="bg-[#f5f6fb] font-sans">
+    <!-- Main Layout Container -->
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <div id="sidebar"></div>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col min-h-screen lg:ml-0">
+            <!-- Header -->
+            <div id="header"></div>
+        </div>
+    </div>
 
 
-    <script src="script.js" defer></script>
+    <script>
+    (async function initializePage() {
+        (async function initializeSidebar() {
+            try {
+                // Fetch sidebar.html dan masukkan ke elemen #sidebar
+                const sidebarResponse = await fetch("sidebar.html");
+                if (sidebarResponse.ok) {
+                    document.getElementById("sidebar").innerHTML = await sidebarResponse.text();
+                } else {
+                    console.error("Error loading sidebar:", sidebarResponse.status);
+                }
+
+                const headerResponse = await fetch("header.html");
+                if (headerResponse.ok) {
+                    document.getElementById("header").innerHTML = await headerResponse.text();
+                } else {
+                    console.error("Error loading sidebar:", headeResponse.status);
+                }
+
+                // Tambahkan event listener setelah sidebar selesai dimuat
+                const menuToggle = document.getElementById('menuToggle');
+                const menuClose = document.getElementById('menuClose');
+                const menu = document.getElementById('menu');
+
+                if (menuToggle && menuClose && menu) {
+                    menuToggle.addEventListener('click', function() {
+                        menu.classList.remove('-translate-x-full');
+                    });
+
+                    menuClose.addEventListener('click', function() {
+                        menu.classList.add('-translate-x-full');
+                    });
+                } else {
+                    console.error("Menu elements not found in the sidebar!");
+                }
+            } catch (error) {
+                console.error("Error initializing sidebar:", error);
+            }
+        })();
+    })();
+    </script>
 </body>
 </html>

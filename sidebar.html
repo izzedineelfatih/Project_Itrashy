@@ -1,35 +1,52 @@
-<!-- Sidebar -->
-<aside class="sidebar">
-    <div class="sidebar-logo">
-    <img src="assets/image/Logo Itrashy.png" alt="logo Itrashy">
-    <h2>I-Trashy</h2>
-    </div>
-    <div class="sidebar-nav">
-        <nav>
-            <a href="index.html" class="menu-item" data-link="index.html">
-                <img src="assets/icon/dashboard.png" alt="Dashboard Icon" class="menu-icon"> Dashboard
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+    <div id="menu" class="fixed top-0 left-0 w-64 h-full bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50 lg:translate-x-0 lg:static lg:w-[230px]">
+        <div class="p-5 flex items-center justify-between lg:justify-start space-x-4">
+            <img src="assets/image/Logo Itrashy.png" alt="Logo Itrashy" class="w-8 h-10">
+            <h1 class="text-lg font-semibold lg:block hidden">I-Trashy</h1>
+            <button id="menuClose" class="lg:hidden">
+                <svg class="w-6 h-6" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <nav class="p-5 mt-5 space-y-8">
+            <a href="#" class="nav-link flex items-center space-x-4">
+                <img src="assets/icon/dashboard.png" alt="Dashboard Icon" class="w-5 h-5">
+                <span>Dashboard</span>
             </a>
-            <a href="Jemput.html" class="menu-item active" data-link="Jemput.html">
-                <img src="assets/icon/jemput.png" alt="Jemput Sampah Icon" class="menu-icon"> Jemput Sampah
+            <a href="#" class="nav-link flex items-center space-x-4">
+                <img src="assets/icon/jemput.png" alt="Jemput Sampah Icon" class="w-6 h-6">
+                <span>Jemput Sampah</span>
             </a>
-            <a href="tukarPoin.html" class="menu-item active" data-link="tukarPoin.html">
-                <img src="assets/icon/poin.png" alt="TrashPay Icon" class="menu-icon"> Tukar Poin
+            <a href="#" class="nav-link flex items-center space-x-4">
+                <img src="assets/icon/poin.png" alt="TrashPay Icon" class="w-5 h-5">
+                <span>Tukar Poin</span>
             </a>
-            <a href="edukasi.html" class="menu-item active" data-link="edukasi.html">
-                <img src="assets/icon/edukasi.png" alt="Edukasi Icon" class="menu-icon"> Edukasi
+            <a href="#" class="nav-link flex items-center space-x-4">
+                <img src="assets/icon/edukasi.png" alt="Edukasi Icon" class="w-5 h-5">
+                <span>Edukasi</span>
             </a>
-            <a href="#" class="menu-item active">
-                <img src="assets/icon/pencapaian.png" alt="Pencapaian Icon" class="menu-icon"> Pencapaian
+            <a href="#" class="nav-link flex items-center space-x-4">
+                <img src="assets/icon/pencapaian.png" alt="Pencapaian Icon" class="w-6 h-6">
+                <span>Pencapaian</span>
             </a>
-            <a href="#" class="menu-item active">
-                <img src="assets/icon/riwayat.png" alt="Riwayat Icon" class="menu-icon"> Riwayat
+            <a href="#" class="nav-link flex items-center space-x-4">
+                <img src="assets/icon/riwayat.png" alt="Riwayat Icon" class="w-6 h-6">
+                <span>Riwayat</span>
             </a>
         </nav>
+        <div class="p-5 border-t mt-32">
+            <a href="#" class="block text-black-600 hover:text-blue-500">Pengaturan</a>
+            <a href="#" class="block text-red-600 mt-3 hover:text-red-700">Keluar</a>
+        </div>
     </div>
-    <div class="settings">
-    <a href="#" class="settings-set"><img src="assets/icon/settings.png" alt="Pengaturan Icon"> Pengaturan</a>
-    <a href="#" class="settings-out"><img src="assets/icon/log-out.png" alt="Keluar Icon"> Keluar</a>
-    </div>
-</aside>
-</div>
-  
+</body>
+</html>
