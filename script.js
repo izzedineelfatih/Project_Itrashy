@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         "Jemput.html": "Jemput Sampah",
         "tukarPoin.html": "Tukar Poin",
         "edukasi.html": "Edukasi",
+        "riwayat.html": "Riwayat"
+        
     };
 
     // Tandai menu aktif dan perbarui judul header

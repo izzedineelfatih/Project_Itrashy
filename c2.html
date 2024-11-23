@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I-Trashy Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['THICCCBOI'],
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        #slider {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            width: 100%;
+        }
+
+        #slider img {
+            width: 100%;
+            flex-shrink: 0;
+        }
+
+        #newsSlider {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        #newsSlider::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* Hide scrollbar for IE, Edge and Firefox */
+        #newsSlider {
+            -ms-overflow-style: none;  /* IE and Edge */
+            scrollbar-width: none;  /* Firefox */
+        }
+
+        .news-item {
+            scroll-snap-align: start;
+        }
+
+        @media (max-width: 768px) {
+            #slider, .banner-container {
+                width: 100%;
+                margin: 0;
+            }
+            
+            .balance-section {
+                width: calc(100% - 2rem);
+                margin: 1rem;
+            }
+            
+            .news-container {
+                width: 100%;
+                padding: 0 1rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-[#f5f6fb] font-sans">
+    <div class="flex flex-col lg:flex-row min-h-screen">
+        <!-- Sidebar (sama seperti sebelumnya) -->
+        <!-- Sidebar -->
+        <div id="menu" class="fixed top-0 left-0 w-64 h-full-screen bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50 lg:translate-x-0 lg:relative lg:w-2/11">
+            <div class="p-5 flex items-center justify-between lg:justify-start space-x-4">
+                <img src="assets/image/Logo Itrashy.png" alt="Logo Itrashy" class="w-8 h-10">
+                <h1 class="text-lg font-semibold lg:block hidden" id="logoText">I-Trashy</h1>
+                <!-- Tombol hamburger untuk menutup sidebar -->
+                <button id="menuClose" class="lg:hidden">
+                    <svg class="w-6 h-6" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <nav class="p-8 space-y-8">
+                <a href="#" class="flex items-center space-x-6 text-blue-500 font-semibold">
+                    <img src="assets/icon/dashboard.png" alt="Dashboard Icon" class="w-5 h-5"> 
+                    <span>Dashboard</span>
+                </a>
+                <a href="#" class="flex items-center space-x-5 text-black-600">
+                    <img src="assets/icon/jemput.png" alt="Jemput Sampah Icon" class="w-6 h-6"> 
+                    <span>Jemput Sampah</span>
+                </a>
+                <a href="#" class="flex items-center space-x-6 text-black-600">
+                    <img src="assets/icon/poin.png" alt="TrashPay Icon" class="w-5 h-5"> 
+                    <span>Tukar Poin</span>
+                </a>
+                <a href="#" class="flex items-center space-x-6 text-black-600">
+                    <img src="assets/icon/edukasi.png" alt="Edukasi Icon" class="w-5 h-5"> 
+                    <span>Edukasi</span>
+                </a>
+                <a href="#" class="flex items-center space-x-5 text-black-600">
+                    <img src="assets/icon/pencapaian.png" alt="Pencapaian Icon" class="w-6 h-6"> 
+                    <span>Pencapaian</span>
+                </a>
+                <a href="#" class="flex items-center space-x-5 text-black-600">
+                    <img src="assets/icon/riwayat.png" alt="Riwayat Icon" class="w-6 h-6"> 
+                    <span>Riwayat</span>
+                </a>
+            </nav>            
+            <div class="p-5 border-t mt-5">
+                <a href="#" class="block text-gray-600">Pengaturan</a>
+                <a href="#" class="block text-gray-600 mt-3">Keluar</a>
+            </div>
+        </div>
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col w-full">
+            <!-- Header -->
+            <header class="flex items-center justify-between p-5 bg-white shadow-md w-full">
+                <div class="flex items-center space-x-4">
+                    <button id="menuToggleHeader" class="lg:hidden">
+                        <svg class="w-6 h-6" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16m-7 6h7" />
+                        </svg>
+                    </button>
+                    <h2 class="text-lg font-bold">Selamat Pagi, Atalaric 👋</h2>
+                </div>
+                <div class="flex items-center space-x-8">
+                    <button>
+                        <img class="w-8 h-8" src="assets/icon/notifikasi.png" alt="notification">
+                    </button>
+                    <img src="assets/image/profile.jpg" alt="Profile" class="w-10 h-10 rounded-full">
+                </div>  
+            </header>
+            
+            <!-- Dashboard -->
+            <div class="p-5 grid lg:grid-cols-3 gap-5 w-full max-w-full overflow-hidden">
+                <!-- Left Section -->
+                <div class="lg:col-span-2 space-y-5 w-full">
+                    <!-- Banner Slider -->
+                    <div class="banner-container relative overflow-hidden rounded-lg shadow-lg w-full">
+                        <div id="slider" class="w-full">
+                            <img src="assets/image/poster1.png" alt="Banner 1">
+                            <img src="assets/image/poster2.png" alt="Banner 2">
+                            <img src="assets/image/poster3.png" alt="Banner 3">
+                        </div>
+                    </div>
+
+                    <!-- Balance Section -->
+                    <div class="balance-section bg-gradient-to-r from-[#FED4B4] to-[#54B68B] p-5 rounded-lg">
+                        <h4 class="text-xl font-bold mb-4">Rp 50.000</h4>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                            <!-- Transfer -->
+                            <div class="flex flex-col items-center">
+                                <button class="bg-white rounded-xl w-12 h-12 flex items-center justify-center shadow">
+                                    <img src="assets/icon/transfer.png" alt="Transfer" class="w-6 h-6">
+                                </button>
+                                <span class="text-sm mt-2 text-black text-opacity-80 font-semibold">Transfer</span>
+                            </div>
+                            <!-- Tagihan -->
+                            <div class="flex flex-col items-center">
+                                <button class="bg-white rounded-xl w-12 h-12 flex items-center justify-center shadow">
+                                    <img src="assets/icon/tagihan.png" alt="Tagihan" class="w-7 h-7">
+                                </button>
+                                <span class="text-sm mt-2 text-black text-opacity-80 font-semibold">Tagihan</span>
+                            </div>
+                            <!-- Donasi -->
+                            <div class="flex flex-col items-center">
+                                <button class="bg-white rounded-xl w-12 h-12 flex items-center justify-center shadow">
+                                    <img src="assets/icon/donasi.png" alt="Donasi" class="w-6 h-6">
+                                </button>
+                                <span class="text-sm mt-2 text-black text-opacity-80 font-semibold">Donasi</span>
+                            </div>
+                            <!-- Tukar Poin -->
+                            <div class="flex flex-col items-center">
+                                <button class="bg-white rounded-xl w-12 h-12 flex items-center justify-center shadow">
+                                    <img src="assets/icon/poin.png" alt="Tukar Poin" class="w-6 h-6">
+                                </button>
+                                <span class="text-sm mt-2 text-black text-opacity-80 font-semibold">Tukar Poin</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Latest Blogs -->
+                    <div class="news-container w-full">
+                        <h3 class="font-bold text-lg mb-4">Terbaru</h3>
+                        <div id="newsSlider" class="flex space-x-4 w-full pb-4">
+                            <!-- News Items -->
+                            <div class="news-item flex-none w-80 bg-white shadow rounded-lg p-4">
+                                <img src="assets/image/gambar4.png" alt="Blog 1" class="rounded-lg h-36 w-full object-cover">
+                                <h4 class="font-semibold mt-2">Belajar Mengelola Sampah Sejak Dini</h4>
+                                <p class="text-sm text-gray-600 text-justify mr-2">Membangun generasi peduli Lingkungan untuk Masa Depan Lebih Bersih</p>
+                                <p class="text-sm text-black-600 mt-2">I-Trashy  •  02 Januari 2024</p>
+                            </div>
+                            <div class="news-item flex-none w-80 bg-white shadow rounded-lg p-4">
+                                <img src="assets/image/gambar4.png" alt="Blog 1" class="rounded-lg h-36 w-full object-cover">
+                                <h4 class="font-semibold mt-2">Belajar Mengelola Sampah Sejak Dini</h4>
+                                <p class="text-sm text-gray-600 text-justify mr-2">Membangun generasi peduli Lingkungan untuk Masa Depan Lebih Bersih</p>
+                                <p class="text-sm text-black-600 mt-2">I-Trashy  •  02 Januari 2024</p>
+                            </div>
+                            <div class="news-item flex-none w-80 bg-white shadow rounded-lg p-4">
+                                <img src="assets/image/gambar4.png" alt="Blog 1" class="rounded-lg h-36 w-full object-cover">
+                                <h4 class="font-semibold mt-2">Belajar Mengelola Sampah Sejak Dini</h4>
+                                <p class="text-sm text-gray-600 text-justify mr-2">Membangun generasi peduli Lingkungan untuk Masa Depan Lebih Bersih</p>
+                                <p class="text-sm text-black-600 mt-2">I-Trashy  •  02 Januari 2024</p>
+                            </div>
+                            <div class="news-item flex-none w-80 bg-white shadow rounded-lg p-4">
+                                <img src="assets/image/gambar4.png" alt="Blog 1" class="rounded-lg h-36 w-full object-cover">
+                                <h4 class="font-semibold mt-2">Belajar Mengelola Sampah Sejak Dini</h4>
+                                <p class="text-sm text-gray-600 text-justify mr-2">Membangun generasi peduli Lingkungan untuk Masa Depan Lebih Bersih</p>
+                                <p class="text-sm text-black-600 mt-2">I-Trashy  •  02 Januari 2024</p>
+                            </div>
+                            <div class="news-item flex-none w-80 bg-white shadow rounded-lg p-4">
+                                <img src="assets/image/gambar4.png" alt="Blog 1" class="rounded-lg h-36 w-full object-cover">
+                                <h4 class="font-semibold mt-2">Belajar Mengelola Sampah Sejak Dini</h4>
+                                <p class="text-sm text-gray-600 text-justify mr-2">Membangun generasi peduli Lingkungan untuk Masa Depan Lebih Bersih</p>
+                                <p class="text-sm text-black-600 mt-2">I-Trashy  •  02 Januari 2024</p>
+                            </div>
+                            <!-- Repeat other news items -->
+                            <!-- Copy the same structure for other news items -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Section (sama seperti sebelumnya) -->
+                <div class="bg-white shadow rounded-lg p-5 space-y-5">
+                    <div class="bg-[#f5f6fb] shadow rounded-lg p-5 h-48">
+                        <h4 class="font-bold text-lg">Jadwal Penjemputan</h4>
+                        <p class="text-gray-500 mt-2">Belum ada penjemputan yang harus dilakukan nih!</p>
+                    </div>
+                    <div class="bg-[#f5f6fb] shadow rounded-lg p-5">
+                        <h4 class="font-bold text-lg">Sampah Terkumpul</h4>
+                        <canvas id="garbageChart" class="h-40"></canvas>
+                    </div>
+                    <div class="bg-[#f5f6fb] shadow rounded-lg p-5">
+                        <h4 class="font-bold text-lg">Jejak Karbon Terkurangi</h4>
+                        <canvas id="carbonChart" class="h-40"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Existing scripts remain the same
+        document.getElementById('menuToggleHeader').addEventListener('click', function () {
+        const menu = document.getElementById('menu');
+        menu.classList.toggle('-translate-x-full');
+        menu.classList.toggle('translate-x-0');
+        });
+
+        document.getElementById('menuClose').addEventListener('click', function () {
+        const menu = document.getElementById('menu');
+        menu.classList.add('-translate-x-full'); // Menyembunyikan sidebar
+        menu.classList.remove('translate-x-0'); // Menghapus posisi aktif sidebar
+        });
+
+
+
+
+
+        // Slider for Banner
+        let currentIndex = 0;
+        const slider = document.getElementById('slider');
+        const bannerImages = slider.children;
+
+        function slideBanner() {
+            currentIndex = (currentIndex + 1) % bannerImages.length;
+            slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+        setInterval(slideBanner, 5000);
+        // Modified news slider for touch devices
+        const newsSlider = document.getElementById('newsSlider');
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+
+        newsSlider.addEventListener('mousedown', (e) => {
+            isDown = true;
+            startX = e.pageX - newsSlider.offsetLeft;
+            scrollLeft = newsSlider.scrollLeft;
+        });
+
+        newsSlider.addEventListener('mouseleave', () => {
+            isDown = false;
+        });
+
+        newsSlider.addEventListener('mouseup', () => {
+            isDown = false;
+        });
+
+        newsSlider.addEventListener('mousemove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.pageX - newsSlider.offsetLeft;
+            const walk = (x - startX) * 2;
+            newsSlider.scrollLeft = scrollLeft - walk;
+        });
+
+        // Touch events for mobile
+        newsSlider.addEventListener('touchstart', (e) => {
+            isDown = true;
+            startX = e.touches[0].pageX - newsSlider.offsetLeft;
+            scrollLeft = newsSlider.scrollLeft;
+        });
+
+        newsSlider.addEventListener('touchend', () => {
+            isDown = false;
+        });
+
+        newsSlider.addEventListener('touchmove', (e) => {
+            if (!isDown) return;
+            e.preventDefault();
+            const x = e.touches[0].pageX - newsSlider.offsetLeft;
+            const walk = (x - startX) * 2;
+            newsSlider.scrollLeft = scrollLeft - walk;
+        });
+    </script>
+</body>
+</html>
