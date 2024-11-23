@@ -1,4 +1,4 @@
-/* Reset */
+/* Reset
 * {
   margin: 0;
   padding: 0;
@@ -766,4 +766,4 @@ input:not(:disabled) {
   .search {
     width: 80%;
   }
-}
+} 

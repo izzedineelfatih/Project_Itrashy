@@ -270,6 +270,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const file = event.target.files[0];
     if (file) {
       const reader = new FileReader();
+
       reader.onload = (e) => {
         profilePicture.src = e.target.result; // Update foto profil
         console.log("Foto profil berhasil diganti");

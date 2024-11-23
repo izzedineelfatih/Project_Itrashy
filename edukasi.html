@@ -1,209 +1,166 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>I-Trashy-Edukasi</title>
-    <link rel="stylesheet" href="style.css" />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-  </head>
-  <body>
-    <div class="container">
-      <!-- Sidebar -->
-      <aside class="sidebar">
-        <div class="sidebar-logo">
-          <img src="assets/image/Logo Itrashy.png" alt="logo Itrashy" />
-          <h2>I-Trashy</h2>
-        </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>I-Trashy Edukasi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['THICCCBOI'],
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        .nav-link {
+            transition: color 0.3s ease;
+        }
 
-        <div class="sidebar-nav">
-          <nav>
-            <a href="index.html" class="menu-item">
-              <img
-                src="assets/icon/dashboard.png"
-                alt="Dashboard Icon"
-                class="menu-icon"
-              />
-              Dashboard
-            </a>
-            <a href="Jemput.html" class="menu-item">
-              <img
-                src="assets/icon/jemput.png"
-                alt="Jemput Sampah Icon"
-                class="menu-icon"
-              />
-              Jemput Sampah
-            </a>
-            <a href="tukarPoin.html" class="menu-item">
-              <img
-                src="assets/icon/poin.png"
-                alt="TrashPay Icon"
-                class="menu-icon"
-              />
-              Tukar Poin
-            </a>
-            <a href="#" class="menu-item active">
-              <img
-                src="assets/icon/edukasi.png"
-                alt="Tukar Poin Icon"
-                class="menu-icon"
-              />
-              Edukasi
-            </a>
-            <a href="#" class="menu-item">
-              <img
-                src="assets/icon/pencapaian.png"
-                alt="TrashPay Icon"
-                class="menu-icon"
-              />
-              Pencapaian
-            </a>
-            <a href="#" class="menu-item">
-              <img
-                src="assets/icon/riwayat.png"
-                alt="Tukar Poin Icon"
-                class="menu-icon"
-              />
-              Riwayat
-            </a>
-          </nav>
-        </div>
-        <div class="settings">
-          <a href="#" class="settings-set"
-            ><img src="assets/icon/settings.png" alt="keluar icon" />
-            Pengaturan</a
-          >
-          <a href="#" class="settings-out"
-            ><img src="assets/icon/log-out.png" alt="keluar icon" /> Keluar</a
-          >
-        </div>
-      </aside>
+        .nav-link:hover {
+            color: #3b82f6;
+        }
 
-      <!-- Main Content -->
-      <main class="main-content">
-        <!-- Edukasi Section (Terpisah) -->
-        <div class="header-section">
-          <header class="page-header">
-            <div class="page-title">Edukasi</div>
-            <div class="profile">
-              <a href="notifikasi.html">
-                <img
-                  src="assets/icon/notifikasi.png"
-                  alt=""
-                  class="notification-icon"
-                />
-              </a>
-              <div class="user-profile">
-                <img src="gambar/profile.jpeg" alt="Profile" />
-              </div>
-              <span>Kevin Tri Putra</span>
+        .nav-link.active {
+            background-color: #3968DA;
+            color: white;
+            margin-left: -20px;
+            padding-left: 30px; 
+            margin-right: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-weight: 500;
+            border-radius: 0 15px 15px 0;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body class="bg-[#f5f6fb] font-sans">
+    <!-- Main Layout Container -->
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <div id="sidebar" class=""></div>
+
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col min-h-screen">
+            <!-- Header -->
+            <div id="header" class="w-full fixed top-0 bg-white shadow-md h-16 flex items-center px-6 z-10"></div>
+
+            <!-- Main Content -->
+            <div class="flex-1 flex p-6 overflow-y-auto mt-16">
+                <!-- Main Section -->
+                <div class="flex-1 pr-6">
+                     <!-- Search Bar -->
+                     <div class="relative mb-8">
+                      <input type="text" placeholder="Cari..." 
+                             class="w-full p-3 border border-gray-300 bg-white text-gray-700 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-gray-400 transition">
+                  </div>
+                    <!-- Banner -->
+                    <div class="p-6 rounded-lg mb-8">
+                        <img src="assets/image/poster2.png" alt="Banner Image" class="w-full h-auto rounded-lg">
+                    </div>
+
+                 
+
+                    <!-- Artikel Section -->
+                    <div class="mb-12">
+                        <h3 class="text-2xl font-bold mb-4">Artikel</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="bg-white rounded-lg shadow p-4">
+                                <img src="assets/image/gambar2.png" alt="Belajar Mengelola Sampah" class="w-full rounded mb-4">
+                                <h4 class="font-semibold text-lg">Yuk, Belajar Mengelola Sampah Sejak Dini Secara Mandiri</h4>
+                                <p class="text-sm text-gray-500 mt-2">02 Januari 2024</p>
+                            </div>
+                            <div class="bg-white rounded-lg shadow p-4">
+                                <img src="assets/image/gambar8.png" alt="Kerajinan Daur Ulang" class="w-full rounded mb-4">
+                                <h4 class="font-semibold text-lg">Cara Membuat Kerajinan Daur Ulang dari Barang Bekas</h4>
+                                <p class="text-sm text-gray-500 mt-2">02 Januari 2024</p>
+                            </div>
+                            <div class="bg-white rounded-lg shadow p-4">
+                                <img src="assets/image/gambar7.png" alt="Pupuk Kompos" class="w-full rounded mb-4">
+                                <h4 class="font-semibold text-lg">Pupuk Kompos untuk Tanaman Kesayangan Anda</h4>
+                                <p class="text-sm text-gray-500 mt-2">02 Januari 2024</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Video Section -->
+                    <div class="mb-12">
+                        <h3 class="text-2xl font-bold mb-4">Video</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                            <div class="bg-white rounded-lg shadow p-4">
+                                <img src="assets/image/gambar6.png" alt="Sampah Plastik" class="w-full rounded mb-4">
+                                <h4 class="font-semibold text-lg">Berapa Lama Sampah Plastik Terurai? Yuk, Cari Tahu</h4>
+                                <p class="text-sm text-gray-500 mt-2">02 Januari 2024</p>
+                            </div>
+                            <div class="bg-white rounded-lg shadow p-4">
+                                <img src="assets/image/gambar5.png" alt="Bersih Pantai" class="w-full rounded mb-4">
+                                <h4 class="font-semibold text-lg">Gerakan Bersih - Bersih Pantai di Indonesia</h4>
+                                <p class="text-sm text-gray-500 mt-2">02 Januari 2024</p>
+                            </div>
+                            <div class="bg-white rounded-lg shadow p-4">
+                                <img src="assets/image/gambar4.png" alt="Tips Pilah Sampah" class="w-full rounded mb-4">
+                                <h4 class="font-semibold text-lg">Tips Memilah Sampah Tanpa Ribet di Rumah</h4>
+                                <p class="text-sm text-gray-500 mt-2">02 Januari 2024</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Event Section -->
+                <div class="w-80 bg-white rounded-lg shadow p-6">
+                    <h3 class="text-2xl font-bold mb-4">Event Kami</h3>
+                    <div class="space-y-6">
+                        <div class="bg-white rounded-lg shadow p-4">
+                            <img src="assets/image/gambar11.png" alt="Belanja Tanpa Plastik" class="w-full rounded mb-4">
+                            <h4 class="font-semibold text-lg">Gerakan Belanja Tanpa Kantong Plastik</h4>
+                            <p class="text-sm text-gray-500 mt-2">02 Januari 2024</p>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-4">
+                            <img src="assets/image/gambar10.png" alt="Kerajinan UMKM" class="w-full rounded mb-4">
+                            <h4 class="font-semibold text-lg">Pameran Kerajinan Daur Ulang dari Sampah Bersama UMKM</h4>
+                            <p class="text-sm text-gray-500 mt-2">02 Januari 2024</p>
+                        </div>
+                        <div class="bg-white rounded-lg shadow p-4">
+                            <img src="assets/image/gambar9.png" alt="Donasi Sampah" class="w-full rounded mb-4">
+                            <h4 class="font-semibold text-lg">Gerakan Donasi Bersama I-Trashy</h4>
+                            <p class="text-sm text-gray-500 mt-2">02 Januari 2024</p>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </header>
         </div>
-
-        <!-- Search Banner -->
-        <div class="search-banner">
-          <input type="text" class="search" placeholder="Cari" />
-        </div>
-
-        <!-- Banner Utama -->
-        <div class="banner">
-          <img src="assets/image/poster2.png" alt="Banner Image" />
-        </div>
-
-        <!-- Artikel dan Video Section -->
-        <section class="content">
-          <div class="section-title">Artikel</div>
-          <div class="articles-grid">
-            <div class="article-card">
-              <img src="assets/image/gambar2.png" alt="Article Image" />
-              <h4>Yuk, Belajar Mengelola sampah Sejak Dini Secara Mandiri</h4>
-              <p>I-Trashy • 02 Januari 2024</p>
-            </div>
-            <div class="article-card">
-              <img src="assets/image/gambar8.png" alt="Article Image" />
-              <h4>Cara membuat kerajinan daur ulang dari barang bekas</h4>
-              <p>Kompas.com • 02 Januari 2024</p>
-            </div>
-            <div class="article-card">
-              <img src="assets/image/gambar7.png" alt="Article Image" />
-              <h4>Pupuk kompos untuk tanaman kesayangan anda</h4>
-              <p>Detik.com • 02 Januari 2024</p>
-            </div>
-          </div>
-
-          <div class="section-title">Video</div>
-          <div class="videos-grid">
-            <div class="video-card">
-              <video
-                class="video-img"
-                controls
-                poster="assets/image/gambar6.png"
-              >
-                <source src="video1.mp4" type="video/mp4" />
-                Browser Anda tidak mendukung video HTML5.
-              </video>
-              <h4>Berapa lama sampah plastik dapat terurai? Yuk, cari tau</h4>
-              <p>I-Trashy • 02 Januari 2024</p>
-            </div>
-
-            <div class="video-card">
-              <video
-                class="video-img"
-                controls
-                poster="assets/image/gambar5.png"
-              >
-                <source src="video2.mp4" type="video/mp4" />
-                Browser Anda tidak mendukung video HTML5.
-              </video>
-              <h4>Gerakan bersih - bersih pantai di Indonesia</h4>
-              <p>I-Trashy • 02 Januari 2024</p>
-            </div>
-
-            <div class="video-card">
-              <video
-                class="video-img"
-                controls
-                poster="assets/image/gambar4.png"
-              >
-                <source src="video3.mp4" type="video/mp4" />
-                Browser Anda tidak mendukung video HTML5.
-              </video>
-              <h4>Tips Memilah Sampah Tanpa Ribet Di Rumah</h4>
-              <p>I-Trashy • 02 Januari 2024</p>
-            </div>
-          </div>
-        </section>
-      </main>
-
-      <!-- Event Kami Section -->
-      <div class="sidebar-right-edukasi">
-        <div class="section-title">Event Kami</div>
-        <div class="event-card">
-          <img src="assets/image/gambar11.png" alt="Event Image" />
-          <h4>
-            Gerakan belanja tanpa kantong plastik, kurangi penggunaan plastik
-          </h4>
-          <p>I-Trashy • 02 Januari 2024</p>
-        </div>
-        <div class="event-card">
-          <img src="assets/image/gambar10.png" alt="Event Image" />
-          <h4>Pameran kerajinan daur ulang dari sampah bersama UMKM</h4>
-          <p>I-Trashy • 02 Januari 2024</p>
-        </div>
-        <div class="event-card">
-          <img src="assets/image/gambar9.png" alt="Event Image" />
-          <h4>Gerakan Donasi Bersama I-Trashy</h4>
-          <p>I-Trashy • 02 Januari 2024</p>
-        </div>
-      </div>
     </div>
-  </body>
+
+    <script>
+        (async function initializePage() {
+            async function initializeSidebar() {
+                try {
+                    const sidebarResponse = await fetch("sidebar.html");
+                    const headerResponse = await fetch("header.html");
+
+                    if (sidebarResponse.ok && headerResponse.ok) {
+                        document.getElementById("sidebar").innerHTML = await sidebarResponse.text();
+                        document.getElementById("header").innerHTML = await headerResponse.text();
+                    } else {
+                        console.error("Error loading components");
+                    }
+                } catch (error) {
+                    console.error("Error initializing components:", error);
+                }
+            }
+
+            await initializeSidebar();
+        })();
+    </script>
+</body>
 </html>
