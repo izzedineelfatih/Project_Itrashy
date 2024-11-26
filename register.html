@@ -25,7 +25,7 @@
             <!-- Background Image Container -->
             <div class="relative w-full h-64 md:h-full p-4">
                 <a href="#" class="absolute top-8 left-10 h-4 lg:top-12 lg:left-14">
-                  <img src="assets/icon/back icon.png" alt="Back" class="w-6 h-6">
+                    <img src="assets/icon/back icon.png" alt="Back" class="w-6 h-6">
                 </a>
                 <img src="assets/image/orang buang sampah.jpg" alt="Background" class="w-full h-full object-cover rounded-xl">
                 
@@ -33,7 +33,7 @@
                 <div class="absolute bottom-10 left-10 lg:bottom-20 lg:left-14">
                     <!-- Logo -->
                     <div class="flex items-center mb-2">
-                        <img src="assets/image/Logo Itrashy.png" alt="I-Trashy Logo" class="w-8 lg:w-12">
+                        <img src="assets/image/Logo Itrashy.png" alt="I-Trashy Logo" class="w-6 lg:w-12">
                     </div>
                     <!-- Brand Text -->
                     <h1 class="md:text-2xl font-bold text-white/80 mb-2">I-Trashy.</h1>
@@ -48,11 +48,18 @@
             <!-- Form Container -->
             <div class="max-w-md mx-auto w-full">
                 <div class="mb-8 text-center">
-                    <h1 class="text-2xl font-bold pb-2">Welcome Back!</h1>
-                    <p class="text-gray-400">Yuk, Masukkan email dan password untuk akses akunmu</p>
+                    <h1 class="text-2xl font-bold pb-2">Welcome!</h1>
+                    <p class="text-gray-400">Yuk daftar! Bersama wujudkan lingkungan hijau dan bersih</p>
                 </div>
 
-                <form action="dashboard.html" method="post" onsubmit="return validatePassword()" class="space-y-4">
+                <form action="login.html" method="post" onsubmit="return validatePassword()" class="space-y-4">
+                    <!-- Name Input -->
+                    <div>
+                        <label for="username" class="text-gray-600">Username</label>
+                        <input type="text" id="username" name="username" placeholder="Masukkan Username" required 
+                            class="w-full px-4 py-2 rounded-xl bg-[#f5f7fa] mt-2">
+                    </div>
+
                     <!-- Email Input -->
                     <div>
                         <label for="email" class="text-gray-600">Email</label>
@@ -70,22 +77,37 @@
                         </button>
                     </div>
 
-                    <!-- Lupa Password -->
-                    <div class="text-blue-500 text-end">
-                      <a href="LupaPassword.html">Lupa password?</a>
+                    <div class="relative">
+                        <label for="confirmPassword" class="text-gray-600">Konfirmasi Password</label>
+                        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Ulangi Password" required
+                            class="w-full px-4 py-2 rounded-xl bg-[#f5f7fa] mt-2">
+                        <button type="button" class="absolute right-6 pt-4 opacity-50">
+                            <img src="assets/icon/eye icon.png" alt="eye" class="w-6">
+                        </button>
+                    </div>
+
+                    <!-- Terms Checkbox -->
+                    <div class="flex items-center gap-2">
+                        <input type="checkbox" id="terms" class="rounded border-gray-300" required>
+                        <label for="terms" class="text-sm">
+                            Saya setuju untuk
+                            <a href="#" class="text-blue-600">Ketentuan Layanan</a>
+                            dan
+                            <a href="#" class="text-blue-600">Kebijakan Privasi</a>
+                        </label>
                     </div>
 
                     <!-- Submit Button -->
                     <div class="pt-8">
-                      <button type="submit" 
-                          class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
-                          Login
-                      </button>
+                        <button type="submit" 
+                            class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
+                            Daftar
+                        </button>
                     </div>
 
                     <!-- Sudah punya akun? -->
                     <div class="text-center">
-                        <p class="text-gray-500 mt-4">Belum punya akun? <a href="register.html" class="text-blue-600">Daftar</a></p>
+                        <p class="text-gray-500 mt-4">Sudah punya akun? <a href="login.html" class="text-blue-600">Login</a></p>
                     </div>
                 </form>
             </div>

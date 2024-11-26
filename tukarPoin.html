@@ -3,153 +3,263 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <!-- <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet"> -->
-    <link rel="stylesheet" href="styles.css">
+    <title>I-Trashy Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['THICCCBOI'],
+                    },
+                },
+            },
+        };
+    </script>
+    <style>
+        .nav-link {
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover {
+            color: #3b82f6;
+        }
+
+        .nav-link.active {
+            background-color: #3968DA;
+            color: white;
+            margin-left: -20px;
+            padding-left: 30px; 
+            margin-right: 10px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-weight: 500;
+            border-radius: 0 15px 15px 0;
+        }
+
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        .voucher-card h4, .sembako-card h4 {
+            display: -webkit-box;
+            -webkit-line-clamp: 1; /* Batasi hanya 2 baris */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .voucher-card p, .sembako-card p {
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* Batasi hanya 2 baris */
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+    </style>
 </head>
-<body class="body-menu">
-    <!-- Header -->
-    <div id="header"></div>
+<body class="bg-[#f5f6fb] font-sans">
+    <!-- Main Layout Container -->
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <div id="sidebar"></div>
 
-    <!-- Sidebar -->
-    <div id="sidebar"></div>
+        <!-- Main Content Area -->
+        <div class="flex-1 flex flex-col min-h-screen lg:ml-0">
+            <!-- Header -->
+            <div id="header" data-page-title="Tukar Poin"></div>
 
-    <!-- Main Content -->
-    <main class="main-content-tukar-poin">
-        <section class="balance">
-            <div class="balance-actions">
-              <div class="submenu-poin">
-                <img src="assets/icon/poin logo.png" alt="Poin Logo">
-                <h2>Rp 50.000</h2>
-              </div>
-              <div class="submenu-item">
-                <button><img src="assets/icon/transfer.png" alt="Transfer Icon"></button>
-                <div><p>Transfer</p></div>
-              </div>
-    
-              <div class="submenu-item">
-                <button><img src="assets/icon/tagihan.png" alt="Tagihan Icon"></button>
-                <div><p>Tagihan</p></div>
-              </div>
-              
-              <div class="submenu-item">
-                <button><img src="assets/icon/donasi.png" alt="Donasi Icon"></button>
-                <div><p>Donasi</p></div>
-              </div>
-            </div>
-        </section>
+            <div class="flex-1 overflow-y-auto">
 
-        <section class="categories">
-            <button class="category-button active">Semua</button>
-            <button class="category-button">Voucher</button>
-            <button class="category-button">Sembako</button>
-        </section>
+                <!-- Balance Card -->
+                <div class="p-5">
+                    <div class="lg:flex justify-between lg:justify-around lg:w-[500px] lg:space-y-0 space-y-5 bg-gradient-to-r from-[#FED4B4] to-[#54B68B] p-4 rounded-lg">
+                        <div class="flex items-center space-x-4">
+                            <img class="h-10 w-10" src="assets/icon/poin logo.png" alt="Poin">
+                            <h4 class="text-2xl font-bold">Rp 50.000</h4>
+                        </div>
+                        <div class="flex justify-between lg:justify-end space-x-8">
+                            <!-- Transfer -->
+                            <div class="flex flex-col items-center">
+                                <button class="bg-white rounded-xl w-12 h-12 flex items-center justify-center shadow hover:bg-gray-50 transition-colors">
+                                    <img src="assets/icon/transfer.png" alt="Transfer" class="w-6 h-6">
+                                </button>
+                                <span class="text-xs mt-2 text-center">Transfer</span>
+                            </div>
+                            <!-- Tagihan -->
+                            <div class="flex flex-col items-center">
+                                <button class="bg-white rounded-xl w-12 h-12 flex items-center justify-center shadow hover:bg-gray-50 transition-colors">
+                                    <img src="assets/icon/tagihan.png" alt="Tagihan" class="w-7 h-7">
+                                </button>
+                                <span class="text-xs mt-2 text-center">Tagihan</span>
+                            </div>
+                            <!-- Donasi -->
+                            <div class="flex flex-col items-center">
+                                <button class="bg-white rounded-xl w-12 h-12 flex items-center justify-center shadow hover:bg-gray-50 transition-colors">
+                                    <img src="assets/icon/donasi.png" alt="Donasi" class="w-6 h-6">
+                                </button>
+                                <span class="text-xs mt-2 text-center">Donasi</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Filter -->
+                <div class="flex p-5 space-x-4">
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition active">Semua</button>
+                    <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition">Voucher</button>
+                    <button class="bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition">Sembako</button>
+                </div>
 
-        <section class="voucher-list">
-            <div class="voucher-card">
-                <img src="assets/image/gambar10.png" alt="Voucher Image">
-                <div class="voucher-info">
-                    <h3>Voucher Belanja Indomaret Rp 5.000</h3>
-                    <p>Tukarkan poinmu dengan voucher belanja di Indomaret daerah JABODETABEK</p>
-                    <div class="voucher-footer">
-                        <span class="trash-point">5.000 Trash Point</span>
-                        <span class="point-value">5.000</span>
-                    </div>
-                </div>
-            </div>
-            <div class="voucher-card">
-                <img src="assets/image/gambar10.png" alt="Voucher Image">
-                <div class="voucher-info">
-                    <h3>Voucher Belanja Indomaret Rp 5.000</h3>
-                    <p>Tukarkan poinmu dengan voucher belanja di Indomaret daerah JABODETABEK</p>
-                    <div class="voucher-footer">
-                        <span class="trash-point">5.000 Trash Point</span>
-                        <span class="point-value">5.000</span>
-                    </div>
-                </div>
-            </div>
-            <div class="voucher-card">
-                <img src="assets/image/gambar10.png" alt="Voucher Image">
-                <div class="voucher-info">
-                    <h3>Voucher Belanja Indomaret Rp 5.000</h3>
-                    <p>Tukarkan poinmu dengan voucher belanja di Indomaret daerah JABODETABEK</p>
-                    <div class="voucher-footer">
-                        <span class="trash-point">5.000 Trash Point</span>
-                        <span class="point-value">5.000</span>
-                    </div>
-                </div>
-            </div>
-            <div class="voucher-card">
-                <img src="assets/image/gambar10.png" alt="Voucher Image">
-                <div class="voucher-info">
-                    <h3>Voucher Belanja Indomaret Rp 5.000</h3>
-                    <p>Tukarkan poinmu dengan voucher belanja di Indomaret daerah JABODETABEK</p>
-                    <div class="voucher-footer">
-                        <span class="trash-point">5.000 Trash Point</span>
-                        <span class="point-value">5.000</span>
-                    </div>
-                </div>
-            </div>
-            <div class="voucher-card">
-                <img src="assets/image/gambar10.png" alt="Voucher Image">
-                <div class="voucher-info">
-                    <h3>Voucher Belanja Indomaret Rp 5.000</h3>
-                    <p>Tukarkan poinmu dengan voucher belanja di Indomaret daerah JABODETABEK</p>
-                    <div class="voucher-footer">
-                        <span class="trash-point">5.000 Trash Point</span>
-                        <span class="point-value">5.000</span>
-                    </div>
-                </div>
-            </div>
-            <div class="voucher-card">
-                <img src="assets/image/gambar10.png" alt="Voucher Image">
-                <div class="voucher-info">
-                    <h3>Voucher Belanja Indomaret Rp 5.000</h3>
-                    <p>Tukarkan poinmu dengan voucher belanja di Indomaret daerah JABODETABEK</p>
-                    <div class="voucher-footer">
-                        <span class="trash-point">5.000 Trash Point</span>
-                        <span class="point-value">5.000</span>
-                    </div>
-                </div>
-            </div>
-            <div class="voucher-card">
-                <img src="assets/image/gambar10.png" alt="Voucher Image">
-                <div class="voucher-info">
-                    <h3>Voucher Belanja Indomaret Rp 5.000</h3>
-                    <p>Tukarkan poinmu dengan voucher belanja di Indomaret daerah JABODETABEK</p>
-                    <div class="voucher-footer">
-                        <span class="trash-point">5.000 Trash Point</span>
-                        <span class="point-value">5.000</span>
-                    </div>
-                </div>
-            </div>
-            <div class="voucher-card">
-                <img src="assets/image/gambar10.png" alt="Voucher Image">
-                <div class="voucher-info">
-                    <h3>Voucher Belanja Indomaret Rp 5.000</h3>
-                    <p>Tukarkan poinmu dengan voucher belanja di Indomaret daerah JABODETABEK</p>
-                    <div class="voucher-footer">
-                        <span class="trash-point">5.000 Trash Point</span>
-                        <span class="point-value">5.000</span>
-                    </div>
-                </div>
-            </div>
-            <div class="voucher-card">
-                <img src="assets/image/gambar10.png" alt="Voucher Image">
-                <div class="voucher-info">
-                    <h3>Voucher Belanja Indomaret Rp 5.000</h3>
-                    <p>Tukarkan poinmu dengan voucher belanja di Indomaret daerah JABODETABEK</p>
-                    <div class="voucher-footer">
-                        <span class="trash-point">5.000 Trash Point</span>
-                        <span class="point-value">5.000</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
 
-    <script src="script.js" defer></script>
+                <!-- Voucher dan Sembako -->
+                <div class="p-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-2 lg:gap-5">
+                    <!-- Voucher 1 -->
+                    <div class="bg-white rounded-lg shadow-md p-3 voucher-card">
+                        <a href="#">
+                            <img src="assets/image/gambar10.png" alt="Voucher Image" class="w-full h-32 md:h-40 object-cover rounded-lg">
+                            <h4 class="font-semibold mt-2">Voucher Kopi Kenangan Rp 10.000</h4>
+                            <p class="text-sm text-gray-500 mt-1">Tukarkan poinmu dengan voucher belanja di Indomaret daerah JABODETABEK</p>
+                            <div class="flex justify-between items-center mt-2">
+                                <div class="flex items-center gap-2">
+                                    <img src="assets/icon/poin logo.png" alt="poin" class="h-8 w-8">
+                                    <div class="hidden sm:block">
+                                        <p>Trash Poin</p>
+                                    </div>
+                                </div>
+                                <span class="text-blue-600 font-bold">35.000</span>
+                            </div>
+                        </a>
+                    </div>
+                    
+                    <!-- Sembako 1 -->
+                    <div class="bg-white rounded-lg shadow-md p-3 sembako-card">
+                        <a href="#">
+                            <img src="assets/image/gambar10.png" alt="Sembako Image" class="w-full h-32 md:h-40 object-cover rounded-lg">
+                            <h4 class="font-semibold mt-2">Minyak goreng 2 liter</h4>
+                            <p class="text-sm text-gray-500 mt-1">Tukarkan poinmu dengan voucher belanja di Indomaret daerah JABODETABEK</p>
+                            <div class="flex justify-between items-center mt-2">
+                                <div class="flex items-center gap-2">
+                                    <img src="assets/icon/poin logo.png" alt="poin" class="h-8 w-8">
+                                    <div class="hidden sm:block">
+                                        <p>Trash Poin</p>
+                                    </div>
+                                </div>
+                                <span class="text-blue-600 font-bold">35.000</span>
+                            </div>
+                        </a>
+                    </div>
+                
+                    <!-- Voucher 2 -->
+                    <div class="bg-white rounded-lg shadow-md p-3 voucher-card">
+                        <a href="#">
+                            <img src="assets/image/gambar10.png" alt="Voucher Image" class="w-full h-32 md:h-40 object-cover rounded-lg">
+                            <h4 class="font-semibold mt-2">Voucher Kopi Kenangan Rp 10.000</h4>
+                            <p class="text-sm text-gray-500 mt-1">Tukarkan poinmu dengan voucher belanja di Indomaret daerah JABODETABEK</p>
+                            <div class="flex justify-between items-center mt-2">
+                                <div class="flex items-center gap-2">
+                                    <img src="assets/icon/poin logo.png" alt="poin" class="h-8 w-8">
+                                    <div class="hidden sm:block">
+                                        <p>Trash Poin</p>
+                                    </div>
+                                </div>
+                                <span class="text-blue-600 font-bold">35.000</span>
+                            </div>
+                        </a>
+                    </div>
+                
+                    <!-- Sembako 2 -->
+                    <div class="bg-white rounded-lg shadow-md p-3 sembako-card">
+                        <a href="#">
+                            <img src="assets/image/gambar10.png" alt="Sembako Image" class="w-full h-32 md:h-40 object-cover rounded-lg">
+                            <h4 class="font-semibold mt-2">Gula pasir 0.5 Kilogram</h4>
+                            <p class="text-sm text-gray-500 mt-1">Tukarkan poinmu dengan voucher belanja di Indomaret daerah JABODETABEK</p>
+                            <div class="flex justify-between items-center mt-2">
+                                <div class="flex items-center gap-2">
+                                    <img src="assets/icon/poin logo.png" alt="poin" class="h-8 w-8">
+                                    <div class="hidden sm:block">
+                                        <p>Trash Poin</p>
+                                    </div>
+                                </div>
+                                <span class="text-blue-600 font-bold">35.000</span>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                
+
+            
+        </div>
+    </div>
+
+    <script>
+        (async function initializePage() {
+            // Initialize Sidebar and Header
+            async function initializeSidebar() {
+                try {
+                    const sidebarResponse = await fetch("sidebar.html");
+                    const headerResponse = await fetch("header.html");
+                    
+                    if (sidebarResponse.ok && headerResponse.ok) {
+                        document.getElementById("sidebar").innerHTML = await sidebarResponse.text();
+                        document.getElementById("header").innerHTML = await headerResponse.text();
+                        
+                        // Initialize menu functionality
+                        initializeMenu();
+                    } else {
+                        console.error("Error loading components");
+                    }
+                } catch (error) {
+                    console.error("Error initializing components:", error);
+                }
+            }
+
+            // Menu Functionality
+            function initializeMenu() {
+                const menuToggle = document.getElementById('menuToggle');
+                const menuClose = document.getElementById('menuClose');
+                const menu = document.getElementById('menu');
+                const navLinks = document.querySelectorAll('.nav-link');
+                const pageTitle = document.getElementById('pageTitle');
+                const currentPageTitle = document.querySelector('[data-page-title]').dataset.pageTitle;
+
+                // Mobile menu toggles
+                if (menuToggle && menuClose && menu) {
+                    menuToggle.addEventListener('click', () => menu.classList.remove('-translate-x-full'));
+                    menuClose.addEventListener('click', () => menu.classList.add('-translate-x-full'));
+                }
+
+                // Set active menu item and initial page title
+                navLinks.forEach(link => {
+                    const linkText = link.querySelector('span').textContent;
+
+                    if (linkText === currentPageTitle) {
+                        link.classList.add('active');
+                    }
+
+                    link.addEventListener('click', () => {
+                        // Set active state (without preventing navigation)
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        link.classList.add('active');
+                    });
+                });
+
+                // Update page title
+                if (pageTitle) {
+                    pageTitle.textContent = currentPageTitle === 'Dashboard' ? 'Halo, Atalaric👋' : currentPageTitle;
+                }
+            }
+
+
+            // tulis js lainnya disini
+
+
+            // Initialize everything
+            await initializeSidebar();
+        })();
+    </script>
 </body>
 </html>
