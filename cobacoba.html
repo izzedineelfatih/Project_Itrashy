@@ -3,157 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profile Page</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['THICCCBOI'],
-                    },
-                },
-            },
-        };
-    </script>
-    <style>
-        .nav-link {
-            transition: color 0.3s ease;
-        }
-        .nav-link:hover {
-            color: #3b82f6;
-        }
-        .nav-link.active {
-            background-color: #3968DA;
-            color: white;
-            margin-left: -20px;
-            padding-left: 30px;
-            margin-right: 10px;
-            padding-top: 10px;
-            padding-bottom: 10px;
-            font-weight: 500;
-            border-radius: 0 15px 15px 0;
-        }
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-    </style>
+    <title>Leaderboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.js"></script>
 </head>
-<body class="bg-[#f5f6fb] font-sans">
-    <div class="flex h-screen overflow-hidden">
-        <div class="flex-1 flex flex-col overflow-y-auto min-h-screen lg:ml-0">
-            <div class="min-h-screen flex flex-col items-center py-10 px-4 lg:px-10">
-                <!-- Profile Section -->
-                <div class="w-full max-w-4xl p-6 md:p-8 flex flex-col md:flex-row items-center md:items-start md:justify-between mb-6 bg-white shadow-lg rounded-lg">
-                    <div class="relative">
-                        <img src="assets/image/profile.jpg" alt="Profile Picture" class="w-16 h-16 md:w-28 md:h-28 rounded-full">
-                        <!-- Icon Kamera -->
-                        <div id="cameraIcon" class="absolute bottom-0 right-0 bg-black p-2 rounded-full hidden cursor-pointer">
-                            <i class="fas fa-camera text-white"></i>
-                        </div>
+<body class="bg-blue-50">
+    <div class="container mx-auto p-6">
+        <!-- Leaderboard Section -->
+        <div class="bg-blue-500 text-white rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-bold text-center mb-6">Leaderboard</h3>
+            <!-- Top 3 -->
+            <div class="flex justify-around items-center mb-6">
+                <!-- Second Place -->
+                <div class="text-center">
+                    <div class="w-16 h-16 mx-auto bg-white rounded-full overflow-hidden">
+                        <img src="https://via.placeholder.com/100" alt="Alena Donin" class="w-full h-full object-cover">
                     </div>
-                    <div>
-                        <h1 class="text-lg md:text-xl font-bold flex items-center space-x-2">
-                            <input type="text" id="nameInput" value="RM Joglo" readonly
-                                class="border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <!-- Icon Pena -->
-                            <div id="nameIcon" class="hidden cursor-pointer">
-                                <i class="fas fa-pen text-blue-500"></i>
-                            </div>
-                        </h1>
-                        <p class="text-gray-500 text-sm md:text-base flex items-center space-x-2">
-                            <input type="text" id="descriptionInput" value="Pengguna Wirausaha/Bisnis" readonly
-                                class="border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <!-- Icon Pena -->
-                            <div id="descIcon" class="hidden cursor-pointer">
-                                <i class="fas fa-pen text-blue-500"></i>
-                            </div>
-                        </p>
-                    </div>
-                    <div class="mt-4 md:mt-0 flex space-x-3">
-                        <button id="editButton" class="flex items-center space-x-2 px-4 py-2 bg-white text-blue-600 font-semibold rounded-lg shadow-sm hover:bg-blue-100">
-                            <i class="fas fa-pen text-blue-500"></i>
-                            <span>Edit Profil</span>
-                        </button>
-                        <button class="flex items-center space-x-2 px-4 py-2 bg-white text-red-600 font-semibold rounded-lg shadow-sm hover:bg-red-100">
-                            <i class="fas fa-right-from-bracket text-red-600"></i>
-                            <span>Keluar</span>
-                        </button>
-                    </div>
+                    <p class="font-bold mt-2">Alena Donin</p>
+                    <p class="text-sm">45 Kg</p>
                 </div>
-
-                <!-- Form Section -->
-                <div class="w-full max-w-4xl flex flex-col items-start">
-                    <div class="w-full bg-white w-3/4 md:w-2/3 rounded-lg shadow-lg p-6 md:p-8">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <label for="business-name" class="block text-sm font-medium text-gray-700">Nama Bisnis</label>
-                                <input type="text" id="business-name" class="mt-1 p-2 w-full border rounded-lg bg-gray-50" value="RM Joglo" readonly>
-                            </div>
-                            <div>
-                                <label for="business-type" class="block text-sm font-medium text-gray-700">Jenis Bisnis</label>
-                                <input type="text" id="business-type" class="mt-1 p-2 w-full border rounded-lg bg-gray-50" value="Cafe & Resto" readonly>
-                            </div>
-                            <div>
-                                <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                                <input type="email" id="email" class="mt-1 p-2 w-full border rounded-lg bg-gray-50" value="mabizaratalaric@gmail.com" readonly>
-                            </div>
-                            <div>
-                                <label for="phone" class="block text-sm font-medium text-gray-700">No. Handphone</label>
-                                <input type="tel" id="phone" class="mt-1 p-2 w-full border rounded-lg bg-gray-50" value="+62 812 3456 7890" readonly>
-                            </div>
-                            <div class="col-span-1 md:col-span-2">
-                                <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                                <input type="password" id="password" class="mt-1 p-2 w-full border rounded-lg bg-gray-50" value="**********" readonly>
-                            </div>
-                        </div>
+                <!-- First Place -->
+                <div class="text-center">
+                    <div class="w-20 h-20 mx-auto bg-white rounded-full overflow-hidden border-4 border-yellow-300">
+                        <img src="https://via.placeholder.com/100" alt="Davis Curtis" class="w-full h-full object-cover">
                     </div>
-                    <button id="saveButton" class="w-full mt-6 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-sm hover:bg-blue-600 hidden">
-                        Simpan
-                    </button>
+                    <p class="font-bold mt-2">Davis Curtis</p>
+                    <p class="text-sm">50 Kg</p>
+                </div>
+                <!-- Third Place -->
+                <div class="text-center">
+                    <div class="w-16 h-16 mx-auto bg-white rounded-full overflow-hidden">
+                        <img src="https://via.placeholder.com/100" alt="Craig Gouse" class="w-full h-full object-cover">
+                    </div>
+                    <p class="font-bold mt-2">Craig Gouse</p>
+                    <p class="text-sm">36 Kg</p>
                 </div>
             </div>
+
+            <!-- Additional Leaderboard -->
+            <div class="bg-white text-gray-800 rounded-lg p-4 overflow-y-auto max-h-48">
+                <ul class="space-y-4">
+                    <li class="flex justify-between items-center">
+                        <div class="flex items-center space-x-4">
+                            <img src="https://via.placeholder.com/40" alt="Madelyn Dias" class="w-10 h-10 rounded-full">
+                            <p>Madelyn Dias</p>
+                        </div>
+                        <p>35 Kg</p>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <div class="flex items-center space-x-4">
+                            <img src="https://via.placeholder.com/40" alt="Joko Anwar" class="w-10 h-10 rounded-full">
+                            <p>Joko Anwar</p>
+                        </div>
+                        <p>30 Kg</p>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <div class="flex items-center space-x-4">
+                            <img src="https://via.placeholder.com/40" alt="Frederick Stafford" class="w-10 h-10 rounded-full">
+                            <p>Frederick Stafford</p>
+                        </div>
+                        <p>31 Kg</p>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <div class="flex items-center space-x-4">
+                            <img src="https://via.placeholder.com/40" alt="Andi Setiabudi" class="w-10 h-10 rounded-full">
+                            <p>Andi Setiabudi</p>
+                        </div>
+                        <p>28 Kg</p>
+                    </li>
+                    <li class="flex justify-between items-center">
+                        <div class="flex items-center space-x-4">
+                            <img src="https://via.placeholder.com/40" alt="Daffa Alizar" class="w-10 h-10 rounded-full">
+                            <p>Daffa Alizar</p>
+                        </div>
+                        <p>25 Kg</p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Chart Section -->
+        <div class="bg-white rounded-lg shadow-md p-6 mt-8">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Statistik</h3>
+            <canvas id="leaderboardChart" class="h-64"></canvas>
         </div>
     </div>
 
+    <!-- Chart.js Script -->
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const editButton = document.getElementById("editButton");
-            const saveButton = document.getElementById("saveButton");
-            const inputs = document.querySelectorAll("input");
-            const cameraIcon = document.getElementById("cameraIcon");
-            const nameIcon = document.getElementById("nameIcon");
-            const descIcon = document.getElementById("descIcon");
-
-            // Fungsi untuk mengaktifkan mode edit
-            editButton.addEventListener("click", function () {
-                inputs.forEach(input => {
-                    input.removeAttribute("readonly");
-                    input.classList.add("bg-white", "border-blue-500");
-                });
-                editButton.classList.add("hidden");
-                saveButton.classList.remove("hidden");
-                cameraIcon.classList.remove("hidden");
-                nameIcon.classList.remove("hidden");
-                descIcon.classList.remove("hidden");
-            });
-
-            // Fungsi untuk menyimpan perubahan
-            saveButton.addEventListener("click", function () {
-                inputs.forEach(input => {
-                    input.setAttribute("readonly", true);
-                    input.classList.remove("bg-white", "border-blue-500");
-                });
-                saveButton.classList.add("hidden");
-                editButton.classList.remove("hidden");
-                cameraIcon.classList.add("hidden");
-                nameIcon.classList.add("hidden");
-                descIcon.classList.add("hidden");
-                alert("Perubahan berhasil disimpan!");
-            });
+        const ctx = document.getElementById('leaderboardChart').getContext('2d');
+        const leaderboardChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Alena Donin', 'Davis Curtis', 'Craig Gouse', 'Madelyn Dias', 'Joko Anwar', 'Frederick Stafford', 'Andi Setiabudi', 'Daffa Alizar'],
+                datasets: [{
+                    label: 'Jumlah Sampah Terkumpul (Kg)',
+                    data: [45, 50, 36, 35, 30, 31, 28, 25],
+                    backgroundColor: [
+                        '#3498db', '#f1c40f', '#e67e22', '#2ecc71', '#9b59b6', '#1abc9c', '#e74c3c', '#34495e'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            color: '#555'
+                        }
+                    },
+                    x: {
+                        ticks: {
+                            color: '#555'
+                        }
+                    }
+                }
+            }
         });
     </script>
 </body>
