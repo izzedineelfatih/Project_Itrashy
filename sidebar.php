@@ -29,21 +29,21 @@ if (!isset($_SESSION['user_id'])) {
             <img src="assets/icon/poin.png" alt="TrashPay Icon" class="w-5 h-5">
             <span>Tukar Poin</span>
         </a>
-        <a href="edukasi.html" class="nav-link flex items-center space-x-4"  data-title="Edukasi">
+        <a href="edukasi.php" class="nav-link flex items-center space-x-4"  data-title="Edukasi">
             <img src="assets/icon/edukasi.png" alt="Edukasi Icon" class="w-5 h-5">
             <span>Edukasi</span>
         </a>
-        <a href="pencapian.html" class="nav-link flex items-center space-x-4"  data-title="Pencapaian">
+        <a href="pencapian.php" class="nav-link flex items-center space-x-4"  data-title="Pencapaian">
             <img src="assets/icon/pencapaian.png" alt="Pencapaian Icon" class="w-6 h-6">
             <span>Pencapaian</span>
         </a>
-        <a href="#" class="nav-link flex items-center space-x-4"  data-title="Riwayat">
+        <a href="riwayat.php" class="nav-link flex items-center space-x-4"  data-title="Riwayat">
             <img src="assets/icon/riwayat.png" alt="Riwayat Icon" class="w-6 h-6">
             <span>Riwayat</span>
         </a>
     </nav>
     <div class="p-5 border-t mt-24">
         <a href="#" class="block text-black-600 hover:text-blue-500">Bantuan</a>
-        <a href="logout.php" class="block text-red-600 mt-3 hover:text-red-700">Keluar</a>
+        <a href="#" class="block text-black-600 hover:text-blue-500 mt-3">Pengaturan</a>
     </div>
 </div>

@@ -62,28 +62,34 @@ if (!isset($_SESSION['user_id'])) {
                             </div>
                             <div class="flex justify-between lg:justify-end space-x-8">
                                 <!-- Transfer -->
-                                <div class="flex flex-col items-center">
-                                    <button class="bg-white rounded-xl w-12 h-12 flex items-center justify-center shadow hover:bg-gray-50 transition-colors">
-                                        <img src="assets/icon/transfer.png" alt="Transfer" class="w-6 h-6">
-                                    </button>
-                                    <span class="text-sm mt-2 text-center">Transfer</span>
-                                </div>
+                                <a href="transfer.php">
+                                    <div class="flex flex-col items-center">
+                                        <button class="bg-white rounded-xl w-12 h-12 flex items-center justify-center shadow hover:bg-gray-50 transition-colors">
+                                            <img src="assets/icon/transfer.png" alt="Transfer" class="w-6 h-6">
+                                        </button>
+                                        <span class="text-sm mt-2 text-center">Transfer</span>
+                                    </div>
+                                </a>
                                 <!-- Tagihan -->
-                                <div class="flex flex-col items-center">
-                                    <button class="bg-white rounded-xl w-12 h-12 flex items-center justify-center shadow hover:bg-gray-50 transition-colors">
-                                        <img src="assets/icon/tagihan.png" alt="Tagihan" class="w-7 h-7">
-                                    </button>
-                                    <span class="text-sm mt-2 text-center">Tagihan</span>
-                                </div>
+                                <a href="tagihan.php">
+                                    <div class="flex flex-col items-center">
+                                        <button class="bg-white rounded-xl w-12 h-12 flex items-center justify-center shadow hover:bg-gray-50 transition-colors">
+                                            <img src="assets/icon/tagihan.png" alt="Tagihan" class="w-7 h-7">
+                                        </button>
+                                        <span class="text-sm mt-2 text-center">Tagihan</span>
+                                    </div>
+                                </a>
                                 <!-- Donasi -->
-                                <div class="flex flex-col items-center">
-                                    <button class="bg-white rounded-xl w-12 h-12 flex items-center justify-center shadow hover:bg-gray-50 transition-colors">
-                                        <img src="assets/icon/donasi.png" alt="Donasi" class="w-6 h-6">
-                                    </button>
-                                    <span class="text-sm mt-2 text-center">Donasi</span>
-                                </div>
+                                <a href="donasi.php">
+                                    <div class="flex flex-col items-center">
+                                        <button class="bg-white rounded-xl w-12 h-12 flex items-center justify-center shadow hover:bg-gray-50 transition-colors">
+                                            <img src="assets/icon/donasi.png" alt="Donasi" class="w-6 h-6">
+                                        </button>
+                                        <span class="text-sm mt-2 text-center">Donasi</span>
+                                    </div>
+                                </a>
                                 <!-- Tukar Poin -->
-                                 <a href="tukarPoin.html">
+                                 <a href="tukarPoin.php">
                                     <div class="flex flex-col items-center">
                                         <button class="bg-white rounded-xl w-12 h-12 flex items-center justify-center shadow hover:bg-gray-50 transition-colors">
                                             <img src="assets/icon/poin.png" alt="Tukar Poin" class="w-6 h-6">

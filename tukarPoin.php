@@ -42,12 +42,12 @@ if (!isset($_SESSION['user_id'])) {
 
                 <!-- Balance Card -->
                 <div class="p-5">
-                    <div class="lg:flex justify-between lg:justify-around lg:w-1/2 lg:space-y-0 space-y-5 bg-gradient-to-r from-[#FED4B4] to-[#54B68B] p-4 rounded-lg">
+                    <div class="lg:flex justify-between lg:justify-around lg:space-x-52 lg:space-y-0 space-y-5 bg-gradient-to-r from-[#FED4B4] to-[#54B68B] p-4 rounded-lg">
                         <div class="flex items-center space-x-4">
                             <img class="h-10 w-10" src="assets/icon/poin logo.png" alt="Poin">
                             <h4 class="text-2xl font-bold">50.000</h4>
                         </div>
-                        <div class="flex justify-between lg:justify-end space-x-8">
+                        <div class="flex justify-between lg:justify-end space-x-8 lg:space-x-20">
                             <!-- Transfer -->
                             <a href="transfer.php">
                                 <div class="flex flex-col items-center">

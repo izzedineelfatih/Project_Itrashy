@@ -48,7 +48,20 @@ html, body {
     padding: 0;
 }
 
+.leaderboard-badge {
+    background: linear-gradient(135deg, #3968DA, #7D9BF2);
+    color: white;
+}
+
 .news-card h4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Batasi hanya 2 baris */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.donasi-card h4 {
     display: -webkit-box;
     -webkit-line-clamp: 2; /* Batasi hanya 2 baris */
     -webkit-box-orient: vertical;
