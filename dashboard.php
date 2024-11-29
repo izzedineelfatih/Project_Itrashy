@@ -1,3 +1,14 @@
+<?php
+session_start();
+
+// Cek apakah user sudah login
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit();
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,6 +17,7 @@
     <title>I-Trashy Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="styles.css">
     <script>
         tailwind.config = {
             theme: {
@@ -17,61 +29,17 @@
             },
         };
     </script>
-    <style>
-        #slider {
-            display: flex;
-            transition: transform 0.5s ease-in-out;
-        }
-        
-        #newsSlider {
-            -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-            -ms-overflow-style: none;
-            scroll-behavior: smooth;
-        }
-
-        #newsSlider::-webkit-scrollbar {
-            display: none;
-        }
-
-        .nav-link {
-            transition: color 0.3s ease;
-        }
-
-        .nav-link:hover {
-            color: #3b82f6;
-        }
-
-        .nav-link.active {
-            background-color: #3968DA;
-            color: white;
-            margin-left: -20px;
-            padding-left: 30px; 
-            margin-right: 10px;
-            padding-top: 10px;
-            padding-bottom: 10px;
-            font-weight: 500;
-            border-radius: 0 15px 15px 0;
-        }
-
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
-    </style>
 </head>
 <body class="bg-[#f5f6fb] font-sans">
     <!-- Main Layout Container -->
     <div class="flex h-screen overflow-hidden">
         <!-- Sidebar -->
-        <div id="sidebar"></div>
+        <?php include 'sidebar.php'; ?>
 
         <!-- Main Content Area -->
         <div class="flex-1 flex flex-col min-h-screen lg:ml-0">
             <!-- Header -->
-            <div id="header" data-page-title="Dashboard"></div>
-
+            <?php include 'header.php'; ?>
             <!-- Scrollable Content Area -->
             <div class="flex-1 overflow-y-auto">
                 <div class="p-5 grid lg:grid-cols-3 gap-5">
@@ -98,21 +66,21 @@
                                     <button class="bg-white rounded-xl w-12 h-12 flex items-center justify-center shadow hover:bg-gray-50 transition-colors">
                                         <img src="assets/icon/transfer.png" alt="Transfer" class="w-6 h-6">
                                     </button>
-                                    <span class="text-xs mt-2 text-center">Transfer</span>
+                                    <span class="text-sm mt-2 text-center">Transfer</span>
                                 </div>
                                 <!-- Tagihan -->
                                 <div class="flex flex-col items-center">
                                     <button class="bg-white rounded-xl w-12 h-12 flex items-center justify-center shadow hover:bg-gray-50 transition-colors">
                                         <img src="assets/icon/tagihan.png" alt="Tagihan" class="w-7 h-7">
                                     </button>
-                                    <span class="text-xs mt-2 text-center">Tagihan</span>
+                                    <span class="text-sm mt-2 text-center">Tagihan</span>
                                 </div>
                                 <!-- Donasi -->
                                 <div class="flex flex-col items-center">
                                     <button class="bg-white rounded-xl w-12 h-12 flex items-center justify-center shadow hover:bg-gray-50 transition-colors">
                                         <img src="assets/icon/donasi.png" alt="Donasi" class="w-6 h-6">
                                     </button>
-                                    <span class="text-xs mt-2 text-center">Donasi</span>
+                                    <span class="text-sm mt-2 text-center">Donasi</span>
                                 </div>
                                 <!-- Tukar Poin -->
                                  <a href="tukarPoin.html">
@@ -120,28 +88,27 @@
                                         <button class="bg-white rounded-xl w-12 h-12 flex items-center justify-center shadow hover:bg-gray-50 transition-colors">
                                             <img src="assets/icon/poin.png" alt="Tukar Poin" class="w-6 h-6">
                                         </button>
-                                        <span class="text-xs mt-2 text-center">Tukar Poin</span>
+                                        <span class="text-sm mt-2 text-center">Tukar Poin</span>
                                     </div>
                                  </a>
                             </div>
                         </div>
 
                         <!-- Latest News -->
-                        <!-- Artikel Section -->
                         <div>
                             <h3 class="text-xl font-bold mb-4">Terbaru</h3>
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div class="bg-white rounded-lg shadow-md p-3">
+                                <div class="bg-white rounded-lg shadow-md p-3 news-card">
                                     <img src="assets/image/gambar2.png" alt="Belajar Mengelola Sampah" class="w-full h-32 md:h-40 object-cover rounded-lg">
                                     <h4 class="font-semibold mt-2">Yuk, Belajar Mengelola Sampah Sejak Dini Secara Mandiri</h4>
                                     <p class="text-sm text-gray-500 mt-1">I-Trashy • 02 Januari 2024</p>
                                 </div>
-                                <div class="bg-white rounded-lg shadow-md p-3">
+                                <div class="bg-white rounded-lg shadow-md p-3 news-card">
                                     <img src="assets/image/gambar8.png" alt="Kerajinan Daur Ulang" class="w-full h-32 md:h-40 object-cover rounded-lg">
                                     <h4 class="font-semibold mt-2">Cara Membuat Kerajinan Daur Ulang dari Barang Bekas</h4>
                                     <p class="text-sm text-gray-500 mt-1">Kompas.com • 02 Januari 2024</p>
                                 </div>
-                                <div class="bg-white rounded-lg shadow-md p-3">
+                                <div class="bg-white rounded-lg shadow-md p-3 news-card">
                                     <img src="assets/image/gambar7.png" alt="Pupuk Kompos" class="w-full h-32 md:h-40 object-cover rounded-lg">
                                     <h4 class="font-semibold mt-2">Pupuk Kompos untuk Tanaman Kesayangan Anda</h4>
                                     <p class="text-sm text-gray-500 mt-1">Detik.com • 02 Januari 2024</p>
@@ -155,7 +122,10 @@
                         <!-- Pickup Schedule -->
                         <div class="bg-white lg:bg-[#f5f6fb] rounded-lg shadow p-4 h-[200px]">
                             <h4 class="font-bold text-lg mb-3">Jadwal Penjemputan</h4>
-                            <p class="text-gray-500">Belum ada penjemputan yang harus dilakukan nih!</p>
+                            <div class="flex flex-col items-center">
+                                <img src="assets/image/Schedule.png" alt="schedule" class="w-20">
+                                <p class="text-sm pt-2 text-gray-500 text-center">Jadwal Kosong</p>
+                            </div>
                         </div>
                         
                         <!-- Collected Garbage -->
@@ -180,67 +150,52 @@
     </div>
 
     <script>
-    (async function initializePage() {
-        // Initialize Sidebar and Header
-        async function initializeSidebar() {
-            try {
-                const sidebarResponse = await fetch("sidebar.html");
-                const headerResponse = await fetch("header.html");
-                
-                if (sidebarResponse.ok && headerResponse.ok) {
-                    document.getElementById("sidebar").innerHTML = await sidebarResponse.text();
-                    document.getElementById("header").innerHTML = await headerResponse.text();
-                    
-                    // Initialize menu functionality
-                    initializeMenu();
-                } else {
-                    console.error("Error loading components");
-                }
-            } catch (error) {
-                console.error("Error initializing components:", error);
-            }
+    document.addEventListener('DOMContentLoaded', function() {
+    initializeMenu();
+    initializeCharts();
+    initializeBannerSlider();
+    });
+
+    function initializeMenu() {
+        const menuToggle = document.getElementById('menuToggle');
+        const menuClose = document.getElementById('menuClose');
+        const menu = document.getElementById('menu');
+        const navLinks = document.querySelectorAll('.nav-link');
+        const pageTitle = document.getElementById('pageTitle');
+        
+        // Dapatkan nama halaman dari URL saat ini
+        const currentPage = window.location.pathname.split('/').pop().replace('.php', '');
+
+        // Mobile menu toggles
+        if (menuToggle && menuClose && menu) {
+            menuToggle.addEventListener('click', () => menu.classList.remove('-translate-x-full'));
+            menuClose.addEventListener('click', () => menu.classList.add('-translate-x-full'));
         }
 
-        // Menu Functionality
-        function initializeMenu() {
-            const menuToggle = document.getElementById('menuToggle');
-            const menuClose = document.getElementById('menuClose');
-            const menu = document.getElementById('menu');
-            const navLinks = document.querySelectorAll('.nav-link');
-            const pageTitle = document.getElementById('pageTitle');
-            const currentPageTitle = document.querySelector('[data-page-title]').dataset.pageTitle;
-
-            // Mobile menu toggles
-            if (menuToggle && menuClose && menu) {
-                menuToggle.addEventListener('click', () => menu.classList.remove('-translate-x-full'));
-                menuClose.addEventListener('click', () => menu.classList.add('-translate-x-full'));
-            }
-
-            // Set active menu item and initial page title
-            navLinks.forEach(link => {
-                const linkText = link.querySelector('span').textContent;
-
-                if (linkText === currentPageTitle) {
-                    link.classList.add('active');
+        // Set active menu item dan update page title
+        navLinks.forEach(link => {
+            const href = link.getAttribute('href').replace('.php', '');
+            const menuText = link.querySelector('span').textContent;
+            
+            if (href.includes(currentPage)) {
+                link.classList.add('active');
+                // Update page title sesuai menu yang aktif
+                if (pageTitle) {
+                    if (currentPage === 'dashboard') {
+                        pageTitle.textContent = `Halo, ${pageTitle.dataset.username}👋`;
+                    } else {
+                        pageTitle.textContent = menuText;
+                    }
                 }
-
-                link.addEventListener('click', () => {
-                    // Set active state (without preventing navigation)
-                    navLinks.forEach(l => l.classList.remove('active'));
-                    link.classList.add('active');
-                });
-            });
-
-            // Update page title
-            if (pageTitle) {
-                pageTitle.textContent = currentPageTitle === 'Dashboard' ? 'Halo, Atalaric👋' : currentPageTitle;
             }
-        }
+        });
+    }
 
-
-        // Banner Slider
+    function initializeBannerSlider() {
         let currentIndex = 0;
         const slider = document.getElementById('slider');
+        if (!slider) return;
+        
         const bannerImages = slider.children;
 
         function slideBanner() {
@@ -248,8 +203,9 @@
             slider.style.transform = `translateX(-${currentIndex * 100}%)`;
         }
         setInterval(slideBanner, 5000);
+    }
 
-        // Charts Configuration
+    function initializeCharts() {
         const chartConfig = {
             responsive: true,
             maintainAspectRatio: true,
@@ -271,10 +227,9 @@
             }
         };
 
-        // Initialize Charts
-        function initializeCharts() {
-            // Garbage Chart
-            const garbageChartCtx = document.getElementById('garbageChart').getContext('2d');
+        // Garbage Chart
+        const garbageChartCtx = document.getElementById('garbageChart')?.getContext('2d');
+        if (garbageChartCtx) {
             new Chart(garbageChartCtx, {
                 type: 'bar',
                 data: {
@@ -289,9 +244,11 @@
                 },
                 options: chartConfig
             });
+        }
 
-            // Carbon Chart
-            const carbonChartCtx = document.getElementById('carbonChart').getContext('2d');
+        // Carbon Chart
+        const carbonChartCtx = document.getElementById('carbonChart')?.getContext('2d');
+        if (carbonChartCtx) {
             const gradient = carbonChartCtx.createLinearGradient(0, 0, 0, 200);
             gradient.addColorStop(0, 'rgba(108, 99, 255, 0.5)');
             gradient.addColorStop(1, 'rgba(108, 99, 255, 0)');
@@ -312,11 +269,7 @@
                 options: chartConfig
             });
         }
-
-        // Initialize everything
-        await initializeSidebar();
-        initializeCharts();
-    })();
+    }
     </script>
 </body>
 </html>

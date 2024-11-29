@@ -166,7 +166,7 @@
         (async function initializePage() {
             async function initializeSidebar() {
                 try {
-                    const sidebarResponse = await fetch("sidebar.html");
+                    const sidebarResponse = await fetch("sidebar.php");
                     const headerResponse = await fetch("header.html");
                     
                     if (sidebarResponse.ok && headerResponse.ok) {
