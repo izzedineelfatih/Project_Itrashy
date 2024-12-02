@@ -183,19 +183,12 @@ if (!isset($_SESSION['user_id'])) {
 
                 
 
-                <!-- Pagination -->
-                <div class="gap-4 flex justify-between items-center mt-4 bg-white p-4 shadow-md">
-                    <div class="text-gray-600">Tampilkan: 10 baris</div>
-                    <div class="flex space-x-2">
-                        <button class="px-4 py-2 border rounded-md bg-gray-100 hover:bg-gray-200">&lt;</button>
-                        <button class="px-4 py-2 border rounded-md bg-blue-600 text-white">1</button>
-                        <button class="px-4 py-2 border rounded-md bg-gray-100 hover:bg-gray-200">&gt;</button>
-                    </div>
-                </div>
+          
                 
             </div>
             
     <script>
+        
         
         document.addEventListener('DOMContentLoaded', function() {
             initializeMenu();
