@@ -38,9 +38,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 <body class="bg-white p-4 min-h-screen flex items-center justify-center">
     <div class="w-full max-w-6xl aspect-[16/9] bg-gray-200 rounded-3xl">
-        <button class="p-2 pl-5 pt-6 lg:pl-10 lg:pt-8">
-            <img src="assets/icon/back icon.png" alt="back" class="invert w-5 lg:w-6">
-        </button>
+        <a href="login.php">
+            <button class="p-2 pl-5 pt-6 lg:pl-10 lg:pt-8">
+                <img src="assets/icon/back icon.png" alt="back" class="invert w-5 lg:w-6">
+            </button>
+        </a>
         
         <h1 class="text-xl lg:text-2xl md:text-3xl font-semibold text-center mt-16 lg:mt">
             Sebagai Apa Anda Mendaftar?
