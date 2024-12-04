@@ -5,46 +5,27 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-require 'config.php';
+require 'config.php'; // Include file konfigurasi database
 
 // Ambil data dari request
 $user_id = $_SESSION['user_id'];
-$username = $_POST['nameInput'] ?? '';
-$description = $_POST['descriptionInput'] ?? '';
+$username = $_POST['username'] ?? '';
+$business_type = $_POST['business-type'] ?? '';
+$email = $_POST['email'] ?? '';
+$phone = $_POST['phone'] ?? '';
 
-// Path default untuk gambar profil
-$profile_picture = null;
-
-// Proses unggah file jika ada
-if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == UPLOAD_ERR_OK) {
-    $uploadDir = 'assets/uploads/';
-    $fileName = $user_id . '_' . basename($_FILES['profile_picture']['name']);
-    $uploadFile = $uploadDir . $fileName;
-
-    if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $uploadFile)) {
-        $profile_picture = $uploadFile;
-    }
-}
-
-// Update database
-$sql = "UPDATE profiles 
-        SET username = :username, description = :description" . 
-        ($profile_picture ? ", profile_picture = :profile_picture" : "") . 
-        " WHERE user_id = :user_id";
-
+// Update data ke database
+$sql = "UPDATE profiles SET username = :username, business_type = :business_type, email = :email, phone = :phone WHERE user_id = :user_id";
 $stmt = $pdo->prepare($sql);
-$params = [
-    'username' => $username,
-    'description' => $description,
-    'user_id' => $user_id
-];
-
-if ($profile_picture) {
-    $params['profile_picture'] = $profile_picture;
-}
 
 try {
-    $stmt->execute($params);
+    $stmt->execute([
+        'username' => $username,
+        'business_type' => $business_type,
+        'email' => $email,
+        'phone' => $phone,
+        'user_id' => $user_id,
+    ]);
     echo json_encode(['success' => true, 'message' => 'Profile updated successfully']);
 } catch (PDOException $e) {
     echo json_encode(['success' => false, 'message' => 'Error updating profile: ' . $e->getMessage()]);
