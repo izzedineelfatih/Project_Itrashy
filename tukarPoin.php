@@ -42,12 +42,12 @@ if (!isset($_SESSION['user_id'])) {
 
                 <!-- Balance Card -->
                 <div class="p-5">
-                    <div class="lg:flex justify-between lg:justify-around lg:space-x-52 lg:space-y-0 space-y-5 bg-gradient-to-r from-[#FED4B4] to-[#54B68B] p-4 rounded-lg">
-                        <div class="flex items-center space-x-4">
+                    <div class="lg:flex justify-between lg:justify-around lg:space-x-52 lg:space-y-0 space-y-8 bg-gradient-to-r from-[#FED4B4] to-[#54B68B] p-4 rounded-lg">
+                        <div class="flex items-center justify-center space-x-4">
                             <img class="h-10 w-10" src="assets/icon/poin logo.png" alt="Poin">
                             <h4 class="text-2xl font-bold">50.000</h4>
                         </div>
-                        <div class="flex justify-between lg:justify-end space-x-8 lg:space-x-20">
+                        <div class="flex justify-between lg:justify-end pl-5 pr-5 lg:pr-0 lg:pl-0 lg:space-x-20">
                             <!-- Transfer -->
                             <a href="transfer.php">
                                 <div class="flex flex-col items-center">
@@ -81,162 +81,105 @@ if (!isset($_SESSION['user_id'])) {
                 
                 <!-- Filter -->
                 <div class="flex p-5 space-x-4">
-                    <button id="semua-btn" class="bg-blue-600 text-white px-6 py-2 rounded-full">Semua</button>
-                    <button id="voucher-btn" class="bg-gray-200 text-gray-700 px-6 py-2 rounded-full">Voucher</button>
                     <button id="sembako-btn" class="bg-gray-200 text-gray-700 px-4 py-2 rounded-full">Sembako</button>
+                    <button id="voucher-btn" class="bg-gray-200 text-gray-700 px-6 py-2 rounded-full">Voucher</button>
                 </div>
-
-
 
                 <!-- Voucher dan Sembako -->
                 <div class="p-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-2 lg:gap-5">
-                    <!-- Voucher 1 -->
-                    <div class="bg-white rounded-lg shadow-md p-3 voucher-card">
-                        <a href="#">
-                            <img src="assets/image/indomaret.png" alt="Voucher Image" class="w-full h-32 md:h-40 object-cover rounded-lg">
-                            <h4 class="font-semibold mt-2">Voucher potongan belanja Indomaret Rp 10.000</h4>
-                            <p class="text-sm text-gray-500 mt-1">Tukarkan poinmu dengan voucher belanja di Indomaret daerah JABODETABEK</p>
-                            <div class="flex justify-between items-center mt-2">
-                                <div class="flex items-center gap-2">
-                                    <img src="assets/icon/poin logo.png" alt="poin" class="h-8 w-8">
-                                    <div class="hidden sm:block">
-                                        <p>Trash Poin</p>
-                                    </div>
-                                </div>
-                                <span class="text-blue-600 font-bold">12.000</span>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- Sembako 1 -->
-                    <div class="bg-white rounded-lg shadow-md p-3 sembako-card">
-                        <a href="#">
-                            <img src="assets/image/minyak goreng.png" alt="Sembako Image" class="w-full h-32 md:h-40 object-cover rounded-lg">
-                            <h4 class="font-semibold mt-2">Minyak Goreng 2 liter</h4>
-                            <p class="text-sm text-gray-500 mt-1">Minyak goreng habis? jangan khawatir tukarkan poinmu dengan minyak goreng 2L</p>
-                            <div class="flex justify-between items-center mt-2">
-                                <div class="flex items-center gap-2">
-                                    <img src="assets/icon/poin logo.png" alt="poin" class="h-8 w-8">
-                                    <div class="hidden sm:block">
-                                        <p>Trash Poin</p>
-                                    </div>
-                                </div>
-                                <span class="text-blue-600 font-bold">35.000</span>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- Sembako 2 -->
-                    <div class="bg-white rounded-lg shadow-md p-3 sembako-card">
-                        <a href="#">
-                            <img src="assets/image/gula.png" alt="Sembako Image" class="w-full h-32 md:h-40 object-cover rounded-lg">
-                            <h4 class="font-semibold mt-2">Gula Pasir 1 Kilogram</h4>
-                            <p class="text-sm text-gray-500 mt-1">Tukarkan poinmu dengan sembako gula pasir</p>
-                            <div class="flex justify-between items-center mt-2">
-                                <div class="flex items-center gap-2">
-                                    <img src="assets/icon/poin logo.png" alt="poin" class="h-8 w-8">
-                                    <div class="hidden sm:block">
-                                        <p>Trash Poin</p>
-                                    </div>
-                                </div>
-                                <span class="text-blue-600 font-bold">35.000</span>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- Voucher 2 -->
-                    <div class="bg-white rounded-lg shadow-md p-3 voucher-card">
-                        <a href="#">
-                            <img src="assets/image/alfamart.png" alt="Voucher Image" class="w-full h-32 md:h-40 object-cover rounded-lg">
-                            <h4 class="font-semibold mt-2">Voucher belanja Alfamart Rp 10.000</h4>
-                            <p class="text-sm text-gray-500 mt-1">Tukarkan poinmu dengan voucher belanja di Alfamart daerah JABODETABEK</p>
-                            <div class="flex justify-between items-center mt-2">
-                                <div class="flex items-center gap-2">
-                                    <img src="assets/icon/poin logo.png" alt="poin" class="h-8 w-8">
-                                    <div class="hidden sm:block">
-                                        <p>Trash Poin</p>
-                                    </div>
-                                </div>
-                                <span class="text-blue-600 font-bold">12.000</span>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- Voucher 3 -->
-                    <div class="bg-white rounded-lg shadow-md p-3 voucher-card">
-                        <a href="#">
-                            <img src="assets/image/ayam bakar.png" alt="Voucher Image" class="w-full h-32 md:h-40 object-cover rounded-lg">
-                            <h4 class="font-semibold mt-2">Voucher ayam bakar kalasan Rp 5.000 </h4>
-                            <p class="text-sm text-gray-500 mt-1">Makan murah dengan voucher potongan di ayam nakar kalasan</p>
-                            <div class="flex justify-between items-center mt-2">
-                                <div class="flex items-center gap-2">
-                                    <img src="assets/icon/poin logo.png" alt="poin" class="h-8 w-8">
-                                    <div class="hidden sm:block">
-                                        <p>Trash Poin</p>
-                                    </div>
-                                </div>
-                                <span class="text-blue-600 font-bold">5.000</span>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- Sembako 3 -->
-                    <div class="bg-white rounded-lg shadow-md p-3 sembako-card">
-                        <a href="#">
-                            <img src="assets/image/telur.png" alt="Sembako Image" class="w-full h-32 md:h-40 object-cover rounded-lg">
-                            <h4 class="font-semibold mt-2">Telur 500gram</h4>
-                            <p class="text-sm text-gray-500 mt-1">Penuhi kebutuhan protein hewani anda dengan telur berkualitas</p>
-                            <div class="flex justify-between items-center mt-2">
-                                <div class="flex items-center gap-2">
-                                    <img src="assets/icon/poin logo.png" alt="poin" class="h-8 w-8">
-                                    <div class="hidden sm:block">
-                                        <p>Trash Poin</p>
-                                    </div>
-                                </div>
-                                <span class="text-blue-600 font-bold">35.000</span>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- Voucher 4 -->
-                    <div class="bg-white rounded-lg shadow-md p-3 voucher-card">
-                        <a href="#">
-                            <img src="assets/image/naspad.png" alt="Voucher Image" class="w-full h-32 md:h-40 object-cover rounded-lg">
-                            <h4 class="font-semibold mt-2">Voucher RM padang mahkota Rp 7.500</h4>
-                            <p class="text-sm text-gray-500 mt-1">Makan murah dengan voucher potongan di RM padang mahkota</p>
-                            <div class="flex justify-between items-center mt-2">
-                                <div class="flex items-center gap-2">
-                                    <img src="assets/icon/poin logo.png" alt="poin" class="h-8 w-8">
-                                    <div class="hidden sm:block">
-                                        <p>Trash Poin</p>
-                                    </div>
-                                </div>
-                                <span class="text-blue-600 font-bold">35.000</span>
-                            </div>
-                        </a>
-                    </div>
-                    <!-- Sembako 4 -->
-                    <div class="bg-white rounded-lg shadow-md p-3 sembako-card">
-                        <a href="#">
-                            <img src="assets/image/beras.png" alt="Sembako Image" class="w-full h-32 md:h-40 object-cover rounded-lg">
-                            <h4 class="font-semibold mt-2">Beras 1 Kilogram</h4>
-                            <p class="text-sm text-gray-500 mt-1">Beras habis? jangan khawatir tukarkan poinmu dengan beras sekarang juga</p>
-                            <div class="flex justify-between items-center mt-2">
-                                <div class="flex items-center gap-2">
-                                    <img src="assets/icon/poin logo.png" alt="poin" class="h-8 w-8">
-                                    <div class="hidden sm:block">
-                                        <p>Trash Poin</p>
-                                    </div>
-                                </div>
-                                <span class="text-blue-600 font-bold">35.000</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
-                
+                <?php 
+                    $voucher = [
+                        [
+                            'image' => 'indomaret.png',
+                            'title' => 'Voucher potongan belanja Indomaret Rp 10.000',
+                            'description' => 'Tukarkan poinmu dengan voucher belanja di Indomaret daerah JABODETABEK',
+                            'points' => '12.000'
+                        ],
+                        [
+                            'image' => 'alfamart.png',
+                            'title' => 'Voucher belanja Alfamart Rp 10.000',
+                            'description' => 'Tukarkan poinmu dengan voucher belanja di Alfamart daerah JABODETABEK',
+                            'points' => '12.000'
+                        ],
+                        [
+                            'image' => 'ayam bakar.png',
+                            'title' => 'Voucher ayam bakar kalasan Rp 5.000',
+                            'description' => 'Makan murah dengan voucher potongan di ayam bakar kalasan',
+                            'points' => '5.000'
+                        ],
+                        [
+                            'image' => 'naspad.png',
+                            'title' => 'Voucher RM padang mahkota Rp 7.500',
+                            'description' => 'Makan murah dengan voucher potongan di RM padang mahkota',
+                            'points' => '35.000'
+                        ]
+                    ];
 
-            
+                    $sembako = [
+                        [
+                            'image' => 'minyak goreng.png',
+                            'title' => 'Minyak Goreng 2 liter',
+                            'description' => 'Minyak goreng habis? jangan khawatir tukarkan poinmu dengan minyak goreng 2L',
+                            'points' => '35.000'
+                        ],
+                        [
+                            'image' => 'gula.png',
+                            'title' => 'Gula Pasir 1 Kilogram',
+                            'description' => 'Tukarkan poinmu dengan sembako gula pasir',
+                            'points' => '35.000'
+                        ],
+                        [
+                            'image' => 'telur.png',
+                            'title' => 'Telur 500gram',
+                            'description' => 'Penuhi kebutuhan protein hewani anda dengan telur berkualitas',
+                            'points' => '35.000'
+                        ],
+                        [
+                            'image' => 'beras.png',
+                            'title' => 'Beras 1 Kilogram',
+                            'description' => 'Beras habis? jangan khawatir tukarkan poinmu dengan beras sekarang juga',
+                            'points' => '35.000'
+                        ]
+                    ];
+
+                    foreach ($voucher as $voucher_item) {
+                        echo '<a href="#">';
+                        echo '<div class="bg-white rounded-lg shadow-md p-3 voucher-card">';
+                        echo '<img src="assets/image/' . $voucher_item['image'] . '" alt="Voucher Image" class="w-full h-32 md:h-40 object-cover rounded-lg">';
+                        echo '<h4 class="font-semibold mt-2">' . $voucher_item['title'] . '</h4>';
+                        echo '<p class="text-sm text-gray-500 mt-1">' . $voucher_item['description'] . '</p>';
+                        echo '<div class="flex justify-between items-center mt-2">';
+                        echo '<div class="flex items-center gap-2">';
+                        echo '<img src="assets/icon/poin logo.png" alt="poin" class="h-8 w-8">';
+                        echo '<div class="hidden sm:block"><p>Trash Poin</p></div>';
+                        echo '</div>';
+                        echo '<span class="text-blue-600 font-bold">' . $voucher_item['points'] . '</span>';
+                        echo '</div></div></a>';
+                    }
+
+                    foreach ($sembako as $sembako_item) {
+                        echo '<a href="#">';
+                        echo '<div class="bg-white rounded-lg shadow-md p-3 sembako-card">';
+                        echo '<img src="assets/image/' . $sembako_item['image'] . '" alt="Sembako Image" class="w-full h-32 md:h-40 object-cover rounded-lg">';
+                        echo '<h4 class="font-semibold mt-2">' . $sembako_item['title'] . '</h4>';
+                        echo '<p class="text-sm text-gray-500 mt-1">' . $sembako_item['description'] . '</p>';
+                        echo '<div class="flex justify-between items-center mt-2">';
+                        echo '<div class="flex items-center gap-2">';
+                        echo '<img src="assets/icon/poin logo.png" alt="poin" class="h-8 w-8">';
+                        echo '<div class="hidden sm:block"><p>Trash Poin</p></div>';
+                        echo '</div>';
+                        echo '<span class="text-blue-600 font-bold">' . $sembako_item['points'] . '</span>';
+                        echo '</div></div></a>';
+                    }
+                    ?>
+                </div>
         </div>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-        initializeMenu();
-        initializeFilter();
+            initializeMenu();
+            initializeFilter();
         });
 
         function initializeMenu() {
@@ -274,64 +217,85 @@ if (!isset($_SESSION['user_id'])) {
             });
         }
 
-        // Fungsi untuk filter tampilan (Semua, Voucher, Sembako)
+        // Fungsi untuk filter tampilan (Voucher, Sembako)
         function initializeFilter() {
-            const semuaBtn = document.getElementById("semua-btn");
             const voucherBtn = document.getElementById("voucher-btn");
             const sembakoBtn = document.getElementById("sembako-btn");
 
+            const grid = document.querySelector(".grid");
             const voucherCards = document.querySelectorAll(".voucher-card");
             const sembakoCards = document.querySelectorAll(".sembako-card");
 
-            // Fungsi untuk menampilkan semua cards
-            function showSemua() {
-                voucherCards.forEach(card => card.style.display = "block");
-                sembakoCards.forEach(card => card.style.display = "block");
+            // Fungsi untuk mengatur ulang grid layout
+            function adjustGridLayout() {
+                // Hapus semua placeholder yang ada
+                const existingPlaceholders = grid.querySelectorAll('.placeholder');
+                existingPlaceholders.forEach(placeholder => placeholder.remove());
+
+                // Dapatkan jumlah card yang sedang ditampilkan
+                const visibleCards = Array.from(grid.querySelectorAll('a')).filter(
+                    card => window.getComputedStyle(card).display !== 'none'
+                );
+
+                // Tambahkan placeholder jika jumlah card kurang dari 4
+                const placeholderCount = Math.max(0, 4 - visibleCards.length);
+                for (let i = 0; i < placeholderCount; i++) {
+                    const placeholderDiv = document.createElement('div');
+                    placeholderDiv.className = 'placeholder bg-transparent';
+                    grid.appendChild(placeholderDiv);
+                }
             }
 
             // Fungsi untuk menampilkan hanya voucher cards
             function showVoucher() {
-                voucherCards.forEach(card => card.style.display = "block");
-                sembakoCards.forEach(card => card.style.display = "none");
+                voucherCards.forEach(card => {
+                    card.closest('a').style.display = "block";
+                });
+                sembakoCards.forEach(card => {
+                    card.closest('a').style.display = "none";
+                });
+                adjustGridLayout();
             }
 
             // Fungsi untuk menampilkan hanya sembako cards
             function showSembako() {
-                voucherCards.forEach(card => card.style.display = "none");
-                sembakoCards.forEach(card => card.style.display = "block");
+                voucherCards.forEach(card => {
+                    card.closest('a').style.display = "none";
+                });
+                sembakoCards.forEach(card => {
+                    card.closest('a').style.display = "block";
+                });
+                adjustGridLayout();
             }
 
             // Fungsi untuk memperbarui status aktif pada tombol
             function updateActiveButton(activeBtn) {
                 // Reset semua tombol ke kondisi default
-                const buttons = [semuaBtn, voucherBtn, sembakoBtn];
+                const buttons = [voucherBtn, sembakoBtn];
                 buttons.forEach(btn => {
-                    btn.classList.remove("bg-blue-600", "text-white"); // Menghapus kelas aktif
-                    btn.classList.add("bg-gray-200", "text-gray-700"); // Memberikan kelas default untuk tombol non-aktif
+                    btn.classList.remove("bg-blue-600", "text-white");
+                    btn.classList.add("bg-gray-200", "text-gray-700");
                 });
 
                 // Menambahkan kelas aktif ke tombol yang dipilih
                 activeBtn.classList.remove("bg-gray-200", "text-gray-700");
-                activeBtn.classList.add("bg-blue-600", "text-white"); // Tombol aktif
+                activeBtn.classList.add("bg-blue-600", "text-white");
             }
 
             // Event listeners untuk tombol
-            semuaBtn.addEventListener("click", () => {
-                showSemua();
-                updateActiveButton(semuaBtn);
-            });
             voucherBtn.addEventListener("click", () => {
                 showVoucher();
                 updateActiveButton(voucherBtn);
             });
+
             sembakoBtn.addEventListener("click", () => {
                 showSembako();
                 updateActiveButton(sembakoBtn);
             });
 
-            // Menampilkan semua cards sebagai default
-            showSemua();
-            updateActiveButton(semuaBtn); // Mengatur tombol "Semua" sebagai aktif secara default
+            // Tampilkan sembako secara default dan atur layout
+            showSembako();
+            updateActiveButton(sembakoBtn);
         }
     </script>
 </body>

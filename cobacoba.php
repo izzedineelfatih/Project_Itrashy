@@ -6,14 +6,6 @@ if (!isset($_SESSION['user_id'])) {
 }
 ?>
 
-<?php
-require 'config.php'; // Pastikan ini adalah file koneksi database yang Anda buat sebelumnya
-
-// Ambil data jenis sampah dari database
-$stmt = $pdo->query("SELECT * FROM jenis_sampah");
-$jenis_sampah = $stmt->fetchAll();
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,6 +37,19 @@ $jenis_sampah = $stmt->fetchAll();
                         <div class="w-full lg:w-[600px]">
                             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-3 md:gap-4">
                             <?php 
+                                $jenis_sampah = [
+                                    ['image' => 'sampah organik.png', 'name' => 'Sampah Organik', 'price' => 200],
+                                    ['image' => 'botol plastik.png', 'name' => 'Botol Plastik', 'price' => 200],
+                                    ['image' => 'kertas.png', 'name' => 'Kertas', 'price' => 200],
+                                    ['image' => 'kaleng.png', 'name' => 'Kaleng', 'price' => 200],
+                                    ['image' => 'botol kaca.png', 'name' => 'Botol Kaca', 'price' => 200],
+                                    ['image' => 'elektronik.png', 'name' => 'Elektronik', 'price' => 200],
+                                    ['image' => 'kotak multi-layer.png', 'name' => 'Kotak Multi-Layer', 'price' => 200],
+                                    ['image' => 'kardus.png', 'name' => 'Kardus', 'price' => 200],
+                                    ['image' => 'kain.png', 'name' => 'Kain', 'price' => 200],
+                                    ['image' => 'besi.png', 'name' => 'Besi', 'price' => 200],
+                                ];
+
                                 foreach ($jenis_sampah as $index => $sampah) {
                                     echo '<div class="flex items-center bg-white rounded-lg shadow-md p-3 gap-3">';
                                     echo '<img src="assets/image/' . $sampah['image'] . '" alt="' . $sampah['name'] . '" class="h-16 w-16 md:h-20 md:w-20 object-cover rounded-lg">';
@@ -115,43 +120,20 @@ $jenis_sampah = $stmt->fetchAll();
     const adminFeePercentage = 0.20;
 
     document.addEventListener('DOMContentLoaded', function() {
-    initializeMenu();
-    });
+        const cartToggle = document.getElementById('cartToggle');
+        const closeCart = document.getElementById('closeCart');
+        const cartOverlay = document.getElementById('cartOverlay');
 
-    function initializeMenu() {
-        const menuToggle = document.getElementById('menuToggle');
-        const menuClose = document.getElementById('menuClose');
-        const menu = document.getElementById('menu');
-        const navLinks = document.querySelectorAll('.nav-link');
-        const pageTitle = document.getElementById('pageTitle');
-        
-        // Dapatkan nama halaman dari URL saat ini
-        const currentPage = window.location.pathname.split('/').pop().replace('.php', '');
-
-        // Mobile menu toggles
-        if (menuToggle && menuClose && menu) {
-            menuToggle.addEventListener('click', () => menu.classList.remove('-translate-x-full'));
-            menuClose.addEventListener('click', () => menu.classList.add('-translate-x-full'));
-        }
-
-        // Set active menu item dan update page title
-        navLinks.forEach(link => {
-            const href = link.getAttribute('href').replace('.php', '');
-            const menuText = link.querySelector('span').textContent;
-            
-            if (href.includes(currentPage)) {
-                link.classList.add('active');
-                // Update page title sesuai menu yang aktif
-                if (pageTitle) {
-                    if (currentPage === 'dashboard') {
-                        pageTitle.textContent = `Halo, ${pageTitle.dataset.username}👋`;
-                    } else {
-                        pageTitle.textContent = menuText;
-                    }
-                }
-            }
+        cartToggle.addEventListener('click', () => {
+            cartOverlay.classList.remove('translate-x-full');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
         });
-    }
+
+        closeCart.addEventListener('click', () => {
+            cartOverlay.classList.add('translate-x-full');
+            document.body.style.overflow = ''; // Restore scrolling
+        });
+    });
 
     document.getElementById('saveOrderButton').addEventListener('click', async function() {
         const location = document.getElementById('location').value;

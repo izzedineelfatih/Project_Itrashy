@@ -53,15 +53,7 @@ html, body {
     color: white;
 }
 
-.news-card h4 {
-    display: -webkit-box;
-    -webkit-line-clamp: 2; /* Batasi hanya 2 baris */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.donasi-card h4 {
+.news-card h4, .donasi-card h4 {
     display: -webkit-box;
     -webkit-line-clamp: 2; /* Batasi hanya 2 baris */
     -webkit-box-orient: vertical;

@@ -42,12 +42,6 @@
                 <div class="p-5 grid lg:grid-cols-3 gap-5">
                     <!-- Left Section (2 columns on desktop) -->
                     <div class="lg:col-span-2 space-y-5">
-                        <!-- Search Bar -->
-                        <div class="relative">
-                            <input type="text" placeholder="Cari..." 
-                                class="w-full p-3 border border-gray-300 bg-white text-gray-700 rounded-lg shadow-sm focus:outline-none focus:ring focus:ring-gray-400 transition">
-                        </div>
-
                         <!-- Banner -->
                         <div class="relative overflow-hidden rounded-lg shadow-lg">
                             <img src="assets/image/poster2.png" alt="Banner Image" class="w-full">

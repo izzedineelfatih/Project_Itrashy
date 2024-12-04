@@ -54,120 +54,67 @@ if (!isset($_SESSION['user_id'])) {
 
                     <!-- donasi card -->
                     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-2 lg:gap-5">
-                        <!-- donasi card 1 -->
-                        <div class="bg-white rounded-lg shadow-md p-3 donasi-card">
-                            <a href="#">
-                                <img src="assets/image/bank sampah.png" alt="Voucher Image" class="w-full h-32 md:h-40 object-cover rounded-lg">
-                                <h4 class="font-semibold mt-2">Pembangunan Fasilitas Bank Sampah di Bandung</h4>
-                                <div class="relative mt-4 mb-4">
-                                    <div class="flex mt-2">
-                                        <!-- Progress bar -->
-                                        <div class="relative flex mb-2 w-full">
-                                        <div class="flex-1 bg-gray-300 rounded-full h-2.5">
-                                            <!-- This is the progress fill -->
-                                            <div class="bg-blue-600 h-2.5 rounded-full" style="width: 20%"></div>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    <label for="progress" class="donasi-terkumpul block text-sm font-medium text-gray-700"><strong>Rp 10.000.000 terkumpul</strong> dari Rp 100.000.000</label>
-                                </div>
-                            </a>
-                        </div>
-                        <!-- donasi card 2 -->
-                        <div class="bg-white rounded-lg shadow-md p-3 donasi-card">
-                            <a href="#">
-                                <img src="assets/image/menanam pohon.png" alt="Voucher Image" class="w-full h-32 md:h-40 object-cover rounded-lg">
-                                <h4 class="font-semibold mt-2">Penanaman 1000 Bibit Mangrove di Pantai Indonesia</h4>
-                                <div class="relative mt-4 mb-4">
-                                    <div class="flex mt-2">
-                                        <!-- Progress bar -->
-                                        <div class="relative flex mb-2 w-full">
-                                        <div class="flex-1 bg-gray-300 rounded-full h-2.5">
-                                            <!-- This is the progress fill -->
-                                            <div class="bg-blue-600 h-2.5 rounded-full" style="width: 40%"></div>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    <label for="progress" class="donasi-terkumpul block text-sm font-medium text-gray-700"><strong>Rp 20.000.000 terkumpul</strong> dari Rp 50.000.000</label>
-                                </div>
-                            </a>
-                        </div>
-                        <!-- donasi card 3 -->
-                        <div class="bg-white rounded-lg shadow-md p-3 donasi-card">
-                            <a href="#">
-                                <img src="assets/image/petugas kebersihan.png" alt="Voucher Image" class="w-full h-32 md:h-40 object-cover rounded-lg">
-                                <h4 class="font-semibold mt-2">Bantuan Kemanusiaan Untuk Petugas Kebersihan di Indonesia</h4>
-                                <div class="relative mt-4 mb-4">
-                                    <div class="flex mt-2">
-                                        <!-- Progress bar -->
-                                        <div class="relative flex mb-2 w-full">
-                                        <div class="flex-1 bg-gray-300 rounded-full h-2.5">
-                                            <!-- This is the progress fill -->
-                                            <div class="bg-blue-600 h-2.5 rounded-full" style="width: 50%"></div>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    <label for="progress" class="donasi-terkumpul block text-sm font-medium text-gray-700"><strong>Rp 50.000.000 terkumpul</strong> dari Rp 100.000.000</label>
-                                </div>
-                            </a>
-                        </div>
-                        <!-- donasi card 4 -->
-                        <div class="bg-white rounded-lg shadow-md p-3 donasi-card">
-                            <a href="#">
-                                <img src="assets/image/terumbu karang.png" alt="Voucher Image" class="w-full h-32 md:h-40 object-cover rounded-lg">
-                                <h4 class="font-semibold mt-2">Restorasi Terumbu Karang di Pantai Sumatera</h4>
-                                <div class="relative mt-4 mb-4">
-                                    <div class="flex mt-2">
-                                        <!-- Progress bar -->
-                                        <div class="relative flex mb-2 w-full">
-                                        <div class="flex-1 bg-gray-300 rounded-full h-2.5">
-                                            <!-- This is the progress fill -->
-                                            <div class="bg-blue-600 h-2.5 rounded-full" style="width: 90%"></div>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    <label for="progress" class="donasi-terkumpul block text-sm font-medium text-gray-700"><strong>Rp 10.000.000 terkumpul</strong> dari Rp 15.000.000</label>
-                                </div>
-                            </a>
-                        </div>
-                        <!-- donasi card 5 -->
-                        <div class="bg-white rounded-lg shadow-md p-3 donasi-card">
-                            <a href="#">
-                                <img src="assets/image/daur ulang kerajinan.png" alt="Voucher Image" class="w-full h-32 md:h-40 object-cover rounded-lg">
-                                <h4 class="font-semibold mt-2">Pendanaan UMKM kerajinan Daur Ulang Sampah</h4>
-                                <div class="relative mt-4 mb-4">
-                                    <div class="flex mt-2">
-                                        <!-- Progress bar -->
-                                        <div class="relative flex mb-2 w-full">
-                                        <div class="flex-1 bg-gray-300 rounded-full h-2.5">
-                                            <!-- This is the progress fill -->
-                                            <div class="bg-blue-600 h-2.5 rounded-full" style="width: 30%"></div>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    <label for="progress" class="donasi-terkumpul block text-sm font-medium text-gray-700"><strong>Rp 10.000.000 terkumpul</strong> dari Rp 40.000.000</label>
-                                </div>
-                            </a>
-                        </div>
-                        <!-- donasi card 6 -->
-                        <div class="bg-white rounded-lg shadow-md p-3 donasi-card">
-                            <a href="#">
-                                <img src="assets/image/membersihkan sungai.png" alt="Voucher Image" class="w-full h-32 md:h-40 object-cover rounded-lg">
-                                <h4 class="font-semibold mt-2">Program Bersih - Bersih Sungai di Indonesia</h4>
-                                <div class="relative mt-4 mb-4">
-                                    <div class="flex mt-2">
-                                        <!-- Progress bar -->
-                                        <div class="relative flex mb-2 w-full">
-                                        <div class="flex-1 bg-gray-300 rounded-full h-2.5">
-                                            <!-- This is the progress fill -->
-                                            <div class="bg-blue-600 h-2.5 rounded-full" style="width: 70%"></div>
-                                        </div>
-                                        </div>
-                                    </div>
-                                    <label for="progress" class="donasi-terkumpul block text-sm font-medium text-gray-700"><strong>Rp 15.000.000 terkumpul</strong> dari Rp 25.000.000</label>
-                                </div>
-                            </a>
-                        </div>
+                    <?php 
+                        $donasi = [
+                            [
+                                'image' => 'bank sampah.png',
+                                'title' => 'Pembangunan Fasilitas Bank Sampah di Bandung',
+                                'progress' => 20,
+                                'collected' => 'Rp 10.000.000',
+                                'goal' => 'Rp 100.000.000'
+                            ],
+                            [
+                                'image' => 'menanam pohon.png',
+                                'title' => 'Penanaman 1000 Bibit Mangrove di Pantai Indonesia',
+                                'progress' => 40,
+                                'collected' => 'Rp 20.000.000',
+                                'goal' => 'Rp 50.000.000'
+                            ],
+                            [
+                                'image' => 'petugas kebersihan.png',
+                                'title' => 'Bantuan Kemanusiaan Untuk Petugas Kebersihan di Indonesia',
+                                'progress' => 50,
+                                'collected' => 'Rp 50.000.000',
+                                'goal' => 'Rp 100.000.000'
+                            ],
+                            [
+                                'image' => 'terumbu karang.png',
+                                'title' => 'Restorasi Terumbu Karang di Pantai Sumatera',
+                                'progress' => 90,
+                                'collected' => 'Rp 10.000.000',
+                                'goal' => 'Rp 15.000.000'
+                            ],
+                            [
+                                'image' => 'daur ulang kerajinan.png',
+                                'title' => 'Pendanaan UMKM kerajinan Daur Ulang Sampah',
+                                'progress' => 30,
+                                'collected' => 'Rp 10.000.000',
+                                'goal' => 'Rp 40.000.000'
+                            ],
+                            [
+                                'image' => 'membersihkan sungai.png',
+                                'title' => 'Program Bersih - Bersih Sungai di Indonesia',
+                                'progress' => 70,
+                                'collected' => 'Rp 15.000.000',
+                                'goal' => 'Rp 25.000.000'
+                            ],
+                        ];
+
+                        foreach ($donasi as $donasi_item) {
+                            echo '<div class="bg-white rounded-lg shadow-md p-3 donasi-card">';
+                            echo '<a href="#">';
+                            echo '<img src="assets/image/' . $donasi_item['image'] . '" alt="Donasi Image" class="w-full h-32 md:h-40 object-cover rounded-lg">';
+                            echo '<h4 class="font-semibold mt-2">' . $donasi_item['title'] . '</h4>';
+                            echo '<div class="relative mt-4 mb-4">';
+                            echo '<div class="flex mt-2">';
+                            echo '<div class="relative flex mb-2 w-full">';
+                            echo '<div class="flex-1 bg-gray-300 rounded-full h-2.5">';
+                            echo '<div class="bg-blue-600 h-2.5 rounded-full" style="width: ' . $donasi_item['progress'] . '%"></div>';
+                            echo '</div></div></div>';
+                            echo '<label for="progress" class="donasi-terkumpul block text-sm font-medium text-gray-700"><strong>' . $donasi_item['collected'] . ' terkumpul</strong> dari ' . $donasi_item['goal'] . '</label>';
+                            echo '</div></a></div>';
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
