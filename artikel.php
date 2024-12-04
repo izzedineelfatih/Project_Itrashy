@@ -1,3 +1,11 @@
+<?php
+session_start();
+// Cek apakah user sudah login
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php');
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -48,17 +56,17 @@
   <!-- Main Layout Container -->
   <div class="flex h-screen overflow-hidden">
       <!-- Sidebar -->
-      <div id="sidebar"></div>
+      <?php include 'sidebar.php'; ?>
 
       <!-- Main Content Area -->
       <div class="flex-1 flex flex-col min-h-screen lg:ml-0">
           <!-- Header -->
-          <div id="header" data-page-title="Artikel"></div>
+          <?php include 'header.php'; ?>
 
           <!-- Content Section -->
           <div class="flex flex-1 overflow-auto p-4">
             <!-- Left Section -->
-            <div class="flex-1 p-6 space-y-4 overflow-auto">
+            <div class="flex-1 p-6 space-y-4 overflow-auto ">
                 <img src="assets/image/gambar2.png" alt="Main Article Image" class="w-full rounded-lg shadow-md">
                 <p class="text-sm text-gray-600 text-right">Senin, 20 Januari 2024</p>
                 <h1 class="text-2xl font-bold text-black">Yuk, Belajar Mengelola Sampah Sejak Dini Secara Mandiri</h1>

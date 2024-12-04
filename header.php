@@ -21,7 +21,7 @@ if (!isset($_SESSION['user_id'])) {
                 <img src="assets/icon/notifikasi.png" alt="Notifications" class="w-8 h-8">
             </a>
             <div class="w-px h-10 bg-black"></div>
-            <a href="profile.html">
+            <a href="profile.php">
                 <img src="assets/image/profile.jpg" alt="Profile" class="w-10 h-10 rounded-full">
             </a>
         </div>
