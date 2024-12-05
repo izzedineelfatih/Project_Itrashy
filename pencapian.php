@@ -125,7 +125,7 @@ if (!isset($_SESSION['user_id'])) {
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             <!-- Sampah Plastik -->
                             <div class="flex items-center space-x-4">
-                                <img src="https://via.placeholder.com/50" alt="Sampah Plastik" class="w-12 h-12">
+                                <img src="assets/image/botol_plastik.png" alt="Sampah Plastik" class="w-12 h-12">
                                 <div>
                                     <p class="font-bold text-gray-800">Sampah Plastik</p>
                                     <p class="text-sm text-gray-500">30 Kg</p>
@@ -134,7 +134,7 @@ if (!isset($_SESSION['user_id'])) {
                             </div>
                             <!-- Sampah Organik -->
                             <div class="flex items-center space-x-4">
-                                <img src="https://via.placeholder.com/50" alt="Sampah Organik" class="w-12 h-12">
+                                <img src="assets/image/sampah_organik.png" alt="Sampah Organik" class="w-12 h-12">
                                 <div>
                                     <p class="font-bold text-gray-800">Sampah Organik</p>
                                     <p class="text-sm text-gray-500">25 Kg</p>
@@ -143,7 +143,7 @@ if (!isset($_SESSION['user_id'])) {
                             </div>
                             <!-- Sampah Kardus -->
                             <div class="flex items-center space-x-4">
-                                <img src="https://via.placeholder.com/50" alt="Sampah Kardus" class="w-12 h-12">
+                                <img src="assets/image/kardus.png" alt="Sampah Kardus" class="w-12 h-12">
                                 <div>
                                     <p class="font-bold text-gray-800">Sampah Kardus</p>
                                     <p class="text-sm text-gray-500">15 Kg</p>
