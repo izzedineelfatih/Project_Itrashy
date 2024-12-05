@@ -161,10 +161,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
                     </div>
                     <div>
-                        <label for="phone" class="text-gray-600">Nomor Telepon</label>
-                        <input type="text" id="phone" name="phone" placeholder="Masukkan Nomor Telepon" required
-                            class="w-full px-4 py-2 rounded-xl bg-[#f5f7fa] mt-2"
-                            value="<?php echo isset($_POST['phone']) ? htmlspecialchars($_POST['phone']) : ''; ?>">
+                    <label for="phone" class="text-gray-600">Nomor Telepon</label>
+                    <input type="text" id="phone" name="phone" placeholder="Masukkan Nomor Telepon" required
+                    class="w-full px-4 py-2 rounded-xl bg-[#f5f7fa] mt-2"
+                    value="<?php echo isset($_POST['phone']) ? htmlspecialchars($_POST['phone']) : ''; ?>">
+                    <span id="phone-warning" class="text-red-500 text-sm"></span>
                     </div>
 
                     <div class="relative">
@@ -215,6 +216,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             const input = document.getElementById(inputId);
             input.type = input.type === 'password' ? 'text' : 'password';
         }
+
+        
+    document.addEventListener("DOMContentLoaded", () => {
+        const phoneInput = document.getElementById("phone");
+        const phoneWarning = document.getElementById("phone-warning");
+
+        phoneInput.addEventListener("input", () => {
+            const phoneValue = phoneInput.value;
+
+            // Jika input bukan angka, hapus karakter terakhir dan tampilkan peringatan
+            if (!/^\d*$/.test(phoneValue)) {
+                phoneInput.value = phoneValue.slice(0, -1);
+                phoneWarning.textContent = "Nomor telepon hanya boleh berupa angka!";
+            } else {
+                phoneWarning.textContent = ""; // Hapus peringatan jika input valid
+            }
+        });
+    });
+
+
+
     </script>
 </body>
 </html>
