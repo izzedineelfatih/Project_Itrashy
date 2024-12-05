@@ -11,6 +11,7 @@ if (!isset($_SESSION['selected_role'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = trim($_POST['username']);
     $email = trim($_POST['email']);
+    $phone = trim($_POST['phone']);
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirmPassword'];
     $errors = [];
@@ -26,6 +27,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Validasi email
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors[] = "Format email tidak valid";
+    }
+
+    // Validasi nomor telepon
+    if (!preg_match("/^[0-9]{10,15}$/", $phone)) {
+        $errors[] = "Nomor telepon harus berupa angka dan 10-15 karakter";
     }
 
     // Cek email sudah terdaftar
@@ -58,9 +64,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Hash password
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
     
-            // Insert user
-            $stmt = $pdo->prepare("INSERT INTO users (username, email, password, role_id) VALUES (?, ?, ?, ?)");
-            $stmt->execute([$username, $email, $hashedPassword, $role['id']]);
+            // Insert data ke tabel `users`
+            $stmt = $pdo->prepare("INSERT INTO users (username, email, phone_number, password, role_id) VALUES (?, ?, ?, ?, ?)");
+            $stmt->execute([$username, $email, $phone, $hashedPassword, $role['id']]);
+    
+            // Ambil ID pengguna baru
+            $userId = $pdo->lastInsertId();
+    
+            // Insert data ke tabel `profiles`
+            $stmt = $pdo->prepare("INSERT INTO profiles (user_id, profile_picture, description) 
+                                   VALUES (?, ?, ?)");
+            $stmt->execute([$userId, 'assets/image/default_profile.jpg', 'Pengguna Individu']);
     
             // Hapus semua session yang ada
             session_destroy();
@@ -77,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $errors[] = "Terjadi kesalahan. Silakan coba lagi.";
         }
     }
-}
+}   
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -146,6 +160,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             class="w-full px-4 py-2 rounded-xl bg-[#f5f7fa] mt-2"
                             value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
                     </div>
+                    <div>
+                    <label for="phone" class="text-gray-600">Nomor Telepon</label>
+                    <input type="text" id="phone" name="phone" placeholder="Masukkan Nomor Telepon" required
+                    class="w-full px-4 py-2 rounded-xl bg-[#f5f7fa] mt-2"
+                    value="<?php echo isset($_POST['phone']) ? htmlspecialchars($_POST['phone']) : ''; ?>">
+                    <span id="phone-warning" class="text-red-500 text-sm"></span>
+                    </div>
 
                     <div class="relative">
                         <label for="password" class="text-gray-600">Password</label>
@@ -195,6 +216,27 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             const input = document.getElementById(inputId);
             input.type = input.type === 'password' ? 'text' : 'password';
         }
+
+        
+    document.addEventListener("DOMContentLoaded", () => {
+        const phoneInput = document.getElementById("phone");
+        const phoneWarning = document.getElementById("phone-warning");
+
+        phoneInput.addEventListener("input", () => {
+            const phoneValue = phoneInput.value;
+
+            // Jika input bukan angka, hapus karakter terakhir dan tampilkan peringatan
+            if (!/^\d*$/.test(phoneValue)) {
+                phoneInput.value = phoneValue.slice(0, -1);
+                phoneWarning.textContent = "Nomor telepon hanya boleh berupa angka!";
+            } else {
+                phoneWarning.textContent = ""; // Hapus peringatan jika input valid
+            }
+        });
+    });
+
+
+
     </script>
 </body>
 </html>

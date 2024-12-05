@@ -1,28 +1,24 @@
 <?php
 session_start();
+require 'config.php';
+
+// Pastikan pengguna sudah login
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
 }
 
-// Include konfigurasi database (PDO)
-require 'config.php';
-
-// Ambil data profil dari database
+// Ambil data pengguna dari tabel `users`
 $user_id = $_SESSION['user_id'];
-$sql = "SELECT username, business_type, email, phone FROM profiles WHERE user_id = :user_id";
-$stmt = $pdo->prepare($sql);
-$stmt->execute(['user_id' => $user_id]);
+$stmt = $pdo->prepare("SELECT u.username, u.email, p.phone, p.profile_picture, p.description 
+                       FROM users u 
+                       LEFT JOIN profiles p ON u.id = p.user_id 
+                       WHERE u.id = ?");
+$stmt->execute([$user_id]);
 $profile = $stmt->fetch();
 
 if (!$profile) {
-    // Jika data tidak ditemukan, gunakan nilai default
-    $profile = [
-        'username' => '',
-        'business_type' => '',
-        'email' => '',
-        'phone' => '',
-    ];
+    die("Data pengguna tidak ditemukan.");
 }
 ?>
 
@@ -94,18 +90,15 @@ if (!$profile) {
                 
                     <!-- Profile Text -->
                     <div class="flex-1 flex flex-col justify-center">
-                        <h1 class="text-lg md:text-xl font-bold flex items-center space-x-2">
-                            <input type="text" id="nameInput" value="RM Joglo" readonly
-                                class="border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            <div id="nameIcon" class="cursor-pointer hidden">
-                                <i class="fas fa-pen text-blue-500"></i>
-                            </div>
-                        </h1>
-                        <p class="text-gray-500 text-sm md:text-base">
-                            <input type="text" id="descriptionInput" value="Pengguna Bisnis" readonly
-                                class="border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </p>
-                    </div>
+    <h1 class="text-lg md:text-xl font-bold flex items-center space-x-2">
+        <input type="text" id="nameInput" value="<?php echo htmlspecialchars($profile['username']); ?>" readonly
+            class="border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </h1>
+    <p class="text-gray-500 text-sm md:text-base">
+        <input type="text" id="descriptionInput" value="<?php echo htmlspecialchars($profile['description']); ?>" readonly
+            class="border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-blue-500">
+    </p>
+</div>
                 
                     <!-- Action Buttons -->
                     <div class="flex space-x-3">
@@ -126,26 +119,17 @@ if (!$profile) {
                 <div class="w-full max-w-4xl flex flex-col items-start">
     <div class="w-full bg-white rounded-lg shadow-lg p-6 md:p-8">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+   
+
     <div>
-        <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
-        <input type="text" id="username" class="mt-1 p-2 w-full border rounded-lg bg-gray-50" 
-               value="<?php echo htmlspecialchars($profile['username']); ?>" readonly>
-    </div>
-    <div>
-        <label for="business-type" class="block text-sm font-medium text-gray-700">Jenis Bisnis</label>
-        <input type="text" id="business-type" class="mt-1 p-2 w-full border rounded-lg bg-gray-50" 
-               value="<?php echo htmlspecialchars($profile['business_type']); ?>" readonly>
-    </div>
-    <div>
-        <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-        <input type="email" id="email" class="mt-1 p-2 w-full border rounded-lg bg-gray-50" 
-               value="<?php echo htmlspecialchars($profile['email']); ?>" readonly>
-    </div>
-    <div>
-        <label for="phone" class="block text-sm font-medium text-gray-700">No. Handphone</label>
-        <input type="tel" id="phone" class="mt-1 p-2 w-full border rounded-lg bg-gray-50" 
-               value="<?php echo htmlspecialchars($profile['phone']); ?>" readonly>
-    </div>
+    <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+    <input type="email" id="email" class="mt-1 p-2 w-full border rounded-lg bg-gray-50" 
+           value="<?php echo htmlspecialchars($profile['email']); ?>" readonly>
+</div>
+<div>
+    <label for="phone" class="block text-sm font-medium text-gray-700">No. Handphone</label>
+    <input type="tel" id="phone" class="mt-1 p-2 w-full border rounded-lg bg-gray-50" 
+           value="<?php echo htmlspecialchars($profile['phone']); ?>" readonly>
 </div>
 
 
