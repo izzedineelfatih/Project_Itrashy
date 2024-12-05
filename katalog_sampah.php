@@ -5,7 +5,7 @@ if (!isset($_SESSION['admin_id'])) {
     exit();
 }
 
-require 'config.php'; // Pastikan ini adalah file koneksi database yang Anda buat sebelumnya
+require 'config.php'; 
 
 // Ambil data jenis sampah dari database
 $stmt = $pdo->query("SELECT * FROM jenis_sampah");

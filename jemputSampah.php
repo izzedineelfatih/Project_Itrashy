@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
 ?>
 
 <?php
-require 'config.php'; // Pastikan ini adalah file koneksi database yang Anda buat sebelumnya
+require 'config.php';
 
 // Ambil data jenis sampah dari database
 $stmt = $pdo->query("SELECT * FROM jenis_sampah");
@@ -23,6 +23,17 @@ $jenis_sampah = $stmt->fetchAll();
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['THICCCBOI'],
+                    },
+                },
+            },
+        };
+    </script>
 </head>
 <body class="bg-[#f5f6fb] font-sans">
     <div class="flex h-screen overflow-hidden">
