@@ -37,7 +37,14 @@ if (!isset($_SESSION['user_id'])) {
             <!-- Header -->
             <?php include 'header.php'; ?>
 
-            <div class="flex-1 overflow-y-auto p-5">
+            <div class="flex-1 overflow-y-auto">
+                <div class="p-5">
+                    <div class="lg:hidden block bg-gradient-to-r from-[#FED4B4] to-[#54B68B] p-4 rounded-lg mb-10">
+                        <div class="flex items-center space-x-4">
+                            <img class="h-10 w-10" src="assets/icon/poin logo.png" alt="Poin">
+                            <h4 class="text-2xl font-bold">Rp 50.000</h4>
+                        </div>
+                    </div>
                 
                     <!-- Pilihan Kategori -->
                     <div class="flex space-x-4 mb-6">
@@ -159,7 +166,8 @@ if (!isset($_SESSION['user_id'])) {
                             Kirim
                         </button>
                     </div>
-                
+                </div>
+                <?php include 'footer.php'; ?>
             </div>
         </div>
     </div>

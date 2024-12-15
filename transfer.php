@@ -41,6 +41,7 @@ if (!isset($_SESSION['user_id'])) {
             <div class="flex-1 overflow-y-auto">
                 <!-- kode tulis di sini -->
             </div>
+            <?php include 'footer.php'; ?>
         </div>
     </div>
 

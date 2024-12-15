@@ -71,7 +71,7 @@ html, body {
 
 .voucher-card p, .sembako-card p {
     display: -webkit-box;
-    -webkit-line-clamp: 2; /* Batasi hanya 2 baris */
+    -webkit-line-clamp: 1; /* Batasi hanya 2 baris */
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
