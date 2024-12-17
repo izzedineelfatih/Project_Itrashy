@@ -41,11 +41,11 @@ if (!isset($_SESSION['user_id'])) {
             <div class="flex-1 overflow-y-auto">
                 <!-- kode tulis di sini -->
                 <div class="p-5">
-                    <div class="relative overflow-hidden rounded-lg shadow-lg mb-6">
-                        <img src="assets/image/poster5.png" alt="Banner Image" class="w-full">
+                    <div class="shadow-lg mb-6">
+                        <img src="assets/image/poster5.png" alt="Banner Image" class="w-full rounded-lg">
                     </div>
 
-                    <div class="bg-gradient-to-r from-[#FED4B4] to-[#54B68B] p-4 rounded-lg mb-10">
+                    <div class="lg:hidden block bg-gradient-to-r from-[#FED4B4] to-[#54B68B] p-4 rounded-lg mb-10">
                         <div class="flex items-center space-x-4">
                             <img class="h-10 w-10" src="assets/icon/poin logo.png" alt="Poin">
                             <h4 class="text-2xl font-bold">Rp 50.000</h4>
@@ -117,7 +117,8 @@ if (!isset($_SESSION['user_id'])) {
                         ?>
                     </div>
                 </div>
-            </div>
+                <?php include 'footer.php'; ?>
+            </div>  
         </div>
     </div>
 

@@ -83,7 +83,7 @@ if (!isset($_SESSION['user_id'])) {
                                                 <button class="bg-white rounded-xl w-10 h-10 lg:w-12 lg:h-12 md:w-12 md:h-12 flex items-center justify-center shadow hover:bg-gray-50 transition-colors">
                                                     <img src="assets/icon/tagihan.png" alt="Tagihan" class="md:w-7 md:h-7 lg:w-7 lg:h-7 w-6 h-6">
                                                 </button>
-                                                <span class="lg:text-sm md:text-sm text-xs mt-2 text-center">Tagihan</span>
+                                                <span class="lg:text-sm md:text-sm text-xs mt-2 text-center">Pembelian</span>
                                             </div>
                                         </a>
                                         <!-- Donasi -->
@@ -179,9 +179,11 @@ if (!isset($_SESSION['user_id'])) {
                         </div>
                     </div>
                 </div>
+                <?php include 'footer.php'; ?>
             </main>
         </div>
     </div>
+
 
 
     <script>
