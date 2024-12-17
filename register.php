@@ -11,7 +11,7 @@ if (!isset($_SESSION['selected_role'])) {
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $username = trim($_POST['username']);
     $email = trim($_POST['email']);
-    $phone = trim($_POST['phone']);
+    $phone_number = trim($_POST['phone_number']);
     $password = $_POST['password'];
     $confirmPassword = $_POST['confirmPassword'];
     $errors = [];
@@ -29,16 +29,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors[] = "Format email tidak valid";
     }
 
-    // Validasi nomor telepon
-    if (!preg_match("/^[0-9]{10,15}$/", $phone)) {
-        $errors[] = "Nomor telepon harus berupa angka dan 10-15 karakter";
-    }
-
     // Cek email sudah terdaftar
     $stmt = $pdo->prepare("SELECT id FROM users WHERE email = ?");
     $stmt->execute([$email]);
     if ($stmt->rowCount() > 0) {
         $errors[] = "Email sudah terdaftar";
+    }
+
+    // Validasi nomor telepon
+    if (!preg_match("/^[0-9]{10,15}$/", $phone_number)) {
+        $errors[] = "Nomor telepon harus berupa angka dan 10-15 karakter";
     }
 
     // Validasi password
@@ -52,46 +52,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Jika tidak ada error, proses pendaftaran
     if (empty($errors)) {
         try {
+            // Mulai transaksi
+            $pdo->beginTransaction();
+
             // Get role_id
             $stmt = $pdo->prepare("SELECT id FROM roles WHERE role_name = ?");
             $stmt->execute([$_SESSION['selected_role']]);
             $role = $stmt->fetch();
-            
+
             if (!$role) {
                 throw new Exception("Role tidak valid");
             }
-    
+
+            // Tentukan deskripsi berdasarkan role
+            $description = ($_SESSION['selected_role'] == 'Bisnis') ? 'Pengguna Bisnis' : 'Pengguna Individu';
+
             // Hash password
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-    
+
             // Insert data ke tabel `users`
-            $stmt = $pdo->prepare("INSERT INTO users (username, email, phone_number, password, role_id) VALUES (?, ?, ?, ?, ?)");
-            $stmt->execute([$username, $email, $phone, $hashedPassword, $role['id']]);
-    
-            // Ambil ID pengguna baru
-            $userId = $pdo->lastInsertId();
-    
-            // Insert data ke tabel `profiles`
-            $stmt = $pdo->prepare("INSERT INTO profiles (user_id, profile_picture, description) 
-                                   VALUES (?, ?, ?)");
-            $stmt->execute([$userId, 'assets/image/default_profile.jpg', 'Pengguna Individu']);
-    
-            // Hapus semua session yang ada
-            session_destroy();
-            session_start();
-    
-            // Set pesan sukses untuk halaman login
+            $stmt = $pdo->prepare("INSERT INTO users (username, email, phone_number, password, role_id, description) 
+                                    VALUES (?, ?, ?, ?, ?, ?)");
+            $stmt->execute([$username, $email, $phone_number, $hashedPassword, $role['id'], $description]);
+
+            $pdo->commit();
+
             $_SESSION['success'] = "Pendaftaran berhasil! Silakan login.";
-            
-            // Redirect ke login
             header('Location: login.php');
             exit();
-    
         } catch (Exception $e) {
-            $errors[] = "Terjadi kesalahan. Silakan coba lagi.";
+            $pdo->rollBack();
+            $errors[] = "Terjadi kesalahan: " . $e->getMessage();
         }
     }
-}   
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -100,17 +94,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>I-Trashy - Register</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['THICCCBOI'],
-                    },
-                },
-            },
-        };
-    </script>
 </head>
 <body class="min-h-screen bg-white">
     <div class="flex flex-col md:flex-row min-h-screen">
@@ -161,10 +144,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
                     </div>
                     <div>
-                    <label for="phone" class="text-gray-600">Nomor Telepon</label>
-                    <input type="text" id="phone" name="phone" placeholder="Masukkan Nomor Telepon" required
+                    <label for="phone_number" class="text-gray-600">Nomor Telepon</label>
+                    <input type="text" id="phone_number" name="phone_number" placeholder="Masukkan Nomor Telepon" required
                     class="w-full px-4 py-2 rounded-xl bg-[#f5f7fa] mt-2"
-                    value="<?php echo isset($_POST['phone']) ? htmlspecialchars($_POST['phone']) : ''; ?>">
+                    value="<?php echo isset($_POST['phone_number']) ? htmlspecialchars($_POST['phone_number']) : ''; ?>">
                     <span id="phone-warning" class="text-red-500 text-sm"></span>
                     </div>
 
@@ -188,28 +171,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                     <div class="flex items-center gap-2">
                         <input type="checkbox" id="terms" name="terms" class="rounded border-gray-300" required>
-                        <label for="terms" class="text-sm">
-                            Saya setuju untuk
-                            <a href="#" class="text-blue-600">Ketentuan Layanan</a>
-                            dan
-                            <a href="#" class="text-blue-600">Kebijakan Privasi</a>
-                        </label>
-                    </div>
-
-                    <div class="pt-8">
-                        <button type="submit" 
-                            class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
-                            Daftar
-                        </button>
+                        <label for="terms" class="text-gray-600 text-sm">Saya setuju dengan <a href="#" class="text-blue-500">Ketentuan Penggunaan</a></label>
                     </div>
 
                     <div class="text-center">
-                        <p class="text-gray-500 mt-4">Sudah punya akun? <a href="login.php" class="text-blue-600">Login</a></p>
+                        <button type="submit" class="w-full bg-[#1f6feb] text-white py-2 rounded-xl">Daftar</button>
+                    </div>
+
+                    <div class="text-center text-sm mt-4">
+                        <p>Sudah punya akun? <a href="login.php" class="text-[#1f6feb]">Masuk di sini</a></p>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
 
     <script>
         function togglePassword(inputId) {
@@ -218,24 +194,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         
-    document.addEventListener("DOMContentLoaded", () => {
-        const phoneInput = document.getElementById("phone");
-        const phoneWarning = document.getElementById("phone-warning");
+        document.addEventListener("DOMContentLoaded", () => {
+        const phone_numberInput = document.getElementById("phone_number");
+        const phone_numberWarning = document.getElementById("phone-warning");
 
-        phoneInput.addEventListener("input", () => {
-            const phoneValue = phoneInput.value;
+        phone_numberInput.addEventListener("input", () => {
+            const phone_numberValue = phone_numberInput.value;
 
             // Jika input bukan angka, hapus karakter terakhir dan tampilkan peringatan
-            if (!/^\d*$/.test(phoneValue)) {
-                phoneInput.value = phoneValue.slice(0, -1);
-                phoneWarning.textContent = "Nomor telepon hanya boleh berupa angka!";
+            if (!/^\d*$/.test(phone_numberValue)) {
+                phone_numberInput.value = phone_numberValue.slice(0, -1);
+                phone_numberWarning.textContent = "Nomor telepon hanya boleh berupa angka!";
             } else {
-                phoneWarning.textContent = ""; // Hapus peringatan jika input valid
+                phone_numberWarning.textContent = ""; // Hapus peringatan jika input valid
             }
         });
     });
-
-
 
     </script>
 </body>

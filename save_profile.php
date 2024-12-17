@@ -9,16 +9,20 @@ if (!isset($_SESSION['user_id'])) {
 
 // Ambil data dari request
 $user_id = $_SESSION['user_id'];
-$name = $_POST['nameInput'] ?? '';
+$username = $_POST['username'] ?? '';
 $email = $_POST['email'] ?? '';
-$phone = $_POST['phone'] ?? '';
-$description = $_POST['descriptionInput'] ?? '';
+$phone_number = $_POST['phone_number'] ?? '';
+$description = $_POST['description'] ?? '';
 $profile_picture = null;
 
 // Proses upload foto profil jika ada
 if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
-    $uploadDir = 'assets/uploads/';
-    $fileName = $user_id . '_' . basename($_FILES['profile_picture']['name']);
+    $uploadDir = 'assets/uploads/'; // Direktori penyimpanan
+    if (!is_dir($uploadDir)) {
+        mkdir($uploadDir, 0755, true); // Buat direktori jika belum ada
+    }
+
+    $fileName = $user_id . '_' . time() . '_' . basename($_FILES['profile_picture']['name']);
     $uploadFile = $uploadDir . $fileName;
 
     if (move_uploaded_file($_FILES['profile_picture']['tmp_name'], $uploadFile)) {
@@ -27,23 +31,24 @@ if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] ===
 }
 
 try {
-    // Update tabel `users` untuk nama dan email
-    $stmt = $pdo->prepare("UPDATE users SET username = :name, email = :email WHERE id = :user_id");
-    $stmt->execute([
-        ':name' => $name,
-        ':email' => $email,
-        ':user_id' => $user_id,
-    ]);
+    // Query dasar untuk update tabel `users`
+    $sql = "UPDATE users SET username = :username, email = :email, phone_number = :phone_number, description = :description";
 
-    // Update tabel `profiles` untuk nomor telepon, deskripsi, dan foto profil
-    $sql = "UPDATE profiles 
-            SET phone = :phone, description = :description" .
-            ($profile_picture ? ", profile_picture = :profile_picture" : "") . 
-            " WHERE user_id = :user_id";
+    // Jika ada foto profil yang diupload, tambahkan kolom `profile_picture` ke query
+    if ($profile_picture) {
+        $sql .= ", profile_picture = :profile_picture";
+    }
+
+    $sql .= " WHERE id = :user_id";
+
+    // Persiapkan query
     $stmt = $pdo->prepare($sql);
 
+    // Parameter untuk query
     $params = [
-        ':phone' => $phone,
+        ':username' => $username,
+        ':email' => $email,
+        ':phone_number' => $phone_number,
         ':description' => $description,
         ':user_id' => $user_id,
     ];
@@ -52,10 +57,11 @@ try {
         $params[':profile_picture'] = $profile_picture;
     }
 
+    // Eksekusi query
     $stmt->execute($params);
 
-    echo json_encode(['success' => true, 'message' => 'Profil berhasil diperbarui']);
+    echo json_encode(['success' => true, 'message' => 'Profil berhasil diperbarui!']);
 } catch (PDOException $e) {
-    echo json_encode(['success' => false, 'message' => 'Error: ' . $e->getMessage()]);
+    echo json_encode(['success' => false, 'message' => 'Terjadi kesalahan: ' . $e->getMessage()]);
 }
 ?>

@@ -115,7 +115,7 @@ if (!isset($_SESSION['user_id'])) {
                     </ul>
                 </div>
             </div>
-    
+    <!-- #region -->
             <!-- Paling Sering Dikumpulkan -->
             <div class="h-screen overflow-y-auto bg-gray-50">
                 <div class="container mx-auto p-6 space-y-8 pb-20">
