@@ -20,9 +20,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $user = $stmt->fetch();
 
             if ($user) {
-                // Jika email ditemukan, simpan ke session dan arahkan ke halaman ubah password
-                $_SESSION['reset_email'] = $user['email'];
-                header('Location: change-password.php');
+                // Buat token unik
+                $token = bin2hex(random_bytes(50));
+                $stmt = $pdo->prepare("INSERT INTO password_resets (email, token) VALUES (?, ?)");
+                $stmt->execute([$email, $token]);
+
+                // Simpan token di session
+                $_SESSION['reset_token'] = $token;
+                $_SESSION['reset_email'] = $email;
+
+                // Set pesan sukses
+                $_SESSION['success'] = "Email Terdaftar. Berikut Link untuk mengubah password Anda.";
+                header('Location: verify-email.php'); // Redirect untuk menampilkan notifikasi
                 exit();
             } else {
                 $errors[] = "Email tidak ditemukan dalam database";
@@ -51,6 +60,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 },
             },
         };
+
+        function showPopup() {
+            const popup = document.getElementById('popup');
+            popup.classList.remove('hidden');
+        }
+
+        function hidePopup() {
+            const popup = document.getElementById('popup');
+            popup.classList.add('hidden');
+        }
     </script>
 </head>
 <body class="min-h-screen bg-white">
@@ -84,31 +103,46 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
                 <?php endif; ?>
 
-                <div class="mb-8 text-center">
-                    <h1 class="text-2xl font-bold pb-2">Verifikasi Email</h1>
-                    <p class="text-gray-400">Masukkan email yang terdaftar untuk mengubah password</p>
+                <div class="mb-8 text-center ">
+                    <h2 class="text-2xl font-bold">Verifikasi Email</h2>
+                    <p class="text-gray-600">Masukkan email Anda untuk menerima link reset password.</p>
                 </div>
 
-                <form method="POST" class="space-y-4">
-                    <div>
-                        <label for="email" class="text-gray-600">Email</label>
-                        <input type="email" id="email" name="email" 
-                            placeholder="Masukkan Email" required
-                            class="w-full px-4 py-2 rounded-xl bg-[#f5f7fa] mt-2"
-                            value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
-                    </div>
-
-                    <div class="pt-8">
-                        <button type="submit" 
-                            class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
-                            Verifikasi
-                        </button>
-                    </div>
-
-                    <div class="text-center">
-                        <a href="login.php" class="text-blue-600">Kembali ke Login</a>
-                    </div>
+                <form action="verify-email.php" method="POST">
+                    <input type="email" name="email" placeholder="Email Anda" required class="border border-gray-300 rounded p-2 w-full mb-4">
+                    <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">Kirim</button>
                 </form>
+
+                <?php if (isset($_SESSION['success'])): ?>
+                    <div id="popup" class="fixed inset-0 flex items-center justify-center bg-gray-800 bg-opacity-50 hidden">
+                        <div class="bg-white rounded-lg shadow-lg p-8 max-w-md w-full text-center relative">
+                            <!-- Close Button -->
+                            <button onclick="hidePopup()" class="absolute top-3 right-3 text-gray-500 hover:text-gray-700">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+
+                            <!-- Title -->
+                            <h3 class="text-2xl font-bold text-gray-700 mb-4">Notifikasi</h3>
+                            
+                            <!-- Message -->
+                            <p class="text-gray-600 mb-6"><?php echo htmlspecialchars($_SESSION['success']); ?></p>
+                            
+                            <!-- Link -->
+                            <a href="change-password.php?token=<?php echo $_SESSION['reset_token']; ?>&email=<?php echo urlencode($_SESSION['reset_email']); ?>" 
+                            class="text-blue-600 font-medium underline hover:text-blue-800">
+                                Klik di sini untuk mengubah password
+                            </a>
+                            
+                        </div>
+                    </div>
+
+                    <script>
+                        showPopup();
+                        <?php unset($_SESSION['success']); ?>
+                    </script>
+                <?php endif; ?>
             </div>
         </div>
     </div>

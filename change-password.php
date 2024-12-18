@@ -2,13 +2,23 @@
 session_start();
 require_once 'config.php';
 
-// Cek apakah ada email yang akan direset passwordnya
-if (!isset($_SESSION['reset_email'])) {
+// Cek apakah ada token yang valid
+if (!isset($_GET['token'])) {
     header('Location: verify-email.php');
     exit();
 }
 
+$token = $_GET['token'];
 $errors = [];
+
+// Validasi token
+$stmt = $pdo->prepare("SELECT email FROM password_resets WHERE token = ?");
+$stmt->execute([$token]);
+$user = $stmt->fetch();
+
+if (!$user) {
+    $errors[] = "Token tidak valid atau telah kedaluwarsa.";
+}
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
@@ -28,15 +38,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Update password di database
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
             $stmt = $pdo->prepare("UPDATE users SET password = ? WHERE email = ?");
-            $stmt->execute([$hashedPassword, $_SESSION['reset_email']]);
+            $stmt->execute([$hashedPassword, $user['email']]);
 
-            // Hapus session reset email
-            unset($_SESSION['reset_email']);
+            // Hapus token dari database
+            $stmt = $pdo->prepare("DELETE FROM password_resets WHERE token = ?");
+            $stmt->execute([$token]);
 
             // Set pesan sukses
             $_SESSION['success'] = "Password berhasil diubah! Silakan login dengan password baru.";
-            
-            // Redirect ke halaman login
             header('Location: login.php');
             exit();
         } catch (Exception $e) {
