@@ -25,8 +25,6 @@ if (!isset($_SESSION['user_id'])) {
             </div>    
         </div>
     </div>
-    
-    
 
     <nav class="p-5 mt-5 space-y-8">
         <!-- Menu items... -->
@@ -36,7 +34,7 @@ if (!isset($_SESSION['user_id'])) {
         </a>
         <a href="jemputSampah.php" class="nav-link flex items-center space-x-4" data-title="Jemput Sampah">
             <img src="assets/icon/jemput.png" alt="Jemput Sampah Icon" class="w-6 h-6">
-            <span>Jemput Sampah</span>
+            <span>Setor Sampah</span>
         </a>
         <a href="tukarPoin.php" class="nav-link flex items-center space-x-4"  data-title="Tukar Poin">
             <img src="assets/icon/poin.png" alt="TrashPay Icon" class="w-5 h-5">

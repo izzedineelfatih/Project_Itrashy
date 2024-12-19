@@ -1,10 +1,20 @@
 <?php
 session_start();
+include 'config.php'; // Koneksi ke database
+
 // Cek apakah user sudah login
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
 }
+
+// Ambil data voucher dari database
+$stmtVoucher = $pdo->query("SELECT * FROM voucher");
+$vouchers = $stmtVoucher->fetchAll();
+
+// Ambil data sembako dari database
+$stmtSembako = $pdo->query("SELECT * FROM sembako");
+$sembakos = $stmtSembako->fetchAll();
 ?>
 
 <!DOCTYPE html>
@@ -88,215 +98,92 @@ if (!isset($_SESSION['user_id'])) {
                 <!-- Voucher dan Sembako -->
                 <div class="p-5 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-2 lg:gap-5">
                 <?php 
-                    $voucher = [
-                        [
-                            'image' => 'indomaret.png',
-                            'title' => 'Voucher potongan belanja Indomaret Rp 10.000',
-                            'description' => 'Tukarkan poinmu dengan voucher belanja di Indomaret daerah JABODETABEK',
-                            'points' => '12.000'
-                        ],
-                        [
-                            'image' => 'alfamart.png',
-                            'title' => 'Voucher belanja Alfamart Rp 10.000',
-                            'description' => 'Tukarkan poinmu dengan voucher belanja di Alfamart daerah JABODETABEK',
-                            'points' => '12.000'
-                        ],
-                        [
-                            'image' => 'ayam bakar.png',
-                            'title' => 'Voucher ayam bakar kalasan Rp 5.000',
-                            'description' => 'Makan murah dengan voucher potongan di ayam bakar kalasan',
-                            'points' => '5.000'
-                        ],
-                        [
-                            'image' => 'naspad.png',
-                            'title' => 'Voucher RM padang mahkota Rp 7.500',
-                            'description' => 'Makan murah dengan voucher potongan di RM padang mahkota',
-                            'points' => '35.000'
-                        ]
-                    ];
-
-                    $sembako = [
-                        [
-                            'image' => 'minyak goreng.png',
-                            'title' => 'Minyak Goreng 2 liter',
-                            'description' => 'Minyak goreng habis? jangan khawatir tukarkan poinmu dengan minyak goreng 2L',
-                            'points' => '35.000'
-                        ],
-                        [
-                            'image' => 'gula.png',
-                            'title' => 'Gula Pasir 1 Kilogram',
-                            'description' => 'Tukarkan poinmu dengan sembako gula pasir',
-                            'points' => '35.000'
-                        ],
-                        [
-                            'image' => 'telur.png',
-                            'title' => 'Telur 500gram',
-                            'description' => 'Penuhi kebutuhan protein hewani anda dengan telur berkualitas',
-                            'points' => '35.000'
-                        ],
-                        [
-                            'image' => 'beras.png',
-                            'title' => 'Beras 1 Kilogram',
-                            'description' => 'Beras habis? jangan khawatir tukarkan poinmu dengan beras sekarang juga',
-                            'points' => '35.000'
-                        ]
-                    ];
-
-                    foreach ($voucher as $voucher_item) {
-                        echo '<a href="#">';
+                    // Tampilkan data voucher
+                    foreach ($vouchers as $voucher) {
+                        echo '<a href="detail_voucher.php?id=' . $voucher['id'] . '">';
                         echo '<div class="bg-white rounded-lg shadow-md p-3 voucher-card">';
-                        echo '<img src="assets/image/' . $voucher_item['image'] . '" alt="Voucher Image" class="w-full h-32 md:h-40 object-cover rounded-lg">';
-                        echo '<h4 class="font-semibold mt-2">' . $voucher_item['title'] . '</h4>';
-                        echo '<p class="text-sm text-gray-500 mt-1">' . $voucher_item['description'] . '</p>';
+                        echo '<img src="assets/image/' . htmlspecialchars($voucher['image']) . '" alt="Voucher Image" class="w-full h-32 md:h-40 object-cover rounded-lg">';
+                        echo '<h4 class="font-semibold mt-2">' . htmlspecialchars($voucher['title']) . '</h4>';
+                        echo '<p class="text-sm text-gray-500 mt-1">' . htmlspecialchars($voucher['description']) . '</p>';
                         echo '<div class="flex justify-between items-center mt-2">';
                         echo '<div class="flex items-center gap-2">';
                         echo '<img src="assets/icon/poin logo.png" alt="poin" class="h-8 w-8">';
                         echo '<div class="hidden sm:block"><p>Trash Poin</p></div>';
                         echo '</div>';
-                        echo '<span class="text-blue-600 font-bold">' . $voucher_item['points'] . '</span>';
+                        echo '<span class="text-blue-600 font-bold">' . htmlspecialchars($voucher['points']) . ' Poin</span>';
                         echo '</div></div></a>';
                     }
 
-                    foreach ($sembako as $sembako_item) {
-                        echo '<a href="#">';
+                    // Tampilkan data sembako
+                    foreach ($sembakos as $sembako) {
+                        echo '<a href="detail_sembako.php?id=' . $sembako['id'] . '">';
                         echo '<div class="bg-white rounded-lg shadow-md p-3 sembako-card">';
-                        echo '<img src="assets/image/' . $sembako_item['image'] . '" alt="Sembako Image" class="w-full h-32 md:h-40 object-cover rounded-lg">';
-                        echo '<h4 class="font-semibold mt-2">' . $sembako_item['title'] . '</h4>';
-                        echo '<p class="text-sm text-gray-500 mt-1">' . $sembako_item['description'] . '</p>';
+                        echo '<img src="assets/image/' . htmlspecialchars($sembako['image']) . '" alt="Sembako Image" class="w-full h-32 md:h-40 object-cover rounded-lg">';
+                        echo '<h4 class="font-semibold mt-2">' . htmlspecialchars($sembako['title']) . '</h4>';
+                        echo '<p class="text-sm text-gray-500 mt-1">' . htmlspecialchars($sembako['description']) . '</p>';
                         echo '<div class="flex justify-between items-center mt-2">';
                         echo '<div class="flex items-center gap-2">';
                         echo '<img src="assets/icon/poin logo.png" alt="poin" class="h-8 w-8">';
                         echo '<div class="hidden sm:block"><p>Trash Poin</p></div>';
                         echo '</div>';
-                        echo '<span class="text-blue-600 font-bold">' . $sembako_item['points'] . '</span>';
+                        echo '<span class="text-blue-600 font-bold">' . htmlspecialchars($sembako['points']) . ' Poin</span>';
                         echo '</div></div></a>';
                     }
-                    ?>
+                ?>
                 </div>
                 <?php include 'footer.php'; ?>
         </div>
     </div>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            initializeMenu();
+        document.addEventListener('DOMContentLoaded', function () {
             initializeFilter();
         });
 
-        function initializeMenu() {
-            const menuToggle = document.getElementById('menuToggle');
-            const menuClose = document.getElementById('menuClose');
-            const menu = document.getElementById('menu');
-            const navLinks = document.querySelectorAll('.nav-link');
-            const pageTitle = document.getElementById('pageTitle');
-            
-            // Dapatkan nama halaman dari URL saat ini
-            const currentPage = window.location.pathname.split('/').pop().replace('.php', '');
-
-            // Mobile menu toggles
-            if (menuToggle && menuClose && menu) {
-                menuToggle.addEventListener('click', () => menu.classList.remove('-translate-x-full'));
-                menuClose.addEventListener('click', () => menu.classList.add('-translate-x-full'));
-            }
-
-            // Set active menu item dan update page title
-            navLinks.forEach(link => {
-                const href = link.getAttribute('href').replace('.php', '');
-                const menuText = link.querySelector('span').textContent;
-                
-                if (href.includes(currentPage)) {
-                    link.classList.add('active');
-                    // Update page title sesuai menu yang aktif
-                    if (pageTitle) {
-                        if (currentPage === 'dashboard') {
-                            pageTitle.textContent = `Halo, ${pageTitle.dataset.username}👋`;
-                        } else {
-                            pageTitle.textContent = menuText;
-                        }
-                    }
-                }
-            });
-        }
-
-        // Fungsi untuk filter tampilan (Voucher, Sembako)
         function initializeFilter() {
             const voucherBtn = document.getElementById("voucher-btn");
             const sembakoBtn = document.getElementById("sembako-btn");
 
-            const grid = document.querySelector(".grid");
             const voucherCards = document.querySelectorAll(".voucher-card");
             const sembakoCards = document.querySelectorAll(".sembako-card");
 
-            // Fungsi untuk mengatur ulang grid layout
-            function adjustGridLayout() {
-                // Hapus semua placeholder yang ada
-                const existingPlaceholders = grid.querySelectorAll('.placeholder');
-                existingPlaceholders.forEach(placeholder => placeholder.remove());
-
-                // Dapatkan jumlah card yang sedang ditampilkan
-                const visibleCards = Array.from(grid.querySelectorAll('a')).filter(
-                    card => window.getComputedStyle(card).display !== 'none'
-                );
-
-                // Tambahkan placeholder jika jumlah card kurang dari 4
-                const placeholderCount = Math.max(0, 4 - visibleCards.length);
-                for (let i = 0; i < placeholderCount; i++) {
-                    const placeholderDiv = document.createElement('div');
-                    placeholderDiv.className = 'placeholder bg-transparent';
-                    grid.appendChild(placeholderDiv);
-                }
-            }
-
-            // Fungsi untuk menampilkan hanya voucher cards
             function showVoucher() {
-                voucherCards.forEach(card => {
-                    card.closest('a').style.display = "block";
-                });
-                sembakoCards.forEach(card => {
-                    card.closest('a').style.display = "none";
-                });
-                adjustGridLayout();
+                // Tampilkan hanya kartu voucher
+                voucherCards.forEach(card => card.closest('a').style.display = "block");
+                sembakoCards.forEach(card => card.closest('a').style.display = "none");
+
+                // Perbarui status tombol aktif
+                updateActiveButton(voucherBtn);
             }
 
-            // Fungsi untuk menampilkan hanya sembako cards
             function showSembako() {
-                voucherCards.forEach(card => {
-                    card.closest('a').style.display = "none";
-                });
-                sembakoCards.forEach(card => {
-                    card.closest('a').style.display = "block";
-                });
-                adjustGridLayout();
+                // Tampilkan hanya kartu sembako
+                voucherCards.forEach(card => card.closest('a').style.display = "none");
+                sembakoCards.forEach(card => card.closest('a').style.display = "block");
+
+                // Perbarui status tombol aktif
+                updateActiveButton(sembakoBtn);
             }
 
-            // Fungsi untuk memperbarui status aktif pada tombol
             function updateActiveButton(activeBtn) {
                 // Reset semua tombol ke kondisi default
                 const buttons = [voucherBtn, sembakoBtn];
                 buttons.forEach(btn => {
-                    btn.classList.remove("bg-blue-600", "text-white");
-                    btn.classList.add("bg-gray-200", "text-gray-700");
+                    btn.classList.remove("bg-blue-600", "text-white"); // Hapus gaya aktif
+                    btn.classList.add("bg-gray-200", "text-gray-700"); // Tambahkan gaya default
                 });
 
-                // Menambahkan kelas aktif ke tombol yang dipilih
+                // Tambahkan kelas aktif ke tombol yang dipilih
                 activeBtn.classList.remove("bg-gray-200", "text-gray-700");
                 activeBtn.classList.add("bg-blue-600", "text-white");
             }
 
-            // Event listeners untuk tombol
-            voucherBtn.addEventListener("click", () => {
-                showVoucher();
-                updateActiveButton(voucherBtn);
-            });
+            // Tambahkan event listener ke tombol
+            voucherBtn.addEventListener("click", () => showVoucher());
+            sembakoBtn.addEventListener("click", () => showSembako());
 
-            sembakoBtn.addEventListener("click", () => {
-                showSembako();
-                updateActiveButton(sembakoBtn);
-            });
-
-            // Tampilkan sembako secara default dan atur layout
+            // Tampilkan sembako secara default
             showSembako();
-            updateActiveButton(sembakoBtn);
         }
     </script>
 </body>

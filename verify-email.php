@@ -102,15 +102,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>
-
+                
                 <div class="mb-8 text-center ">
-                    <h2 class="text-2xl font-bold">Verifikasi Email</h2>
-                    <p class="text-gray-600">Masukkan email Anda untuk menerima link reset password.</p>
+                    <h2 class="text-2xl font-bold pb-2">Verifikasi Email</h2>
+                    <p class="text-gray-400">Masukkan email Anda untuk menerima link reset password.</p>
                 </div>
 
                 <form action="verify-email.php" method="POST">
-                    <input type="email" name="email" placeholder="Email Anda" required class="border border-gray-300 rounded p-2 w-full mb-4">
-                    <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">Kirim</button>
+                    <label for="email" class="text-gray-600">Email</label>
+                    <input type="email" name="email" placeholder="Masukkan Email" required class="w-full px-4 py-2 rounded-xl bg-[#f5f7fa] mt-2">
+                    <button type="submit" class="w-full bg-blue-600 text-white py-3 mt-8 rounded-lg hover:bg-blue-700 transition-colors">Kirim</button>
                 </form>
 
                 <?php if (isset($_SESSION['success'])): ?>

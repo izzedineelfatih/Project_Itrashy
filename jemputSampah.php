@@ -119,8 +119,8 @@ $jenis_sampah = $stmt->fetchAll();
                                     </div>
                                 </div>
 
-                                <div class="p-4 border-t bg-white">
-                                    <button id="saveOrderButton" class="w-full bg-blue-500 text-white py-3 rounded-lg text-sm font-medium hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">Cari Picker</button>
+                                <div class="p-4">
+                                    <button id="saveOrderButton" class="w-full bg-blue-500 text-white py-2.5 rounded-full hover:bg-blue-600 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500">Cari Picker</button>
                                 </div>
                             </div>
                         </div>

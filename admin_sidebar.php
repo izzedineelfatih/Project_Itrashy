@@ -67,12 +67,12 @@
                         </a>
                     </li>
                     <li>
-                        <a href=".php" class="block p-2 text-gray-700 hover:bg-blue-50 rounded-lg">
+                        <a href="katalog_sembako.php" class="block p-2 text-gray-700 hover:bg-blue-50 rounded-lg">
                             Katalog Sembako
                         </a>
                     </li>
                     <li>
-                        <a href=".php" class="block p-2 text-gray-700 hover:bg-blue-50 rounded-lg">
+                        <a href="katalog_voucher.php" class="block p-2 text-gray-700 hover:bg-blue-50 rounded-lg">
                             Katalog Voucher
                         </a>
                     </li>
