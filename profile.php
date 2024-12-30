@@ -22,7 +22,8 @@ try {
 
 // Ambil data pengguna berdasarkan ID sesi
 $user_id = $_SESSION['user_id'];
-$query = "SELECT username, email, phone_number, profile_picture, description FROM users WHERE id = :id";
+$query = "SELECT username, email, phone_number, profile_picture, description,address FROM users WHERE id = :id";
+
 
 $stmt = $pdo->prepare($query);
 $stmt->bindParam(':id', $user_id, PDO::PARAM_INT);
@@ -83,12 +84,16 @@ if (!$profile) {
                 <div class="w-full max-w-4xl p-6 md:p-8 flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-4 bg-white rounded-lg">
                     <!-- Profile Picture -->
                     <div class="relative flex-shrink-0">
-    <img id="profilePic" src="<?php echo htmlspecialchars($profile['profile_picture'] ?? 'assets/image/default_profile.jpg'); ?>" 
-         alt="Profile Picture" class="w-24 h-24 md:w-28 md:h-28 rounded-full">
-    <div id="cameraIcon" class="absolute bottom-0 right-0 bg-black p-2 rounded-full cursor-pointer">
-        <i class="fas fa-camera text-white"></i>
-    </div>
+    <img id="profilePic" src="<?php echo htmlspecialchars($profile['profile_picture'] ?? 'assets/icon/user.png'); ?>" 
+         alt="Profile Picture" class="w-24 h-24 md:w-28 md:h-28 rounded-full cursor-pointer">
+    
+    <!-- Ikon Kamera, hanya ditampilkan ketika gambar profil diklik -->
+    <img src="assets/icon/camera.png" class="absolute bottom-0 right-0 h-5 cursor-pointer hidden" id="cameraIcon" alt="Camera Icon">
+    
+    <!-- Input untuk memilih gambar baru -->
+    <input type="file" id="fileInput" class="hidden" accept="image/*">
 </div>
+
                 
                     <!-- Profile Text -->
                     <div class="flex-1 flex flex-col justify-center">
@@ -138,21 +143,249 @@ if (!$profile) {
                                 value="<?php echo htmlspecialchars($profile['phone_number']); ?>" readonly>
                             </div>
                         </div>
-                        <button id="saveButton" class="w-full mt-6 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-sm hover:bg-blue-600 hidden">
-                            Simpan
-                        </button>
+                   
+                    </div>
+                </div>
+                <div class="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6 md:p-8">
+                <div class="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6 md:p-8">
+    <!-- Form Header -->
+    <h2 class="text-xl font-bold mb-6">Alamat</h2>
+
+    <!-- Form Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Kolom Kiri -->
+        <div class="space-y-4">
+            <!-- Pilihan Kota -->
+            <div class="flex items-center">
+                <label for="city" class="w-1/3 text-gray-700 font-medium">Kota:</label>
+                <select class="w-2/3 p-2 border rounded-lg cursor-pointer" id="city" required>
+                    <option value="">Pilih Kota/Kabupaten</option>
+                    <option value="Bandung" <?php echo isset($addressData['city']) && $addressData['city'] == 'Bandung' ? 'selected' : ''; ?>>Kota Bandung</option>
+                    <option value="Bandung Kabupaten" <?php echo isset($addressData['city']) && $addressData['city'] == 'Bandung Kabupaten' ? 'selected' : ''; ?>>Kabupaten Bandung</option>
+                    <option value="Bandung Barat Kabupaten" <?php echo isset($addressData['city']) && $addressData['city'] == 'Bandung Barat Kabupaten' ? 'selected' : ''; ?>>Kabupaten Bandung Barat</option>
+                </select>
+            </div>
+
+            <!-- Pilihan Kecamatan -->
+            <div class="flex items-center">
+                <label for="district" class="w-1/3 text-gray-700 font-medium">Kecamatan:</label>
+                <select class="w-2/3 p-2 border rounded-lg" id="district" required disabled>
+                    <option value="">Pilih Kecamatan</option>
+                </select>
+            </div>
+
+            <!-- Pilihan Desa -->
+            <div class="flex items-center">
+                <label for="village" class="w-1/3 text-gray-700 font-medium">Desa:</label>
+                <select class="w-2/3 p-2 border rounded-lg" id="village" required disabled>
+                    <option value="">Pilih Desa</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Kolom Kanan -->
+        <div class="space-y-4">
+            <!-- Alamat Jalan -->
+            <div class="flex items-center">
+                <label for="address" class="w-1/3 text-gray-700 font-medium">Alamat Jalan:</label>
+                <input type="text" id="address" class="w-2/3 p-2 border rounded-lg" placeholder="Masukkan nama jalan" value="<?php echo htmlspecialchars($addressData['address'] ?? ''); ?>" required>
+            </div>
+        </div>
+
+        <!-- Alamat Lengkap -->
+        <div>
+            <label class="block text-sm font-medium text-gray-700">Alamat Lengkap:</label>
+            <p class="mt-1 p-2 w-full border rounded-lg bg-gray-50 text-gray-900">
+                <?php echo htmlspecialchars($addressData['full_address'] ?? 'Alamat belum tersedia'); ?>
+            </p>
+        </div>
+    </div>
+
+    <!-- Tombol -->
+   
+        <button id="saveButton" class="w-full mt-6 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-sm hover:bg-blue-600 hidden">
+            Simpan
+        </button>
+    
+</div>
+
+                       
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <script>
+// Data Kecamatan dan Desa
+
+const regionData = {
+    "Bandung": {
+        "Cidadap": ["Desa Cidadap 1", "Desa Cidadap 2"],
+        "Cibeunying": ["Desa Cibeunying 1", "Desa Cibeunying 2"],
+        "Sumur Bandung": ["Desa Sumur Bandung 1", "Desa Sumur Bandung 2"]
+    },
+    "Bandung Kabupaten": {
+        "Cicalengka": ["Desa Cicalengka 1", "Desa Cicalengka 2"],
+        "Majalaya": ["Desa Majalaya 1", "Desa Majalaya 2"],
+        "Soreang": ["Desa Soreang 1", "Desa Soreang 2"],
+        "Bojongsoang": ["Desa Bojongsoang", "Desa Lengkong", "Desa Tegalluar"]
+    },
+    "Bandung Barat Kabupaten": {
+        "Ngamprah": ["Desa Ngamprah 1", "Desa Ngamprah 2"],
+        "Cimahi Selatan": ["Desa Cimahi Selatan 1", "Desa Cimahi Selatan 2"],
+        "Padalarang": ["Desa Padalarang 1", "Desa Padalarang 2"]
+    }
+};
+
+
+
+// Update dropdown Kecamatan berdasarkan Kota yang dipilih
+document.getElementById('city').addEventListener('change', function () {
+    const city = this.value;
+    const districtSelect = document.getElementById('district');
+    const villageSelect = document.getElementById('village');
+
+    // Kosongkan dropdown
+    districtSelect.innerHTML = '<option value="">Pilih Kecamatan</option>';
+    villageSelect.innerHTML = '<option value="">Pilih Desa</option>';
+    villageSelect.disabled = true;
+
+    if (city && regionData[city]) {
+        Object.keys(regionData[city]).forEach(district => {
+            const option = document.createElement('option');
+            option.value = district;
+            option.textContent = district;
+            districtSelect.appendChild(option);
+        });
+        districtSelect.disabled = false;
+    } else {
+        districtSelect.disabled = true;
+    }
+});
+
+// Update dropdown Desa berdasarkan Kecamatan yang dipilih
+document.getElementById('district').addEventListener('change', function () {
+    const city = document.getElementById('city').value;
+    const district = this.value;
+    const villageSelect = document.getElementById('village');
+
+    // Kosongkan dropdown Desa
+    villageSelect.innerHTML = '<option value="">Pilih Desa</option>';
+
+    if (district && regionData[city][district]) {
+        regionData[city][district].forEach(village => {
+            const option = document.createElement('option');
+            option.value = village;
+            option.textContent = village;
+            villageSelect.appendChild(option);
+        });
+        villageSelect.disabled = false;
+    } else {
+        villageSelect.disabled = true;
+    }
+});
+document.addEventListener("DOMContentLoaded", function () {
+    // Load data alamat dari server
+    function loadAddress() {
+        fetch("view_address.php")
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    const address = data.address;
+
+                    // Isi form dengan data yang diterima
+                    document.getElementById("city").value = address.city;
+                    document.getElementById("district").value = address.district;
+                    document.getElementById("village").value = address.village;
+                    document.getElementById("address").value = address.address;
+                } else {
+                    console.error("Gagal memuat alamat:", data.message);
+                }
+            })
+            .catch(error => console.error("Terjadi kesalahan:", error));
+    }
+
+    // Simpan data alamat ke server
+    document.getElementById("saveButton").addEventListener("click", function () {
+        const city = document.getElementById("city").value;
+        const district = document.getElementById("district").value;
+        const village = document.getElementById("village").value;
+        const address = document.getElementById("address").value;
+
+        if (!city || !district || !village || !address) {
+            alert("Semua kolom alamat wajib diisi!");
+            return;
+        }
+ // Kirim data ke server menggunakan Fetch API
+ fetch("process_address.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ city, district, village, address })
+    })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert("Alamat berhasil disimpan!");
+                location.reload(); // Reload halaman untuk memperbarui "Alamat Lengkap"
+            } else {
+                alert("Gagal menyimpan alamat: " + data.message);
+            }
+        })
+        .catch(error => {
+            console.error("Terjadi kesalahan:", error);
+        });
+});
+    // Panggil fungsi untuk load data alamat
+    loadAddress();
+});
+
+
+
+    // Mengaktifkan input file ketika ikon kamera diklik
+    document.getElementById('cameraIcon').addEventListener('click', function() {
+        document.getElementById('fileInput').click(); // Memicu file input untuk memilih gambar
+    });
+
+    // Menangani proses upload gambar saat pengguna memilih file
+    document.getElementById('fileInput').addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+            // Membaca gambar dan menampilkannya di profil
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('profilePic').src = e.target.result; // Menampilkan gambar baru
+            };
+            reader.readAsDataURL(file);
+
+            // Kirim gambar ke server untuk disimpan (menggunakan AJAX atau form submission)
+            const formData = new FormData();
+            formData.append('profile_picture', file);
+
+            fetch('upload_profile.php', { // Menggunakan file PHP yang telah dibuat sebelumnya
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Foto profil berhasil diupdate');
+                } else {
+                    alert('Gagal mengupdate foto profil');
+                }
+            })
+            .catch(error => {
+                console.error('Terjadi kesalahan:', error);
+            });
+        }
+    });
+    
         document.addEventListener("DOMContentLoaded", function () {
             const editButton = document.getElementById("editButton");
             const saveButton = document.getElementById("saveButton");
             const inputs = document.querySelectorAll("input");
-            const cameraIcon = document.getElementById("cameraIcon");
-            const nameIcon = document.getElementById("nameIcon");
+          
 
             // Fungsi untuk mengaktifkan mode edit
             editButton.addEventListener("click", function () {
@@ -179,23 +412,10 @@ if (!$profile) {
                 alert("Perubahan berhasil disimpan!");
             });
 
-            // Mengganti foto profil
-            cameraIcon.addEventListener("click", function() {
-                const fileInput = document.createElement("input");
-                fileInput.type = "file";
-                fileInput.accept = "image/*";
-                fileInput.onchange = function() {
-                    const file = fileInput.files[0];
-                    if (file) {
-                        const reader = new FileReader();
-                        reader.onload = function(e) {
-                            document.getElementById("profilePic").src = e.target.result;
-                        };
-                        reader.readAsDataURL(file);
-                    }
-                };
-                fileInput.click();
-            });
+             const profilePicInput = document.getElementById("profile_picture");
+        if (profilePicInput && profilePicInput.files[0]) {
+            formData.append("profile_picture", profilePicInput.files[0]);
+        }
         });
         document.addEventListener("DOMContentLoaded", function () {
     const editButton = document.getElementById("editButton");
