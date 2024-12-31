@@ -111,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
 
                     <div class="text-center">
-                        <p class="text-gray-500 mt-4">Belum punya akun? <a href="admin_register.php" class="text-blue-600">Login</a></p>
+                        <p class="text-gray-500 mt-4">Belum punya akun? <a href="admin_register.php" class="text-blue-600">Daftar</a></p>
                     </div>
                 </form>
             </div>

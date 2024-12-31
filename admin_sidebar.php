@@ -1,3 +1,7 @@
+<head>
+    <script src="https://unpkg.com/feather-icons"></script>
+</head>
+
 <!-- Sidebar -->
 <div class="w-64 bg-white shadow-md min-h-screen p-5">
     <div class="flex items-center mb-10">
@@ -67,12 +71,12 @@
                         </a>
                     </li>
                     <li>
-                        <a href=".php" class="block p-2 text-gray-700 hover:bg-blue-50 rounded-lg">
+                        <a href="katalog_sembako.php" class="block p-2 text-gray-700 hover:bg-blue-50 rounded-lg">
                             Katalog Sembako
                         </a>
                     </li>
                     <li>
-                        <a href=".php" class="block p-2 text-gray-700 hover:bg-blue-50 rounded-lg">
+                        <a href="katalog_voucher.php" class="block p-2 text-gray-700 hover:bg-blue-50 rounded-lg">
                             Katalog Voucher
                         </a>
                     </li>
@@ -107,3 +111,10 @@
         </ul>
     </nav>
 </div>
+
+<!-- Alpine.js untuk dropdown -->
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+
+<script>
+    feather.replace();
+</script>

@@ -15,7 +15,6 @@ if (!isset($_SESSION['admin_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>I-Trashy - Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/feather-icons"></script>
 </head>
 <body class="flex bg-gray-100">
     <?php include 'admin_sidebar.php'; ?>
@@ -47,11 +46,6 @@ if (!isset($_SESSION['admin_id'])) {
         </div>
     </div>
 
-    <!-- Alpine.js untuk dropdown -->
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     
-    <script>
-        feather.replace();
-    </script>
 </body>
 </html>
