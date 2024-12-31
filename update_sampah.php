@@ -18,6 +18,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute([$name, $price, $id]);
     }
 
-    header("Location: katalog_sampah.php");
+    header("Location: katalog_donasi.php");
 }
 ?>
