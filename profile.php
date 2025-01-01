@@ -114,6 +114,9 @@ if (!$profile) {
                             <span>Edit</span>
                             <img src="assets/icon/edit.png" alt="edit" class="w-5 opacity-65">
                         </button>
+                        <button id="cancelButton" class="flex items-center space-x-2 px-4 py-2 bg-red-500 text-white font-semibold rounded-full shadow-sm border border-gray-300 hover:bg-red-600 hidden">
+                        <span>Batal</span>
+                        <img src="assets/icon/forbidden.png" alt="cancel" class="w-4 opacity-85">
                         <a href="logout.php">
                             <button class="flex items-center space-x-2 px-4 py-2 bg-white text-red-600 font-semibold rounded-lg shadow-sm hover:bg-red-100">
                                 <i class="fas fa-right-from-bracket text-red-600"></i>
@@ -146,7 +149,7 @@ if (!$profile) {
                    
                     </div>
                 </div>
-                <div class="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6 md:p-8">
+                
                 <div class="w-full max-w-4xl bg-white rounded-lg shadow-lg p-6 md:p-8">
     <!-- Form Header -->
     <h2 class="text-xl font-bold mb-6">Alamat</h2>
@@ -159,7 +162,7 @@ if (!$profile) {
             <div class="flex items-center">
                 <label for="city" class="w-1/3 text-gray-700 font-medium">Kota:</label>
                 <select class="w-2/3 p-2 border rounded-lg cursor-pointer" id="city" required>
-                    <option value="">Pilih Kota/Kabupaten</option>
+                    <option value="" >Pilih Kota/Kabupaten</option>
                     <option value="Bandung" <?php echo isset($addressData['city']) && $addressData['city'] == 'Bandung' ? 'selected' : ''; ?>>Kota Bandung</option>
                     <option value="Bandung Kabupaten" <?php echo isset($addressData['city']) && $addressData['city'] == 'Bandung Kabupaten' ? 'selected' : ''; ?>>Kabupaten Bandung</option>
                     <option value="Bandung Barat Kabupaten" <?php echo isset($addressData['city']) && $addressData['city'] == 'Bandung Barat Kabupaten' ? 'selected' : ''; ?>>Kabupaten Bandung Barat</option>
@@ -188,30 +191,31 @@ if (!$profile) {
             <!-- Alamat Jalan -->
             <div class="flex items-center">
                 <label for="address" class="w-1/3 text-gray-700 font-medium">Alamat Jalan:</label>
-                <input type="text" id="address" class="w-2/3 p-2 border rounded-lg" placeholder="Masukkan nama jalan" value="<?php echo htmlspecialchars($addressData['address'] ?? ''); ?>" required>
+                <input type="text" id="address" class="w-2/3 p-2 border rounded-lg" placeholder="Masukkan nama jalan"  required>
             </div>
         </div>
 
         <!-- Alamat Lengkap -->
         <div>
-            <label class="block text-sm font-medium text-gray-700">Alamat Lengkap:</label>
-            <p class="mt-1 p-2 w-full border rounded-lg bg-gray-50 text-gray-900">
-                <?php echo htmlspecialchars($addressData['full_address'] ?? 'Alamat belum tersedia'); ?>
-            </p>
-        </div>
+        <label class="block text-sm font-medium text-gray-700">Alamat Lengkap:</label>
+    <p id="fullAddress" class="mt-1 p-2 w-full border rounded-lg bg-gray-50 text-gray-900">
+        Alamat belum tersedia.
+    </p>
+
+
     </div>
 
     <!-- Tombol -->
-   
-        <button id="saveButton" class="w-full mt-6 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-sm hover:bg-blue-600 hidden">
+      
+    
+</div>
+<button id="saveButton" class="w-full mt-6 px-4 py-2 bg-blue-500 text-white font-semibold rounded-lg shadow-sm hover:bg-blue-600 hidden">
             Simpan
         </button>
     
-</div>
-
                        
                     </div>
-                </div>
+                </>
             </div>
         </div>
     </div>
@@ -228,7 +232,7 @@ const regionData = {
         "Cicalengka": ["Desa Cicalengka 1", "Desa Cicalengka 2"],
         "Majalaya": ["Desa Majalaya 1", "Desa Majalaya 2"],
         "Soreang": ["Desa Soreang 1", "Desa Soreang 2"],
-        "Bojongsoang": ["Desa Bojongsoang", "Desa Lengkong", "Desa Tegalluar"]
+        "Kecamatan Bojongsoang": ["Desa Bojongsoang", "Desa Lengkong", "Desa Tegalluar"]
     },
     "Bandung Barat Kabupaten": {
         "Ngamprah": ["Desa Ngamprah 1", "Desa Ngamprah 2"],
@@ -298,6 +302,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     document.getElementById("district").value = address.district;
                     document.getElementById("village").value = address.village;
                     document.getElementById("address").value = address.address;
+                    document.getElementById("fullAddress").textContent = address.full_address || "Alamat belum tersedia.";
                 } else {
                     console.error("Gagal memuat alamat:", data.message);
                 }
@@ -384,8 +389,21 @@ document.addEventListener("DOMContentLoaded", function () {
         document.addEventListener("DOMContentLoaded", function () {
             const editButton = document.getElementById("editButton");
             const saveButton = document.getElementById("saveButton");
+            const cancelButton = document.getElementById("cancelButton");
             const inputs = document.querySelectorAll("input");
-          
+            
+            
+                // Fungsi untuk membatalkan edit
+      cancelButton.addEventListener("click", function () {
+        inputs.forEach(input => {
+          input.setAttribute("readonly", "true");
+          input.classList.remove("border-blue-500");
+        });
+        editButton.classList.remove("hidden");
+        saveButton.classList.add("hidden");
+        cancelButton.classList.add("hidden");
+        cameraIcon.classList.add("hidden");
+      });
 
             // Fungsi untuk mengaktifkan mode edit
             editButton.addEventListener("click", function () {
@@ -395,6 +413,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 });
                 editButton.classList.add("hidden");
                 saveButton.classList.remove("hidden");
+                cancelButton.classList.remove("hidden");
                 cameraIcon.classList.remove("hidden");
                 nameIcon.classList.remove("hidden");
             });

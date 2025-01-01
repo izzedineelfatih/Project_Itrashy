@@ -2,30 +2,34 @@
 session_start();
 require 'config.php';
 
-// Debugging
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+header('Content-Type: application/json');
 
-// Periksa apakah user login
+// Pastikan pengguna sudah login
 if (!isset($_SESSION['user_id'])) {
-    die("User tidak login.");
+    echo json_encode(['success' => false, 'message' => 'Anda harus login.']);
+    exit();
 }
 
 $user_id = $_SESSION['user_id'];
 
 try {
-    // Ambil data full_address dari tabel users
-    $stmt = $pdo->prepare("SELECT full_address FROM users WHERE id = :user_id");
-    $stmt->execute([':user_id' => $user_id]);
-    $addressData = $stmt->fetch(PDO::FETCH_ASSOC);
+    // Query untuk mengambil data alamat lengkap
+    $query = "SELECT city, district, village, address FROM users WHERE id = :user_id";
+    $stmt = $pdo->prepare($query);
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+    $address = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Jika data tidak ditemukan
-    if (!$addressData || empty($addressData['full_address'])) {
-        $addressData = [
-            'full_address' => 'Alamat belum tersedia.'
-        ];
+    if ($address) {
+        // Buat alamat lengkap untuk ditampilkan
+        $full_address = implode(', ', array_filter([$address['address'], $address['village'], $address['district'], $address['city']]));
+        $address['full_address'] = $full_address;
+
+        echo json_encode(['success' => true, 'address' => $address]);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Alamat tidak ditemukan.']);
     }
 } catch (PDOException $e) {
-    die("Gagal mengambil data: " . $e->getMessage());
+    echo json_encode(['success' => false, 'message' => 'Gagal memuat alamat.']);
 }
 ?>
