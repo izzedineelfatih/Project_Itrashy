@@ -12,6 +12,7 @@ if (!isset($_SESSION['user_id'])) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>I-Trashy Artikel</title>
+  <meta name="page-title" content="Artikel Edukasi">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
         tailwind.config = {

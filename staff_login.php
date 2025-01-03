@@ -19,20 +19,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Jika tidak ada error, lakukan proses login
     if (empty($errors)) {
         try {
-            // Cari admin berdasarkan email
-            $stmt = $pdo->prepare("SELECT * FROM admin WHERE email = ?");
+            // Cari staff berdasarkan email
+            $stmt = $pdo->prepare("SELECT * FROM staff WHERE email = ?");
             $stmt->execute([$email]);
-            $admin = $stmt->fetch();
+            $staff = $stmt->fetch();
 
             // Verifikasi password
-            if ($admin && password_verify($password, $admin['password'])) {
-                // Login berhasil 
+            if ($staff && password_verify($password, $staff['password'])) {
+                // Login berhasil
                 session_start();
-                $_SESSION['admin_id'] = $admin['id'];
-                $_SESSION['admin_username'] = $admin['username'];
+                $_SESSION['staff_id'] = $staff['id'];
+                $_SESSION['staff_email'] = $staff['email'];
+                $_SESSION['staff_username'] = $staff['username']; // Menyimpan username
+                $_SESSION['staff_role'] = $staff['role']; // Menyimpan peran (admin/driver)
 
-                // Redirect ke halaman dashboard admin
-                header("Location: admin_dashboard.php");
+                // Redirect berdasarkan peran (admin atau driver)
+                if ($staff['role'] === 'admin') {
+                    header("Location: admin_dashboard.php");
+                } else {
+                    header("Location: driver_dashboard.php");
+                }
                 exit();
             } else {
                 $errors[] = "Email atau password salah";
@@ -49,14 +55,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I-Trashy - Admin Login</title>
+    <title>I-Trashy - Staff Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="min-h-screen bg-white">
     <div class="flex flex-col md:flex-row min-h-screen">
         <div class="relative w-full md:w-1/2">
             <div class="relative w-full h-64 md:h-full p-4">
-                <a href="admin_register.php" class="absolute top-8 left-10 h-4 lg:top-12 lg:left-14">
+                <a href="staff_register.php" class="absolute top-8 left-10 h-4 lg:top-12 lg:left-14">
                     <img src="assets/icon/back icon.png" alt="Back" class="w-6 h-6">
                 </a>
                 <img src="assets/image/orang buang sampah.jpg" alt="Background" class="w-full h-full object-cover rounded-xl">
@@ -65,8 +71,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="flex items-center mb-2">
                         <img src="assets/image/Logo Itrashy.png" alt="I-Trashy Logo" class="w-8 lg:w-12">
                     </div>
-                    <h1 class="md:text-2xl font-bold text-white/80 mb-2">I-Trashy Admin.</h1>
-                    <p class="text-sm text-white/80 pr-20 lg:pr-0">Panel Administrasi I-Trashy</p>
+                    <h1 class="md:text-2xl font-bold text-white/80 mb-2">I-Trashy Staff.</h1>
+                    <p class="text-sm text-white/80 pr-20 lg:pr-0">Panel Login Staff</p>
                 </div>
             </div>
         </div>
@@ -82,47 +88,37 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <?php endif; ?>
 
                 <div class="mb-8 text-center">
-                    <h1 class="text-2xl font-bold pb-2">Admin Login</h1>
-                    <p class="text-gray-400">Masuk ke panel administrasi I-Trashy</p>
+                    <h1 class="text-2xl font-bold pb-2">Staff Login</h1>
+                    <p class="text-gray-400">Masuk ke panel I-Trashy</p>
                 </div>
 
                 <form method="POST" class="space-y-4">
                     <div>
-                        <label for="email" class="text-gray-600">Email Admin</label>
-                        <input type="email" id="email" name="email" placeholder="Masukkan Email Admin" required
+                        <label for="email" class="text-gray-600">Email Staff</label>
+                        <input type="email" id="email" name="email" placeholder="Masukkan Email" required
                             class="w-full px-4 py-2 rounded-xl bg-[#f5f7fa] mt-2"
                             value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>">
                     </div>
 
                     <div class="relative">
-                        <label for="password" class="text-gray-600">Password Admin</label>
-                        <input type="password" id="password" name="password" placeholder="Masukkan Password Admin" required
+                        <label for="password" class="text-gray-600">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Masukkan Password" required
                             class="w-full px-4 py-2 rounded-xl bg-[#f5f7fa] mt-2">
-                        <button type="button" onclick="togglePassword()" class="absolute right-6 pt-4 opacity-50">
-                            <img src="assets/icon/eye icon.png" alt="eye" class="w-6">
-                        </button>
                     </div>
 
                     <div class="pt-8">
                         <button type="submit" 
                             class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors">
-                            Login Admin
+                            Login
                         </button>
                     </div>
 
                     <div class="text-center">
-                        <p class="text-gray-500 mt-4">Belum punya akun? <a href="admin_register.php" class="text-blue-600">Daftar</a></p>
+                        <p class="text-gray-500 mt-4">Belum punya akun? <a href="staff_register.php" class="text-blue-600">Daftar</a></p>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
-    <script>
-        function togglePassword() {
-            const input = document.getElementById('password');
-            input.type = input.type === 'password' ? 'text' : 'password';
-        }
-    </script>
 </body>
 </html>

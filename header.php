@@ -12,8 +12,8 @@ if (!isset($_SESSION['user_id'])) {
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
             </button>
-            <h2 id="pageTitle" class="text-lg font-semibold" data-username="<?php echo htmlspecialchars($_SESSION['username'] ?? 'User'); ?>">
-                <!-- Title akan diupdate oleh JavaScript -->
+            <h2 id="pageTitle" class="text-lg font-semibold" data-username="<?php echo htmlspecialchars($_SESSION['username'] ?? 'Pengguna'); ?>">
+                <!-- Title akan diperbarui oleh JavaScript -->
             </h2>
         </div>
         
@@ -31,7 +31,6 @@ if (!isset($_SESSION['user_id'])) {
                 <!-- Dropdown Notifikasi -->
                 <div id="notifDropdown" class="hidden absolute right-0 mt-2 w-80 bg-white rounded-lg shadow-lg overflow-hidden z-50">
                     <ul id="notifList" class="divide-y divide-gray-200">
-                        <!-- Notifikasi: Jadwal Jemput Sampah -->
                         <li class="p-4 hover:bg-gray-100">
                             <div class="bg-yellow-400 text-white p-3 rounded-full inline-block">
                                 📦
@@ -43,21 +42,6 @@ if (!isset($_SESSION['user_id'])) {
                                 <button class="mt-3 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                                     Lacak Trashy Picker
                                 </button>
-                            </div>
-                        </li>
-                        <!-- Notifikasi: Bayar Tagihan Token Listrik -->
-                        <li class="p-4 hover:bg-gray-100">
-                            <div class="bg-yellow-500 text-white p-3 rounded-full inline-block">
-                                ⚡
-                            </div>
-                            <div class="ml-4 inline-block align-top">
-                                <h3 class="text-lg font-semibold text-gray-800">Bayar Tagihan Token Listrik</h3>
-                                <p class="text-gray-500 text-sm">Selasa, 20 Februari 2024</p>
-                                <p class="text-gray-600 mt-2">Hore, pembayaran berhasil. Terus kumpulkan saldo dengan mengumpulkan sampahmu dan nikmati benefitnya.</p>
-                                <div class="mt-3 bg-gray-200 text-gray-700 px-4 py-2 rounded flex items-center justify-between">
-                                    <span>1234-5678-9012-3456-7890</span>
-                                    <button class="text-blue-500 hover:text-blue-700">📋</button>
-                                </div>
                             </div>
                         </li>
                     </ul>
@@ -74,41 +58,69 @@ if (!isset($_SESSION['user_id'])) {
         </div>
     </div>
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-    const notifIcon = document.getElementById("notifIcon");
-    const notifDropdown = document.getElementById("notifDropdown");
-    const notifBadge = document.getElementById("notifBadge");
-    const notifList = document.getElementById("notifList");
+        function initializeMenu() {
+            const menuToggle = document.getElementById('menuToggle');
+            const menuClose = document.getElementById('menuClose');
+            const menu = document.getElementById('menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pageTitle = document.getElementById('pageTitle');
 
-    // Fungsi untuk mengupdate badge berdasarkan jumlah notifikasi
-    const updateNotifBadge = () => {
-        const notifCount = notifList.querySelectorAll("li").length; // Hitung elemen <li>
-        if (notifCount > 0) {
-            notifBadge.textContent = notifCount; // Set jumlah notifikasi ke badge
-            notifBadge.classList.remove("hidden"); // Tampilkan badge jika ada notifikasi
-        } else {
-            notifBadge.classList.add("hidden"); // Sembunyikan badge jika tidak ada notifikasi
+            // Ambil judul halaman dari meta tag
+            const metaPageTitle = document.querySelector('meta[name="page-title"]')?.getAttribute('content');
+
+            // Jika pageTitle tersedia, update berdasarkan metaPageTitle
+            if (pageTitle && metaPageTitle) {
+                pageTitle.textContent = metaPageTitle;
+            }
+
+            // Toggle menu
+            if (menuToggle && menuClose && menu) {
+                menuToggle.addEventListener('click', () => menu.classList.remove('-translate-x-full'));
+                menuClose.addEventListener('click', () => menu.classList.add('-translate-x-full'));
+            }
+
+            // Highlight tautan aktif di menu navigasi
+            const currentPage = window.location.pathname.split('/').pop().replace('.php', '');
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href').replace('.php', '');
+                if (href.includes(currentPage)) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Notifikasi dropdown toggle
+            const notifIcon = document.getElementById('notifIcon');
+            const notifDropdown = document.getElementById('notifDropdown');
+            const notifBadge = document.getElementById('notifBadge');
+            const notifList = document.getElementById('notifList');
+
+            // Update badge jumlah notifikasi
+            const updateNotifBadge = () => {
+                const notifCount = notifList.querySelectorAll("li").length;
+                if (notifCount > 0) {
+                    notifBadge.textContent = notifCount;
+                    notifBadge.classList.remove("hidden");
+                } else {
+                    notifBadge.classList.add("hidden");
+                }
+            };
+
+            notifIcon.addEventListener('click', (event) => {
+                event.stopPropagation();
+                notifDropdown.classList.toggle('hidden');
+                if (!notifDropdown.classList.contains('hidden')) {
+                    notifBadge.classList.add('hidden');
+                }
+            });
+
+            document.addEventListener('click', () => {
+                notifDropdown.classList.add('hidden');
+            });
+
+            updateNotifBadge(); // Update badge saat halaman dimuat
         }
-    };
 
-    // Toggle Dropdown
-    notifIcon.addEventListener("click", (event) => {
-        event.stopPropagation();
-        notifDropdown.classList.toggle("hidden");
-        // Sembunyikan badge hanya jika dropdown dibuka
-        if (!notifDropdown.classList.contains("hidden")) {
-            notifBadge.classList.add("hidden");
-        }
-    });
-
-    // Sembunyikan dropdown jika klik di luar
-    document.addEventListener("click", () => {
-        notifDropdown.classList.add("hidden");
-    });
-
-    // Panggil fungsi untuk mengupdate badge saat halaman dimuat
-    updateNotifBadge();
-});
-
+        // Jalankan saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', initializeMenu);
     </script>
 </header>

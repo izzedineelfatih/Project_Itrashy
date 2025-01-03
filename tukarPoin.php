@@ -8,11 +8,23 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-// Ambil data voucher dari database
+// Ambil ID user yang sedang login
+$user_id = $_SESSION['user_id'];
+
+// Query untuk mengambil total poin dari database
+$stmt = $pdo->prepare("SELECT poin_terkumpul FROM users WHERE id = :user_id");
+$stmt->execute(['user_id' => $user_id]);
+$poin_terkumpul = $stmt->fetchColumn(); // Mengambil jumlah poin
+
+// Jika poin tidak ditemukan, set ke 0
+if ($poin_terkumpul === false) {
+    $poin_terkumpul = 0;
+}
+
+// Ambil data voucher dan sembako dari database
 $stmtVoucher = $pdo->query("SELECT * FROM voucher");
 $vouchers = $stmtVoucher->fetchAll();
 
-// Ambil data sembako dari database
 $stmtSembako = $pdo->query("SELECT * FROM sembako");
 $sembakos = $stmtSembako->fetchAll();
 ?>
@@ -55,7 +67,7 @@ $sembakos = $stmtSembako->fetchAll();
                     <div class="lg:flex justify-between lg:justify-around lg:space-x-52 lg:space-y-0 space-y-8 bg-gradient-to-r from-[#FED4B4] to-[#54B68B] p-4 rounded-lg">
                         <div class="flex items-center justify-center space-x-4">
                             <img class="h-10 w-10" src="assets/icon/poin logo.png" alt="Poin">
-                            <h4 class="text-2xl font-bold">50.000</h4>
+                            <h4 class="text-2xl font-bold"><?php echo number_format($poin_terkumpul); ?></h4>
                         </div>
                         <div class="flex justify-between lg:justify-end pl-5 pr-5 lg:pr-0 lg:pl-0 lg:space-x-20">
                             <!-- Transfer -->
@@ -138,7 +150,43 @@ $sembakos = $stmtSembako->fetchAll();
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             initializeFilter();
+            initializeMenu();
         });
+
+        function initializeMenu() {
+            const menuToggle = document.getElementById('menuToggle');
+            const menuClose = document.getElementById('menuClose');
+            const menu = document.getElementById('menu');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pageTitle = document.getElementById('pageTitle');
+            
+            // Dapatkan nama halaman dari URL saat ini
+            const currentPage = window.location.pathname.split('/').pop().replace('.php', '');
+
+            // Mobile menu toggles
+            if (menuToggle && menuClose && menu) {
+                menuToggle.addEventListener('click', () => menu.classList.remove('-translate-x-full'));
+                menuClose.addEventListener('click', () => menu.classList.add('-translate-x-full'));
+            }
+
+            // Set active menu item dan update page title
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href').replace('.php', '');
+                const menuText = link.querySelector('span').textContent;
+                
+                if (href.includes(currentPage)) {
+                    link.classList.add('active');
+                    // Update page title sesuai menu yang aktif
+                    if (pageTitle) {
+                        if (currentPage === 'dashboard') {
+                            pageTitle.textContent = `Halo, ${pageTitle.dataset.username}👋`;
+                        } else {
+                            pageTitle.textContent = menuText;
+                        }
+                    }
+                }
+            });
+        }
 
         function initializeFilter() {
             const voucherBtn = document.getElementById("voucher-btn");

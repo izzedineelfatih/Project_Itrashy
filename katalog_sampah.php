@@ -1,7 +1,9 @@
 <?php
 session_start();
-if (!isset($_SESSION['admin_id'])) {
-    header("Location: admin_login.php");
+
+// Pastikan hanya admin yang bisa mengakses
+if (!isset($_SESSION['staff_id']) || $_SESSION['staff_role'] !== 'admin') {
+    header("Location: staff_login.php");
     exit();
 }
 
@@ -21,7 +23,7 @@ $jenis_sampah = $stmt->fetchAll();
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="flex bg-gray-100 min-h-screen">
-    <?php include 'admin_sidebar.php'; ?>
+    <?php include 'staff_sidebar.php'; ?>
     
     <div class="flex-1 p-6">
         <header class="flex justify-between items-center mb-8">

@@ -36,15 +36,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $errors[] = "Konfirmasi password tidak cocok";
     }
 
-    // Cek apakah username atau email sudah ada
+    // Cek apakah email sudah ada
     if (empty($errors)) {
         try {
-            // Cek username
-            $stmt = $pdo->prepare("SELECT * FROM admin WHERE username = ? OR email = ?");
-            $stmt->execute([$username, $email]);
+            // Cek email
+            $stmt = $pdo->prepare("SELECT * FROM staff WHERE email = ?");
+            $stmt->execute([$email]);
             
             if ($stmt->rowCount() > 0) {
-                $errors[] = "Username atau email sudah terdaftar";
+                $errors[] = "Email sudah terdaftar";
             }
         } catch (PDOException $e) {
             $errors[] = "Kesalahan database: " . $e->getMessage();
@@ -57,12 +57,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Hash password
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-            // Insert data admin
-            $stmt = $pdo->prepare("INSERT INTO admin (username, email, password) VALUES (?, ?, ?)");
+            // Insert data staff (role = driver)
+            $stmt = $pdo->prepare("INSERT INTO staff (username, email, password, role) VALUES (?, ?, ?, 'driver')");
             $stmt->execute([$username, $email, $hashedPassword]);
 
-            // Redirect ke halaman login dengan pesan sukses
-            header("Location: admin_login.php?register=success");
+            // Redirect ke halaman login setelah berhasil registrasi
+            header("Location: staff_login.php?register=success");
             exit();
         } catch (PDOException $e) {
             $errors[] = "Registrasi gagal: " . $e->getMessage();
@@ -76,25 +76,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I-Trashy - Register</title>
+    <title>I-Trashy - Register Driver</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['THICCCBOI'],
-                    },
-                },
-            },
-        };
-    </script>
 </head>
 <body class="min-h-screen bg-white">
     <div class="flex flex-col md:flex-row min-h-screen">
         <div class="relative w-full md:w-1/2">
             <div class="relative w-full h-64 md:h-full p-4">
-                <a href="admin_login.php" class="absolute top-8 left-10 h-4 lg:top-12 lg:left-14">
+                <a href="staff_login.php" class="absolute top-8 left-10 h-4 lg:top-12 lg:left-14">
                     <img src="assets/icon/back icon.png" alt="Back" class="w-6 h-6">
                 </a>
                 <img src="assets/image/orang buang sampah.jpg" alt="Background" class="w-full h-full object-cover rounded-xl">
@@ -103,8 +92,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     <div class="flex items-center mb-2">
                         <img src="assets/image/Logo Itrashy.png" alt="I-Trashy Logo" class="w-6 lg:w-12">
                     </div>
-                    <h1 class="md:text-2xl font-bold text-white/80 mb-2">I-Trashy Admin.</h1>
-                    <p class="text-sm text-white/80 pr-20 lg:pr-0">Panel Administrasi I-Trashy</p>
+                    <h1 class="md:text-2xl font-bold text-white/80 mb-2">I-Trashy Driver.</h1>
+                    <p class="text-sm text-white/80 pr-20 lg:pr-0">Panel Register Driver</p>
                 </div>
             </div>
         </div>
@@ -120,8 +109,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <?php endif; ?>
 
                 <div class="mb-8 text-center">
-                    <h1 class="text-2xl font-bold pb-2">Daftar Admin</h1>
-                    <p class="text-gray-400">Masuk ke panel administrasi I-Trashy</p>
+                    <h1 class="text-2xl font-bold pb-2">Daftar Driver</h1>
+                    <p class="text-gray-400">Masukkan data driver untuk bergabung dengan I-Trashy</p>
                 </div>
 
                 <form method="POST" class="space-y-4">
@@ -143,18 +132,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <label for="password" class="text-gray-600">Password</label>
                         <input type="password" id="password" name="password" placeholder="Masukkan Password" required
                             class="w-full px-4 py-2 rounded-xl bg-[#f5f7fa] mt-2">
-                        <button type="button" onclick="togglePassword('password')" class="absolute right-6 pt-4 opacity-50">
-                            <img src="assets/icon/eye icon.png" alt="eye" class="w-6">
-                        </button>
                     </div>
 
                     <div class="relative">
                         <label for="confirmPassword" class="text-gray-600">Konfirmasi Password</label>
                         <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Ulangi Password" required
                             class="w-full px-4 py-2 rounded-xl bg-[#f5f7fa] mt-2">
-                        <button type="button" onclick="togglePassword('confirmPassword')" class="absolute right-6 pt-4 opacity-50">
-                            <img src="assets/icon/eye icon.png" alt="eye" class="w-6">
-                        </button>
                     </div>
 
                     <div class="pt-8">
@@ -165,18 +148,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     </div>
 
                     <div class="text-center">
-                        <p class="text-gray-500 mt-4">Sudah punya akun? <a href="admin_login.php" class="text-blue-600">Login</a></p>
+                        <p class="text-gray-500 mt-4">Sudah punya akun? <a href="staff_login.php" class="text-blue-600">Login</a></p>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-
-    <script>
-        function togglePassword(inputId) {
-            const input = document.getElementById(inputId);
-            input.type = input.type === 'password' ? 'text' : 'password';
-        }
-    </script>
 </body>
 </html>

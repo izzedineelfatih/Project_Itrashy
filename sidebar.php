@@ -1,10 +1,15 @@
 <?php
-// Cek apakah user sudah login
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
-    exit();
-}
+require 'config.php'; // Pastikan file config.php berisi pengaturan koneksi database
+
+// Ambil ID user yang sedang login
+$user_id = $_SESSION['user_id'];
+
+// Query untuk mengambil total poin dari database
+$stmt = $pdo->prepare("SELECT poin_terkumpul FROM users WHERE id = :user_id");
+$stmt->execute(['user_id' => $user_id]);
+$poin_terkumpul = $stmt->fetchColumn();
 ?>
+
 <div id="menu" class="fixed top-0 left-0 w-60 h-full bg-white shadow-lg transform -translate-x-full transition-transform duration-300 z-50 lg:translate-x-0 lg:static lg:w-[230px]">
     <div class="p-5 flex items-center justify-between lg:justify-start space-x-4">
         <img src="assets/image/Logo Itrashy.png" alt="Logo Itrashy" class="w-8 h-10">
@@ -17,11 +22,12 @@ if (!isset($_SESSION['user_id'])) {
     </div>
 
     <div class="bg-gradient-to-r from-[#FED4B4] to-[#54B68B] pt-2 pb-2 ml-5 mr-5 rounded-lg shadow-lg">
-        <div class="flex flex-col items-start pl-12">
+        <div class="flex flex-col items-start pl-10">
             <p class="text-sm pb-1">Poin Anda</p>
             <div class="flex space-x-2 justify-center">
                 <img src="assets/icon/poin logo.png" alt="Poin" class="h-6 w-6">
-                <h4 class="text-xl lg:text-xl font-bold">50.000</h4>
+                <!-- Menampilkan poin yang diambil dari database -->
+                <h4 class="text-xl lg:text-xl font-bold"><?= number_format($poin_terkumpul, 0, ',', '.') ?></h4>
             </div>    
         </div>
     </div>

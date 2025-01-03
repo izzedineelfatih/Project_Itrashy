@@ -113,6 +113,7 @@ $jenis_sampah = $stmt->fetchAll();
                                                 <option value="12:00-14:00">12:00-14:00</option>
                                                 <option value="14:00-16:00">14:00-16:00</option>
                                                 <option value="16:00-18:00">16:00-18:00</option>
+                                                <option value="18:00-23:59">18:00-23:59</option>
                                                 
                                             </select>
                                         </div>
@@ -138,6 +139,8 @@ $jenis_sampah = $stmt->fetchAll();
 
         document.addEventListener('DOMContentLoaded', function() {
             initializeMenu();
+            setMinDate();
+            disablePastTimes();
         });
 
         function initializeMenu() {
@@ -287,8 +290,8 @@ $jenis_sampah = $stmt->fetchAll();
                 orderItems.forEach((item, index) => {
                     const itemElement = document.createElement('div');
                     itemElement.className = 'flex items-center justify-between bg-white p-3 rounded-lg shadow-sm';
-                    itemElement.innerHTML = `
-                        <div class="flex-1">
+                    itemElement.innerHTML = 
+                        `<div class="flex-1">
                             <h4 class="font-medium text-sm">${item.name}</h4>
                             <p class="text-xs text-gray-500">Rp. ${item.price}/Kg</p>
                         </div>
@@ -297,8 +300,7 @@ $jenis_sampah = $stmt->fetchAll();
                             <span class="text-sm w-12 text-center">${item.quantity.toFixed(1)} kg</span>
                             <button onclick="updateQuantity(${index}, 1)" class="bg-gray-200 hover:bg-gray-300 rounded-full w-6 h-6 flex items-center justify-center text-gray-600">+</button>
                             <button onclick="removeItem(${index})" class="ml-2 text-red-500 hover:text-red-700"><img src="assets/icon/trash.png" alt="" class="w-5 opacity-80"></button>
-                        </div>
-                    `;
+                        </div>`;
                     orderListElement.appendChild(itemElement);
                 });
             }
@@ -312,7 +314,7 @@ $jenis_sampah = $stmt->fetchAll();
 
         function removeItem(index) {
             const item = orderItems[index];
-            const button = document.querySelector(`button[onclick*="'${item.name}'"]`);
+            const button = document.querySelector(`button[onclick*="${item.name}"]`);
             if (button) {
                 button.classList.remove('bg-white', 'border', 'border-blue-500', 'text-black', 'hover:bg-gray-50');
                 button.classList.add('bg-[#40916c]', 'text-white', 'hover:bg-[#2d724f]');
@@ -326,7 +328,6 @@ $jenis_sampah = $stmt->fetchAll();
 
         function updateCartCount() {
             const cartCount = document.getElementById('cartCount');
-            // Simply use the length of orderItems array since each item represents a unique waste type
             const numberOfWasteTypes = orderItems.length;
             cartCount.textContent = numberOfWasteTypes;
             cartCount.style.display = numberOfWasteTypes > 0 ? 'flex' : 'none';
