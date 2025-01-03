@@ -75,7 +75,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href=".php" class="block p-2 text-gray-700 hover:bg-blue-50 rounded-lg">
+                        <a href="katalog_donasi.php" class="block p-2 text-gray-700 hover:bg-blue-50 rounded-lg">
                             Katalog Donasi
                         </a>
                     </li>

@@ -117,8 +117,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     exit();
 }
 
-// Ambil tanggal hari ini untuk filter
-$today = date('Y-m-d');
+// Ambil tanggal dari query string atau gunakan hari ini sebagai default
+$tanggal = $_GET['tanggal'] ?? date('Y-m-d');
 
 // 3. Ambil data orders dan items (hanya status pending & pickup untuk hari ini)
 //    + LEFT JOIN ke order_sembako & sembako (untuk kolom Tukar Poin)
@@ -134,23 +134,17 @@ $stmt = $pdo->prepare("
         o.status,
         u.username,
         u.phone_number,
-
-        -- Gabungkan semua sembako terkait
         GROUP_CONCAT(DISTINCT s.title SEPARATOR ', ') AS sembako_name,
-
-        -- Data item (jika diperlukan)
         GROUP_CONCAT(DISTINCT CONCAT(oi.waste_type, ' (', oi.quantity, ' Kg)') SEPARATOR ', ') AS item_details
         
     FROM orders o
     JOIN users u ON o.user_id = u.id
     LEFT JOIN order_items oi ON o.id = oi.order_id
-    
-    -- Link ke order_tukarPoin
     LEFT JOIN order_sembako os ON o.id = os.pickup_order_id
     LEFT JOIN sembako s ON os.sembako = s.id
     
     WHERE o.status IN ('pending', 'pickup')
-      AND DATE(o.pickup_date) = :today
+      AND DATE(o.pickup_date) = :tanggal
     
     GROUP BY o.id
     ORDER BY 
@@ -160,7 +154,7 @@ $stmt = $pdo->prepare("
         ELSE o.pickup_time 
       END ASC
 ");
-$stmt->execute(['today' => $today]);
+$stmt->execute(['tanggal' => $tanggal]);
 $orders = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Kelompokkan items per order
@@ -213,10 +207,22 @@ foreach ($orders as $order) {
     <header class="flex justify-between items-center mb-5">
         <div>
             <h1 class="text-3xl font-bold">Daftar Order Hari Ini</h1>
-            <p class="text-gray-600 mt-1"><?php echo date('d F Y', strtotime($today)); ?></p>
+            <p class="text-gray-600 mt-1"><?php echo date('d F Y', strtotime($tanggal)); ?></p>
         </div>
     </header>
 
+    <div class="flex justify-end mb-6">
+        <form method="GET" class="flex items-center space-x-4 mt-4">
+            <label for="tanggal" class="text-sm font-medium text-gray-600">Pilih Tanggal:</label>
+            <input type="date" name="tanggal" id="tanggal" 
+                class="px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" 
+                value="<?php echo htmlspecialchars($tanggal); ?>">
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">
+                Lihat
+            </button>
+        </form>
+    </div>
+    
     <div class="bg-white shadow-md rounded-lg overflow-hidden">
         <table class="table-auto w-full">
             <thead>

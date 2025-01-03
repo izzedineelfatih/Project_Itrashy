@@ -3,8 +3,8 @@ session_start();
 require 'config.php';
 
 // Pastikan hanya driver yang bisa mengakses
-if (!isset($_SESSION['staff_id']) || $_SESSION['staff_role'] !== 'driver') {
-    header("Location: staff_login.php");
+if (!isset($_SESSION['staff_id'])) {
+    header('Location: login.php');
     exit();
 }
 

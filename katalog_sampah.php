@@ -26,10 +26,18 @@ $jenis_sampah = $stmt->fetchAll();
     <?php include 'staff_sidebar.php'; ?>
     
     <div class="flex-1 p-6">
-        <header class="flex justify-between items-center mb-8">
-            <h1 class="text-3xl font-bold">Katalog Sampah</h1>
-            <button onclick="openModal('addModal')" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Tambah Jenis Sampah</button>
+        <header class="flex justify-between items-center mb-10">
+            <h1 class="text-2xl font-bold">Katalog Sampah</h1>
+            <div class="flex items-center">
+                <span class="mr-3">Selamat datang, <?php echo htmlspecialchars($_SESSION['staff_username']); ?></span>
+                <img src="assets/image/profile.jpg" alt="Profile" class="w-10 h-10 rounded-full">
+            </div>
         </header>
+
+        <div class="flex justify-end mb-6">
+            <button onclick="openModal('addModal')" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Tambah Jenis Sampah</button>
+        </div>
+        
 
         <div class="bg-white shadow-md rounded-lg overflow-hidden">
             <table class="table-auto w-full">

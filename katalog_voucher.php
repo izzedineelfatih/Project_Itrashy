@@ -48,10 +48,17 @@ $vouchers = $stmtVoucher->fetchAll();
 <?php include 'staff_sidebar.php'; ?>
 
     <div class="flex-1 mx-auto p-5">
-        <header class="flex justify-between items-center mb-5">
-            <h1 class="text-3xl font-bold">Katalog Voucher</h1>
-            <button onclick="openAddModal()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Tambah Voucher</button>
+        <header class="flex justify-between items-center mb-10">
+            <h1 class="text-2xl font-bold">Katalog Voucher</h1>
+            <div class="flex items-center">
+                <span class="mr-3">Selamat datang, <?php echo htmlspecialchars($_SESSION['staff_username']); ?></span>
+                <img src="assets/image/profile.jpg" alt="Profile" class="w-10 h-10 rounded-full">
+            </div>
         </header>
+
+        <div class="flex justify-end mb-6">
+            <button onclick="openAddModal()" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Tambah Voucher</button>
+        </div>
 
         <div class="bg-white shadow-md rounded-lg overflow-hidden">
             <table class="table-auto w-full">

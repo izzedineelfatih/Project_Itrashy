@@ -2,9 +2,9 @@
 session_start();
 require 'config.php';
 
-// Pastikan hanya admin yang dapat mengakses halaman ini
-if (!isset($_SESSION['admin_id'])) {
-    header("Location: admin_login.php");
+// Pastikan hanya admin yang bisa mengakses
+if (!isset($_SESSION['staff_id']) || $_SESSION['staff_role'] !== 'admin') {
+    header("Location: staff_login.php");
     exit();
 }
 
@@ -88,18 +88,21 @@ $donasis = $stmt->fetchAll(PDO::FETCH_ASSOC);
     </style>
 </head>
 <body class="flex bg-gray-100">
-    <?php include 'admin_sidebar.php'; ?>
+    <?php include 'staff_sidebar.php'; ?>
     
     <!-- Konten Utama -->
     <div class="flex-1 p-10">
         <header class="flex justify-between items-center mb-10">
             <h1 class="text-2xl font-bold">Katalog Donasi</h1>
-            <button onclick="openModal('addModal')" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Tambah Donasi</button>
             <div class="flex items-center">
-                <span class="mr-3">Selamat datang, <?php echo htmlspecialchars($_SESSION['admin_username']); ?></span>
+                <span class="mr-3">Selamat datang, <?php echo htmlspecialchars($_SESSION['staff_username']); ?></span>
                 <img src="assets/image/profile.jpg" alt="Profile" class="w-10 h-10 rounded-full">
             </div>
         </header>
+
+        <div class="flex justify-end mb-6">
+            <button onclick="openModal('addModal')" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Tambah Donasi</button>
+        </div>
 
         <div class="bg-white p-6 rounded-lg shadow-md overflow-x-auto">
             <table class="table-auto w-full border-collapse border border-gray-300">
