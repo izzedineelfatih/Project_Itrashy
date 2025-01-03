@@ -69,8 +69,9 @@ if (!isset($_SESSION['user_id'])) {
             
             <!-- Profile -->
             <a href="profile.php">
-                <img src="assets/image/profile.jpg" alt="Profile" class="w-10 h-10 rounded-full">
-            </a>
+    <img src="<?php echo htmlspecialchars($profile['profile_picture'] ?? 'assets/image/profile.jpg'); ?>" alt="Profile" class="w-10 h-10 rounded-full">
+</a>
+
         </div>
     </div>
     <script>
