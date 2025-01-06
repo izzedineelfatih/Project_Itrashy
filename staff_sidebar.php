@@ -79,6 +79,11 @@
                             Katalog Donasi
                         </a>
                     </li>
+                    <li>
+                        <a href="katalog_edukasi.php" class="block p-2 text-gray-700 hover:bg-blue-50 rounded-lg">
+                            Katalog Edukasi
+                        </a>
+                    </li>
                 </ul>
             </li>
             <?php endif; ?>

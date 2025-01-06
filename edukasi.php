@@ -1,11 +1,23 @@
-    <?php
+<?php
     session_start();
     // Cek apakah user sudah login
     if (!isset($_SESSION['user_id'])) {
         header('Location: login.php');
         exit();
     }
-    ?>
+    require 'config.php';
+
+// Ambil semua artikel dari database
+$stmt = $pdo->query("SELECT * FROM articles ORDER BY created_at DESC");
+$artikels = $stmt->fetchAll();
+// Query for videos
+$stmt_videos = $pdo->query("SELECT * FROM Videos ORDER BY created_at DESC");
+$videos = $stmt_videos->fetchAll();
+// Query for events
+$stmt_events = $pdo->query("SELECT * FROM Events ORDER BY created_at DESC");
+$events = $stmt_events->fetchAll();
+?>
+    
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,115 +40,100 @@
 </head>
 <body class="bg-[#f5f6fb] font-sans">
     <!-- Main Layout Container -->
-    <div class="flex h-screen overflow-hidden">
-        <!-- Sidebar -->
-        <?php include 'sidebar.php'; ?>
+    <!-- Main Layout Container -->
+<div class="flex h-screen overflow-hidden">
+    <!-- Sidebar -->
+    <?php include 'sidebar.php'; ?>
 
-        <!-- Main Content Area -->
-        <div class="flex-1 flex flex-col min-h-screen lg:ml-0">
-            <!-- Header -->
-            <?php include 'header.php'; ?>
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col  lg:ml-0">
+        <!-- Header -->
+        <?php include 'header.php'; ?>
 
-            <!-- Scrollable Content Area -->
-            <div class="flex-1 overflow-y-auto">
-                <div class="p-5 grid lg:grid-cols-3 gap-5">
-                    <!-- Left Section (2 columns on desktop) -->
-                    <div class="lg:col-span-2 space-y-5">
-                        <!-- Banner -->
-                        <div class="relative overflow-hidden rounded-lg shadow-lg">
-                            <img src="assets/image/poster2.png" alt="Banner Image" class="w-full">
-                        </div>
-
-                        <!-- Artikel Section -->
-                        <div>
-                            <h3 class="text-xl font-bold mb-4">Artikel</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <!-- Scrollable Content Area -->
+        <div class="flex-1 overflow-y-auto">
+            <div class="p-5 grid lg:grid-cols-3 gap-5">
+                <!-- Left Section (2 columns on desktop) -->
+                <div class="lg:col-span-2 space-y-5">
+                    <!-- Banner -->
+                    <div class="relative overflow-hidden rounded-lg shadow-lg">
+                        <img src="assets/image/poster2.png" alt="Banner Image" class="w-full">
+                    </div>
+                    <!-- Artikel Section -->
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">Artikel</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <?php foreach ($artikels as $artikel): ?>
                                 <div class="bg-white rounded-lg shadow-md p-3">
-                                    <a href="artikel.php">
-                                    <img src="assets/image/gambar2.png" alt="Belajar Mengelola Sampah" class="w-full h-32 md:h-40 object-cover rounded-lg">
-                                    <h4 class="font-semibold mt-2">Yuk, Belajar Mengelola Sampah Sejak Dini Secara Mandiri</h4>
-                                    <p class="text-sm text-gray-500 mt-1">I-Trashy • 02 Januari 2024</p>
-                                </a>
+                                    <a href="artikel.php?id=<?= $artikel['id']; ?>">
+                                        <img src="<?= htmlspecialchars($artikel['image_url']); ?>" alt="<?= htmlspecialchars($artikel['title']); ?>" class="w-full h-32 md:h-40 object-cover rounded-lg">
+                                        <h4 class="font-semibold mt-2"><?= htmlspecialchars($artikel['title']); ?></h4>
+                                        <div class="flex justify-between">
+                                            <p class="text-sm text-gray-500 mt-1 ">I-Trashy</p>
+                                            <p class="text-sm text-gray-500 mt-1"><?= htmlspecialchars(date('d F Y', strtotime($artikel['created_at']))) ?></p>
+                                        </div>
+                                    </a>
                                 </div>
-                                <div class="bg-white rounded-lg shadow-md p-3">
-                                    <a href="artikel.php">
-                                    <img src="assets/image/gambar8.png" alt="Kerajinan Daur Ulang" class="w-full h-32 md:h-40 object-cover rounded-lg">
-                                    <h4 class="font-semibold mt-2">Cara Membuat Kerajinan Daur Ulang dari Barang Bekas</h4>
-                                    <p class="text-sm text-gray-500 mt-1">Kompas.com • 02 Januari 2024</p>
-                                </a>
-                                </div>
-                                <div class="bg-white rounded-lg shadow-md p-3">
-                                    <a href="artikel.php">
-                                    <img src="assets/image/gambar7.png" alt="Pupuk Kompos" class="w-full h-32 md:h-40 object-cover rounded-lg">
-                                    <h4 class="font-semibold mt-2">Pupuk Kompos untuk Tanaman Kesayangan Anda</h4>
-                                    <p class="text-sm text-gray-500 mt-1">Detik.com • 02 Januari 2024</p>
-                                </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Video Section -->
-                        <div>
-                            <h3 class="text-xl font-bold mb-4">Video</h3>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div class="bg-white rounded-lg shadow-md p-3">
-                                    <a href="video.php">
-                                    <img src="assets/image/gambar6.png" alt="Sampah Plastik" class="w-full h-32 md:h-40 object-cover rounded-lg">
-                                    <h4 class="font-semibold mt-2">Berapa Lama Sampah Plastik Terurai? Yuk, Cari Tahu</h4>
-                                    <p class="text-sm text-gray-500 mt-1">I-Trashy • 02 Januari 2024</p>
-                                </a>
-                                </div>
-                                <div class="bg-white rounded-lg shadow-md p-3">
-                                    <a href="video.php">
-                                    <img src="assets/image/gambar5.png" alt="Bersih Pantai" class="w-full h-32 md:h-40 object-cover rounded-lg">
-                                    <h4 class="font-semibold mt-2">Gerakan Bersih - Bersih Pantai di Indonesia</h4>
-                                    <p class="text-sm text-gray-500 mt-1">I-Trashy • 02 Januari 2024</p>
-                                </a>
-                                </div>
-                                <div class="bg-white rounded-lg shadow-md p-3">
-                                    <a href="video.php">
-                                    <img src="assets/image/gambar4.png" alt="Tips Pilah Sampah" class="w-full h-32 md:h-40 object-cover rounded-lg">
-                                    <h4 class="font-semibold mt-2">Tips Memilah Sampah Tanpa Ribet di Rumah</h4>
-                                    <p class="text-sm text-gray-500 mt-1">I-Trashy • 02 Januari 2024</p>
-                                </a>
-                                </div>
-                            </div>
+                            <?php endforeach; ?>
                         </div>
                     </div>
 
-                    <!-- Right Section -->
-                    <div class="space-y-4">
-                        <div class="bg-white rounded-lg shadow p-4">
-                            <h3 class="text-xl font-bold mb-4">Event Kami</h3>
-                            <div class="space-y-4">
+                    <!-- Video Section -->
+                    <div>
+                        <h3 class="text-xl font-bold mb-4">Video</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <?php foreach ($videos as $video) { ?>
                                 <div class="bg-white rounded-lg shadow-md p-3">
-                                    <a href="event.php">
-                                    <img src="assets/image/gambar11.png" alt="Belanja Tanpa Plastik" class="w-full h-32 object-cover rounded-lg">
-                                    <h4 class="font-semibold mt-2">Gerakan Belanja Tanpa Kantong Plastik</h4>
-                                    <p class="text-sm text-gray-500 mt-1">I-Trashy • 02 Januari 2024</p>
-                                </a>
+                                    <a href="video.php?id=<?php echo htmlspecialchars($video['id']); ?>">
+                                        <img src="<?php echo htmlspecialchars($video['video_url']); ?>" alt="<?php echo htmlspecialchars($video['title']); ?>" class="w-full h-32 md:h-40 object-cover rounded-lg">
+                                        <h4 class="font-semibold mt-2"><?php echo htmlspecialchars($video['title']); ?></h4>
+                                        <div class="flex justify-between">
+                                            <p class="text-sm text-gray-500 mt-1 ">I-Trashy</p>
+                                            <p class="text-sm text-gray-500 mt-1 "><?= htmlspecialchars(date('d F Y', strtotime($video['created_at']))) ?></p>
+                                        </div>
+                                    </a>
                                 </div>
-                                <div class="bg-white rounded-lg shadow-md p-3">
-                                    <a href="event.php">
-                                    <img src="assets/image/gambar10.png" alt="Kerajinan UMKM" class="w-full h-32 object-cover rounded-lg">
-                                    <h4 class="font-semibold mt-2">Pameran Kerajinan Daur Ulang dari Sampah Bersama UMKM</h4>
-                                    <p class="text-sm text-gray-500 mt-1">I-Trashy • 02 Januari 2024</p>
-                                </a>
-                                </div>
-                                <div class="bg-white rounded-lg shadow-md p-3">
-                                    <a href="event.php">
-                                    <img src="assets/image/gambar9.png" alt="Donasi Sampah" class="w-full h-32 object-cover rounded-lg">
-                                    <h4 class="font-semibold mt-2">Gerakan Donasi Bersama I-Trashy</h4>
-                                    <p class="text-sm text-gray-500 mt-1">I-Trashy • 02 Januari 2024</p>
-                                </a>
-                                </div>
-                            </div>
+                            <?php } ?>
                         </div>
                     </div>
                 </div>
+
+                <!-- Right Section (Event) -->
+                <div class="lg:col-span-1 space-y-4">
+                    <div class="bg-white rounded-lg shadow p-4">
+                        <h3 class="text-xl font-bold mb-4">Event Kami</h3>
+                        <div class="space-y-4">
+                            <?php foreach ($events as $event) { ?>
+                                <div class="bg-white rounded-lg shadow-md p-3">
+                                    <a href="event.php?id=<?php echo htmlspecialchars($event['id']); ?>">
+                                        <img src="<?php echo htmlspecialchars($event['image_url']); ?>" alt="<?php echo htmlspecialchars($event['title']); ?>" class="w-full h-32 object-cover rounded-lg">
+                                        <h4 class="font-semibold mt-2"><?php echo htmlspecialchars($event['title']); ?></h4>
+                                        <div class="flex justify-between">
+                                            <p class="text-sm text-gray-500 mt-1 ">I-Trashy</p>
+                                            <p class="text-sm text-gray-500 mt-1 "><?= htmlspecialchars(date('d F Y', strtotime($event['created_at']))) ?></p>
+                                        </div>
+                                    </a>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+            <div class="flex-1 overflow-y-auto">
+            </div>
+            <?php include 'footer.php'; ?>
+
         </div>
+    
+
     </div>
+  
+
+</div>
+
+
+
 
     <script>
     document.addEventListener('DOMContentLoaded', function() {

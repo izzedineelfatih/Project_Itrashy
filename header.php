@@ -1,8 +1,10 @@
 <?php
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
+    
     exit();
 }
+
 ?>
 <header class="sticky top-0 bg-white shadow-md z-40">
     <div class="flex items-center justify-between p-4">
@@ -53,7 +55,7 @@ if (!isset($_SESSION['user_id'])) {
             
             <!-- Profile -->
             <a href="profile.php">
-    <img src="<?php echo htmlspecialchars($profile['profile_picture'] ?? 'assets/image/profile.jpg'); ?>" alt="Profile" class="w-10 h-10 rounded-full">
+    <img src="<?php echo htmlspecialchars($profile['profile_picture'] ?? 'assets/image/profile.jpg '); ?>" alt="Profile" class="w-10 h-10 rounded-full">
 </a>
 
         </div>
