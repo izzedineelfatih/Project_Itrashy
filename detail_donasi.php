@@ -77,6 +77,7 @@ $progress = ($donasi['collected'] / $donasi['goal']) * 100;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="page-title" content="Detail Donasi">
     <title><?php echo htmlspecialchars($donasi['title']); ?></title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
@@ -88,30 +89,8 @@ $progress = ($donasi['collected'] / $donasi['goal']) * 100;
         <div class="flex-1 flex flex-col min-h-screen lg:ml-0">
             <?php include 'header.php'; ?>
 
-            <?php if (isset($_SESSION['success_message'])): ?>
-                <div class="p-4 mb-4 mx-5 mt-5 bg-green-100 border-l-4 border-green-500 text-green-700">
-                    <?php 
-                    echo $_SESSION['success_message'];
-                    unset($_SESSION['success_message']);
-                    ?>
-                </div>
-            <?php endif; ?>
-
-            <?php if (isset($error)): ?>
-                <div class="p-4 mb-4 mx-5 mt-5 bg-red-100 border-l-4 border-red-500 text-red-700">
-                    <?php echo htmlspecialchars($error); ?>
-                </div>
-            <?php endif; ?>
-
             <div class="flex-1 overflow-y-auto p-5">
                 <div class="max-w-5xl mx-auto">
-                    <!-- Back Button -->
-                    <a href="donasi.php" class="inline-flex items-center mb-6 text-gray-600 hover:text-gray-900">
-                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
-                        </svg>
-                        Kembali ke Daftar Donasi
-                    </a>
 
                     <!-- Main Content -->
                     <div class="bg-white rounded-xl shadow-lg overflow-hidden">

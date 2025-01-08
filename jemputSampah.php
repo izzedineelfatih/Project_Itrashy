@@ -1,7 +1,30 @@
 <?php
+// Koneksi database
+require 'config.php';
+
+// Ambil alamat lengkap berdasarkan user_id dari sesi login
 session_start();
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
+$user_id = $_SESSION['user_id']; // Pastikan session sudah dimulai dan user_id tersedia
+$stmt = $pdo->prepare("SELECT full_address FROM users WHERE id = ?");
+$stmt->execute([$user_id]);
+$user = $stmt->fetch();
+$full_address = $user['full_address'] ?? ''; // Jika tidak ada alamat, default kosong
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Gunakan alamat lengkap sebagai pickup_location
+    $pickup_location = $full_address;
+    $pickup_date = $_POST['pickup_date'];
+    $pickup_time = $_POST['pickup_time'];
+    $total_amount = $_POST['total_amount'];
+    $admin_fee = $_POST['admin_fee'];
+    $status = 'pending';
+    
+    // Simpan data ke tabel orders
+    $stmt = $pdo->prepare("INSERT INTO orders (user_id, pickup_location, pickup_date, pickup_time, total_amount, admin_fee, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, NOW())");
+    $stmt->execute([$user_id, $pickup_location, $pickup_date, $pickup_time, $total_amount, $admin_fee, $status]);
+
+    // Redirect setelah berhasil
+    header('Location: success.php');
     exit();
 }
 ?>
@@ -97,8 +120,12 @@ $jenis_sampah = $stmt->fetchAll();
 
                                     <div class="space-y-4">
                                         <div>
-                                            <label class="block font-semibold mb-2">Lokasi Penjemputan</label>
-                                            <input type="text" id="location" placeholder="Tentukan lokasimu" class="w-full border border-gray-300 rounded-lg p-3 text-sm focus:outline-none"/>
+                                            <label class="block font-semibold mb-2">Alamat Lengkap</label>
+                                            <input type="text" id="full_address" value="<?php echo htmlspecialchars($full_address); ?>" 
+                                                class="w-full border border-gray-300 rounded-t-xl p-3 text-sm bg-gray-100 text-gray-500 cursor-not-allowed" readonly/>
+                                            <button onclick="window.location.href='profile.php'" class="bg-blue-500 text-white w-full py-2 px-4 rounded-b-xl hover:bg-blue-600 transition-colors">
+                                                Edit Alamat
+                                            </button>
                                         </div>
                                         
                                         <div>
@@ -180,12 +207,12 @@ $jenis_sampah = $stmt->fetchAll();
 
         // Event listener untuk tombol save order
         document.getElementById('saveOrderButton').addEventListener('click', async function() {
-            const location = document.getElementById('location').value;
+            const location = document.getElementById('full_address').value;
             const pickupDate = document.getElementById('pickup_date').value;
             const pickupTime = document.getElementById('pickup_time').value;
 
             // Validasi input
-            if (!location || !pickupDate || !pickupTime) {
+            if (!pickupDate || !pickupTime) {
                 alert('Mohon lengkapi semua data yang diperlukan');
                 return;
             }

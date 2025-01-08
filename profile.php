@@ -161,9 +161,8 @@ if (!$profile) {
                 <label for="city" class="w-1/3 text-gray-700 font-medium">Kota:</label>
                 <select class="w-2/3 p-2 border rounded-lg cursor-pointer" id="city" required>
                     <option value="" >Pilih Kota/Kabupaten</option>
-                    <option value="Bandung" <?php echo isset($addressData['city']) && $addressData['city'] == 'Bandung' ? 'selected' : ''; ?>>Kota Bandung</option>
-                    <option value="Bandung Kabupaten" <?php echo isset($addressData['city']) && $addressData['city'] == 'Bandung Kabupaten' ? 'selected' : ''; ?>>Kabupaten Bandung</option>
-                    <option value="Bandung Barat Kabupaten" <?php echo isset($addressData['city']) && $addressData['city'] == 'Bandung Barat Kabupaten' ? 'selected' : ''; ?>>Kabupaten Bandung Barat</option>
+                    <option value="Kota Bandung" <?php echo isset($addressData['city']) && $addressData['city'] == 'Kota Bandung' ? 'selected' : ''; ?>>Kota Bandung</option>
+                    <option value="Kabupaten Bandung" <?php echo isset($addressData['city']) && $addressData['city'] == 'Kabupaten Bandung' ? 'selected' : ''; ?>>Kabupaten Bandung</option>
                 </select>
             </div>
 
@@ -221,25 +220,24 @@ if (!$profile) {
 // Data Kecamatan dan Desa
 
 const regionData = {
-    "Bandung": {
-        "Cidadap": ["Desa Cidadap 1", "Desa Cidadap 2"],
-        "Cibeunying": ["Desa Cibeunying 1", "Desa Cibeunying 2"],
-        "Sumur Bandung": ["Desa Sumur Bandung 1", "Desa Sumur Bandung 2"]
+    "Kota Bandung": {
+        "Bojongloa Kidul": ["Cibaduyut", "Cibaduyut Kidul", "Cibaduyut Wetan", "Kebon Lega", "Mekarwangi", "Situsaeur"],
+        "Bojongloa Kaler": ["Babakan Asih", "Babakan Tarogong", "Jamika", "Kopo", "Suka Asih"],
+        "Buahbatu": ["Cijawura", "Jatisari", "Margasari", "Sekejati"],
+        "Lengkong": ["Cijagra", "Cikawao", "Lingkar Selatan", "Malabar", "Turangga"],
+        "Regol": ["Ancol", "Balonggede", "Ciateul", "Cigereleng", "Ciseureuh", "Pungkur"],
+        "Bandung Kidul": ["Batununggal", "Kujangsari", "Mengger", "Wates"],
+        "Astanaanyar": ["Karanganyar", "Nyengseret", "Pelindung Hewan", "Panjunan", "Cibadak", "Cibuntu"],
+        "Batununggal": ["Cibangkong", "Kebonwaru", "Kacapiring", "Maleer", "Samoja"]
     },
-    "Bandung Kabupaten": {
-        "Cicalengka": ["Desa Cicalengka 1", "Desa Cicalengka 2"],
-        "Majalaya": ["Desa Majalaya 1", "Desa Majalaya 2"],
-        "Soreang": ["Desa Soreang 1", "Desa Soreang 2"],
-        "Kecamatan Bojongsoang": ["Desa Bojongsoang", "Desa Lengkong", "Desa Tegalluar"]
-    },
-    "Bandung Barat Kabupaten": {
-        "Ngamprah": ["Desa Ngamprah 1", "Desa Ngamprah 2"],
-        "Cimahi Selatan": ["Desa Cimahi Selatan 1", "Desa Cimahi Selatan 2"],
-        "Padalarang": ["Desa Padalarang 1", "Desa Padalarang 2"]
+    "Kabupaten Bandung": {
+        "Dayeuhkolot": ["Citeureup", "Cangkuang Wetan", "Sukapura"],
+        "Bojongsoang": ["Bojongsoang", "Lengkong", "Tegalluar"],
+        "Margahayu": ["Margahayu Selatan", "Sayati"],
+        "Margaasih": ["Lagadar", "Margaasih", "Nanjung"],
+        "Rancaekek": ["Bojongloa", "Jelegong", "Linggar"]
     }
 };
-
-
 
 // Update dropdown Kecamatan berdasarkan Kota yang dipilih
 document.getElementById('city').addEventListener('change', function () {
