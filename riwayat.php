@@ -47,7 +47,8 @@ $sembakoResult = $stmtSembako->fetchAll(PDO::FETCH_ASSOC);
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>I-Trashy Edukasi</title>
+    <meta name="page-title" content="Riwayat">
+    <title>I-Trashy</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
@@ -81,18 +82,7 @@ $sembakoResult = $stmtSembako->fetchAll(PDO::FETCH_ASSOC);
                 <button id="tukar-btn" class="px-4 py-2 text-gray-600 hover:text-blue-600">Tukar Poin</button>
             </div>
             
-            <!-- Search and Filters -->
-            <div class="ml-8 flex gap-4 items-center py-4">
-                <input
-                    type="text"
-                    placeholder="Cari"
-                    class="w-1/3 px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
-                />
-                <button class="flex items-center px-4 py-2 border rounded-md bg-blue-600 text-white hover:bg-blue-700">
-                    <i class="fas fa-filter mr-2"></i>
-                    Filters
-                </button>
-            </div>
+            
 
             <!-- Data List -->
             <div class="ml-4 p-4 space-y-4 max-h-96 overflow-y-auto" id="data-list">
