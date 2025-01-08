@@ -8,11 +8,9 @@ if (!isset($_SESSION['staff_id']) || $_SESSION['staff_role'] !== 'admin') {
     exit();
 }
 
-// Query untuk mengambil data donasi dari database
 $query = "SELECT * FROM katalog_donasi ORDER BY created_at DESC";
 $stmt = $pdo->query($query);
 $donasis = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 
 <!DOCTYPE html>
@@ -22,8 +20,7 @@ $donasis = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>I-Trashy - Admin Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/feather-icons"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/23.0.0/classic/ckeditor.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinymce/6.8.0/tinymce.min.js"></script>
     <style>
         .modal {
             display: none;
@@ -47,8 +44,14 @@ $donasis = $stmt->fetchAll(PDO::FETCH_ASSOC);
             padding: 2rem;
             border-radius: 0.5rem;
             width: 90%;
-            max-width: 500px;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
             position: relative;
+        }
+
+        .tox-tinymce {
+            min-height: 300px !important;
         }
 
         .close {
@@ -57,173 +60,228 @@ $donasis = $stmt->fetchAll(PDO::FETCH_ASSOC);
             top: 1rem;
             font-size: 1.5rem;
             cursor: pointer;
+            z-index: 1100;
         }
 
-        /* Form styling */
-        .modal form {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
+        /* Style untuk preview teks yang sudah di-format */
+        .formatted-content {
+            max-height: 100px;
+            overflow: hidden;
+            position: relative;
         }
 
-        .modal input[type="text"],
-        .modal input[type="number"],
-        .modal input[type="file"] {
-            padding: 0.5rem;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.25rem;
-        }
-
-        .modal button[type="submit"] {
-            background-color: #3b82f6;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 0.25rem;
-            cursor: pointer;
-        }
-
-        .modal button[type="submit"]:hover {
-            background-color: #2563eb;
+        .formatted-content::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background: linear-gradient(transparent, white);
         }
     </style>
 </head>
 <body class="flex bg-gray-100">
     <?php include 'staff_sidebar.php'; ?>
     
-    <!-- Konten Utama -->
     <div class="flex-1 p-10">
         <header class="flex justify-between items-center mb-10">
             <h1 class="text-2xl font-bold">Katalog Donasi</h1>
-            <div class="flex items-center">
-                <span class="mr-3">Selamat datang, <?php echo htmlspecialchars($_SESSION['staff_username']); ?></span>
-                <img src="assets/image/profile.jpg" alt="Profile" class="w-10 h-10 rounded-full">
-            </div>
+            <button onclick="openModal('addModal')" class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-lg shadow-md transition duration-300 ease-in-out transform hover:scale-105">
+                <i data-feather="plus-circle" class="inline-block mr-2"></i>
+                Tambah Donasi
+            </button>
         </header>
-
-        <div class="flex justify-end mb-6">
-            <button onclick="openModal('addModal')" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Tambah Donasi</button>
-        </div>
 
         <div class="bg-white p-6 rounded-lg shadow-md overflow-x-auto">
             <table class="table-auto w-full border-collapse border border-gray-300">
-                <thead class="bg-gray-100">
-                <tr>
-                    <th class="border border-gray-300 px-4 py-2 text-left font-medium w-1/4">Judul</th>
-                    <th class="border border-gray-300 px-4 py-2 text-left font-medium w-1/4">Deskripsi</th>
-                    <th class="border border-gray-300 px-4 py-2 text-left font-medium w-1/4">Gambar</th>
-                    <th class="border border-gray-300 px-4 py-2 text-left font-medium w-1/4">Collected</th> <!-- Kolom Collected -->
-                    <th class="border border-gray-300 px-4 py-2 text-left font-medium w-1/4">Goal</th> <!-- Kolom Goal -->
-                    <th class="border border-gray-300 px-4 py-2 text-left font-medium w-1/4">Edit</th>
-                </tr>
-            </thead>
-
+                <thead class="bg-gray-50">
+                    <tr>
+                        <th class="border border-gray-300 px-4 py-2 text-left font-medium">Judul</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left font-medium">Deskripsi</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left font-medium">Gambar</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left font-medium">Collected</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left font-medium">Goal</th>
+                        <th class="border border-gray-300 px-4 py-2 text-left font-medium">Aksi</th>
+                    </tr>
                 </thead>
                 <tbody>
                     <?php foreach ($donasis as $donasi): ?>
                         <tr class="hover:bg-gray-50">
                             <td class="border border-gray-300 px-4 py-2"><?php echo htmlspecialchars($donasi['title']); ?></td>
                             <td class="border border-gray-300 px-4 py-2">
-                                <?php 
-                                // Membatasi deskripsi hingga 30 karakter dan menambahkan ellipsis "..."
-                                echo htmlspecialchars(substr($donasi['deskripsi'], 0, 30)) . (strlen($donasi['deskripsi']) > 30 ? '...' : '');
-                                ?>
+                                <div class="formatted-content">
+                                    <?php echo $donasi['deskripsi']; ?>
+                                </div>
                             </td>
                             <td class="border border-gray-300 px-4 py-2">
-                                <img src="assets/image/<?php echo htmlspecialchars($donasi['image']); ?>" alt="Image" class="w-16 h-16 object-cover rounded">
+                                <img src="assets/image/<?php echo htmlspecialchars($donasi['image']); ?>" 
+                                     alt="Donasi Image" 
+                                     class="w-20 h-20 object-cover rounded-lg shadow">
                             </td>
-                            <td class="border border-gray-300 px-4 py-2"><?php echo htmlspecialchars($donasi['collected']); ?></td> <!-- Menampilkan collected -->
-                            <td class="border border-gray-300 px-4 py-2"><?php echo htmlspecialchars($donasi['goal']); ?></td> <!-- Menampilkan goal -->
                             <td class="border border-gray-300 px-4 py-2">
-                                <button onclick="openModal('editModal<?php echo $donasi['id']; ?>')"  class="bg-blue-500 text-white px-2 py-1 mb-2 rounded text-sm">Edit</button>
-                                <a href="delete_donasi.php?id=<?php echo $donasi['id']; ?>" class="bg-green-500 text-white px-2 py-1 rounded text-sm">Delete</a>
+                                Rp <?php echo number_format($donasi['collected'], 0, ',', '.'); ?>
+                            </td>
+                            <td class="border border-gray-300 px-4 py-2">
+                                Rp <?php echo number_format($donasi['goal'], 0, ',', '.'); ?>
+                            </td>
+                            <td class="border border-gray-300 px-4 py-2">
+                                <div class="flex gap-2">
+                                    <button onclick="openModal('editModal<?php echo $donasi['id']; ?>')" 
+                                            class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition duration-300">
+                                        Edit
+                                    </button>
+                                    <button onclick="confirmDeletion('<?php echo $donasi['id']; ?>')" 
+                                            class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg transition duration-300">
+                                        Hapus
+                                    </button>
+                                </div>
                             </td>
                         </tr>
+
+                        <!-- Edit Modal -->
                         <div id="editModal<?php echo $donasi['id']; ?>" class="modal">
                             <div class="modal-content">
                                 <span class="close" onclick="closeModal('editModal<?php echo $donasi['id']; ?>')">&times;</span>
                                 <h2 class="text-xl font-bold mb-4">Edit Donasi</h2>
-                                <form action="update_donasi.php" method="POST" enctype="multipart/form-data">
-                                    <input type="hidden" name="id" value="<?php echo $donasi['id']; ?>"> <!-- ID donasi -->
+                                <form action="update_donasi.php" method="POST" enctype="multipart/form-data" class="space-y-4">
+                                    <input type="hidden" name="id" value="<?php echo $donasi['id']; ?>">
                                     
-                                    <label class="block text-gray-700 mb-2" for="title">Judul:</label>
-                                    <input type="text" id="title" name="title" value="<?php echo $donasi['title']; ?>" required class="w-full">
-                                    
-                                    <label class="block text-gray-700 mb-2" for="deskripsi">Deskripsi:</label>
-                                    <textarea id="deskripsi" name="deskripsi" required><?php echo $donasi['deskripsi']; ?></textarea>
-                                    
-                                    <label class="block text-gray-700 mb-2" for="collected">Collected:</label>
-                                    <input type="number" id="collected" name="collected" value="<?php echo $donasi['collected']; ?>" required class="w-full">
-                                    
-                                    <label class="block text-gray-700 mb-2" for="goal">Goal:</label>
-                                    <input type="number" id="goal" name="goal" value="<?php echo $donasi['goal']; ?>" required class="w-full">
-                                    
-                                    <label class="block text-gray-700 mb-2" for="image">Gambar (Opsional):</label>
-                                    <input type="file" id="image" name="image" class="w-full">
-                                    
-                                    <button type="submit" class="w-full">Update Donasi</button>
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">Judul:</label>
+                                        <input type="text" name="title" value="<?php echo htmlspecialchars($donasi['title']); ?>" 
+                                               class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                                               required>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">Deskripsi:</label>
+                                        <textarea name="deskripsi" class="tinymce-editor"><?php echo $donasi['deskripsi']; ?></textarea>
+                                    </div>
+
+                                    <div class="grid grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-gray-700 mb-2">Collected (Rp):</label>
+                                            <input type="number" name="collected" value="<?php echo $donasi['collected']; ?>" 
+                                                   class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                                                   required>
+                                        </div>
+                                        <div>
+                                            <label class="block text-gray-700 mb-2">Goal (Rp):</label>
+                                            <input type="number" name="goal" value="<?php echo $donasi['goal']; ?>" 
+                                                   class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" 
+                                                   required>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label class="block text-gray-700 mb-2">Gambar Baru (Opsional):</label>
+                                        <input type="file" name="image" accept="image/*" 
+                                               class="w-full px-4 py-2 rounded-lg border border-gray-300">
+                                    </div>
+
+                                    <button type="submit" 
+                                            class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition duration-300">
+                                        Update Donasi
+                                    </button>
                                 </form>
                             </div>
-                        </div>                        
+                        </div>
                     <?php endforeach; ?>
                 </tbody>
             </table>
         </div>
     </div>
 
-    <!-- Modal untuk Tambah Donasi -->
+    <!-- Add Modal -->
     <div id="addModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeModal('addModal')">&times;</span>
-            <h2 class="text-xl font-bold mb-4">Tambah Donasi</h2>
-            <form action="add_donasi.php" method="POST" enctype="multipart/form-data">
+            <h2 class="text-xl font-bold mb-4">Tambah Donasi Baru</h2>
+            <form action="add_donasi.php" method="POST" enctype="multipart/form-data" class="space-y-4">
                 <div>
                     <label class="block text-gray-700 mb-2">Judul:</label>
-                    <input type="text" name="title" required class="w-full">
+                    <input type="text" name="title" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
                 </div>
+
                 <div>
                     <label class="block text-gray-700 mb-2">Deskripsi:</label>
-                    <input type="text" name="deskripsi" required class="w-full">
+                    <textarea name="deskripsi" class="tinymce-editor"></textarea>
                 </div>
-                <div>
-                    <label class="block text-gray-700 mb-2">Collected:</label>
-                    <input type="number" name="collected" required class="w-full">
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-gray-700 mb-2">Collected (Rp):</label>
+                        <input type="number" name="collected" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Goal (Rp):</label>
+                        <input type="number" name="goal" class="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" required>
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-gray-700 mb-2">Goal:</label>
-                    <input type="number" name="goal" required class="w-full">
-                </div>
+
                 <div>
                     <label class="block text-gray-700 mb-2">Gambar:</label>
-                    <input type="file" name="image" required class="w-full">
+                    <input type="file" name="image" accept="image/*" class="w-full px-4 py-2 rounded-lg border border-gray-300" required>
                 </div>
-                <button type="submit" class="w-full">Tambah</button>
+
+                <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg transition duration-300">
+                    Tambah Donasi
+                </button>
             </form>
         </div>
     </div>
 
-   
-
     <script>
+        // Initialize TinyMCE for all textareas with class 'tinymce-editor'
+        tinymce.init({
+            selector: '.tinymce-editor',
+            height: 300,
+            menubar: true,
+            plugins: [
+                'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                'insertdatetime', 'media', 'table', 'help', 'wordcount'
+            ],
+            toolbar: 'undo redo | blocks | ' +
+                'bold italic backcolor | alignleft aligncenter ' +
+                'alignright alignjustify | bullist numlist outdent indent | ' +
+                'removeformat | help',
+            content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+            branding: false,
+            promotion: false
+        });
+
         function openModal(modalId) {
-            document.getElementById(modalId).classList.add('active');
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.add('active');
+            } else {
+                console.error(`Modal dengan ID ${modalId} tidak ditemukan.`);
+            }
         }
 
         function closeModal(modalId) {
-            document.getElementById(modalId).classList.remove('active');
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.classList.remove('active');
+            } else {
+                console.error(`Modal dengan ID ${modalId} tidak ditemukan.`);
+            }
         }
 
+        function confirmDeletion(id) {
+            if (confirm('Apakah Anda yakin ingin menghapus donasi ini?')) {
+                window.location.href = `delete_donasi.php?id=${id}`;
+            }
+        }
+
+        // Close modal when clicking outside
         window.onclick = function(event) {
             if (event.target.classList.contains('modal')) {
                 event.target.classList.remove('active');
             }
-        }
-
-        // Inisialisasi TinyMCE untuk textarea dengan id 'deskripsi'
-        ClassicEditor
-            .create(document.querySelector('#deskripsi'))
-            .catch(error => {
-                console.error(error);
-            });
+        };
     </script>
 </body>
 </html>

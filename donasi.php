@@ -1,10 +1,16 @@
 <?php
 session_start();
-// Cek apakah user sudah login
+require 'config.php';
+
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
 }
+
+// Fetch all donasi from database
+$query = "SELECT * FROM katalog_donasi ORDER BY created_at DESC";
+$stmt = $pdo->query($query);
+$donasis = $stmt->fetchAll(PDO::FETCH_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -16,31 +22,15 @@ if (!isset($_SESSION['user_id'])) {
     <meta name="page-title" content="Donasi">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['THICCCBOI'],
-                    },
-                },
-            },
-        };
-    </script>
 </head>
 <body class="bg-[#f5f6fb] font-sans">
-    <!-- Main Layout Container -->
     <div class="flex h-screen overflow-hidden">
-        <!-- Sidebar -->
         <?php include 'sidebar.php'; ?>
 
-        <!-- Main Content Area -->
         <div class="flex-1 flex flex-col min-h-screen lg:ml-0">
-            <!-- Header -->
             <?php include 'header.php'; ?>
 
             <div class="flex-1 overflow-y-auto">
-                <!-- kode tulis di sini -->
                 <div class="p-5">
                     <div class="shadow-lg mb-6">
                         <img src="assets/image/poster5.png" alt="Banner Image" class="w-full rounded-lg">
@@ -53,73 +43,39 @@ if (!isset($_SESSION['user_id'])) {
                         </div>
                     </div>
 
-                    <!-- donasi card -->
-                    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 gap-2 lg:gap-5">
-                    <?php 
-                        $donasi = [
-                            [
-                                'image' => 'bank sampah.png',
-                                'title' => 'Pembangunan Fasilitas Bank Sampah di Bandung',
-                                'progress' => 20,
-                                'collected' => 'Rp 10.000.000',
-                                'goal' => 'Rp 100.000.000'
-                            ],
-                            [
-                                'image' => 'menanam pohon.png',
-                                'title' => 'Penanaman 1000 Bibit Mangrove di Pantai Indonesia',
-                                'progress' => 40,
-                                'collected' => 'Rp 20.000.000',
-                                'goal' => 'Rp 50.000.000'
-                            ],
-                            [
-                                'image' => 'petugas kebersihan.png',
-                                'title' => 'Bantuan Kemanusiaan Untuk Petugas Kebersihan di Indonesia',
-                                'progress' => 50,
-                                'collected' => 'Rp 50.000.000',
-                                'goal' => 'Rp 100.000.000'
-                            ],
-                            [
-                                'image' => 'terumbu karang.png',
-                                'title' => 'Restorasi Terumbu Karang di Pantai Sumatera',
-                                'progress' => 90,
-                                'collected' => 'Rp 10.000.000',
-                                'goal' => 'Rp 15.000.000'
-                            ],
-                            [
-                                'image' => 'daur ulang kerajinan.png',
-                                'title' => 'Pendanaan UMKM kerajinan Daur Ulang Sampah',
-                                'progress' => 30,
-                                'collected' => 'Rp 10.000.000',
-                                'goal' => 'Rp 40.000.000'
-                            ],
-                            [
-                                'image' => 'membersihkan sungai.png',
-                                'title' => 'Program Bersih - Bersih Sungai di Indonesia',
-                                'progress' => 70,
-                                'collected' => 'Rp 15.000.000',
-                                'goal' => 'Rp 25.000.000'
-                            ],
-                        ];
-
-                        foreach ($donasi as $donasi_item) {
-                            echo '<div class="bg-white rounded-lg shadow-md p-3 donasi-card">';
-                            echo '<a href="#">';
-                            echo '<img src="assets/image/' . $donasi_item['image'] . '" alt="Donasi Image" class="w-full h-32 md:h-40 object-cover rounded-lg">';
-                            echo '<h4 class="font-semibold mt-2">' . $donasi_item['title'] . '</h4>';
-                            echo '<div class="relative mt-4 mb-4">';
-                            echo '<div class="flex mt-2">';
-                            echo '<div class="relative flex mb-2 w-full">';
-                            echo '<div class="flex-1 bg-gray-300 rounded-full h-2.5">';
-                            echo '<div class="bg-blue-600 h-2.5 rounded-full" style="width: ' . $donasi_item['progress'] . '%"></div>';
-                            echo '</div></div></div>';
-                            echo '<label for="progress" class="donasi-terkumpul block text-sm font-medium text-gray-700"><strong>' . $donasi_item['collected'] . ' terkumpul</strong> dari ' . $donasi_item['goal'] . '</label>';
-                            echo '</div></a></div>';
-                        }
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                        <?php foreach ($donasis as $donasi): 
+                            $progress = ($donasi['collected'] / $donasi['goal']) * 100;
                         ?>
+                            <div class="bg-white rounded-lg shadow-md p-3">
+                                <a href="detail_donasi.php?id=<?php echo $donasi['id']; ?>">
+                                    <img src="assets/image/<?php echo htmlspecialchars($donasi['image']); ?>" 
+                                         alt="<?php echo htmlspecialchars($donasi['title']); ?>" 
+                                         class="w-full h-40 object-cover rounded-lg">
+                                    
+                                    <h4 class="font-semibold mt-3 mb-2 line-clamp-2">
+                                        <?php echo htmlspecialchars($donasi['title']); ?>
+                                    </h4>
+                                    
+                                    <div class="relative mt-4">
+                                        <div class="flex mb-2">
+                                            <div class="w-full bg-gray-200 rounded-full h-2.5">
+                                                <div class="bg-blue-600 h-2.5 rounded-full" 
+                                                     style="width: <?php echo $progress; ?>%"></div>
+                                            </div>
+                                        </div>
+                                        <div class="text-sm text-gray-700">
+                                            <strong>Rp <?php echo number_format($donasi['collected']); ?> terkumpul</strong> 
+                                            dari Rp <?php echo number_format($donasi['goal']); ?>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
                 <?php include 'footer.php'; ?>
-            </div>  
+            </div>
         </div>
     </div>
 

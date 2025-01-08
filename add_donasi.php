@@ -2,68 +2,65 @@
 session_start();
 require 'config.php';
 
-// Periksa apakah admin sudah login
-if (!isset($_SESSION['admin_id'])) {
-    header("Location: admin_login.php");
+// Pastikan hanya admin yang bisa mengakses
+if (!isset($_SESSION['staff_id']) || $_SESSION['staff_role'] !== 'admin') {
+    header("Location: staff_login.php");
     exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Ambil data dari form
-    $title = $_POST['title'];
-    $deskripsi = $_POST['deskripsi'];
-    $collected = $_POST['collected'];
-    $goal = $_POST['goal'];
-    $image = $_FILES['image']['name'];
-    $imageTmp = $_FILES['image']['tmp_name'];
-    $imageSize = $_FILES['image']['size'];
+    try {
+        $title = $_POST['title'];
+        $deskripsi = $_POST['deskripsi']; // Contains HTML from CKEditor
+        $collected = $_POST['collected'];
+        $goal = $_POST['goal'];
 
-    // Validasi file gambar
-    $maxSize = 2 * 1024 * 1024; // 2MB
-    $allowedExtensions = ['jpg', 'jpeg', 'png'];
-    $imageExtension = strtolower(pathinfo($image, PATHINFO_EXTENSION));
-
-    if (!in_array($imageExtension, $allowedExtensions)) {
-        echo "Ekstensi file tidak valid. Gunakan jpg, jpeg, atau png.";
-        exit();
-    }
-
-    if ($imageSize > $maxSize) {
-        echo "Ukuran file terlalu besar. Maksimal 2MB.";
-        exit();
-    }
-
-    // Generate nama file unik
-    $newImageName = time() . '-' . uniqid() . '.' . $imageExtension;
-    $target = "assets/image/" . $newImageName;
-
-    // Proses upload gambar
-    if (move_uploaded_file($imageTmp, $target)) {
-        // Siapkan query untuk menyimpan data ke database
-        $query = "INSERT INTO katalog_donasi (image, title, deskripsi, collected, goal, created_at) 
-                  VALUES (:image, :title, :deskripsi, :collected, :goal, NOW())";
-
-        $stmt = $pdo->prepare($query);
-
-        try {
-            $stmt->execute([
-                ':image' => $newImageName,
-                ':title' => $title,
-                ':deskripsi' => $deskripsi,
-                ':collected' => $collected,
-                ':goal' => $goal,
-            ]);
-
-            // Redirect ke halaman katalog
-            header("Location: katalog_donasi.php");
-            exit();
-        } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
+        // Validate and upload image
+        if (!isset($_FILES['image']) || $_FILES['image']['error'] !== UPLOAD_ERR_OK) {
+            throw new Exception("Silakan pilih gambar untuk diunggah.");
         }
-    } else {
-        echo "Gagal mengupload gambar.";
+
+        $image = $_FILES['image']['name'];
+        $image_tmp = $_FILES['image']['tmp_name'];
+        $image_size = $_FILES['image']['size'];
+        $image_ext = strtolower(pathinfo($image, PATHINFO_EXTENSION));
+
+        // Validate file extension
+        $allowed_exts = ['jpg', 'jpeg', 'png'];
+        if (!in_array($image_ext, $allowed_exts)) {
+            throw new Exception("Format file tidak valid. Gunakan JPG, JPEG, atau PNG.");
+        }
+
+        // Validate file size (max 2MB)
+        $max_size = 2 * 1024 * 1024;
+        if ($image_size > $max_size) {
+            throw new Exception("Ukuran file terlalu besar. Maksimal 2MB.");
+        }
+
+        // Generate unique filename
+        $new_image_name = time() . '-' . uniqid() . '.' . $image_ext;
+        $target_path = "assets/image/" . $new_image_name;
+
+        // Upload image
+        if (!move_uploaded_file($image_tmp, $target_path)) {
+            throw new Exception("Gagal mengupload gambar.");
+        }
+
+        // Insert into database
+        $stmt = $pdo->prepare("INSERT INTO katalog_donasi 
+            (title, deskripsi, collected, goal, image, created_at, updated_at) 
+            VALUES (?, ?, ?, ?, ?, NOW(), NOW())");
+        
+        $stmt->execute([$title, $deskripsi, $collected, $goal, $new_image_name]);
+
+        $_SESSION['success_message'] = "Donasi baru berhasil ditambahkan!";
+        header("Location: katalog_donasi.php");
+        exit();
+
+    } catch (Exception $e) {
+        $_SESSION['error_message'] = $e->getMessage();
+        header("Location: katalog_donasi.php");
+        exit();
     }
-} else {
-    echo "Akses tidak valid.";
 }
 ?>

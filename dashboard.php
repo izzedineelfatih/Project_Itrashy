@@ -251,6 +251,7 @@ $carbon_data = array_map(function($item) {
                         </div>
                     </div>
                 </div>
+                <?php include 'footer.php'; ?>
             </main>
         </div>
     </div>
@@ -340,6 +341,7 @@ $carbon_data = array_map(function($item) {
                 </div>
             </div>
         </div>
+        
     </div>
 
     <script>
@@ -517,7 +519,5 @@ $carbon_data = array_map(function($item) {
             }
         });
     </script>
-
-    <?php include 'footer.php'; ?>
 </body>
 </html>

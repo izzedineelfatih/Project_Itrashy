@@ -21,7 +21,7 @@ $poin_terkumpul = $stmt->fetchColumn();
         </button>
     </div>
 
-    <div class="bg-gradient-to-r from-[#FED4B4] to-[#54B68B] pt-2 pb-2 ml-5 mr-5 rounded-lg shadow-lg">
+    <div class="bg-gradient-to-r from-[#FED4B4] to-[#54B68B] mt-4 pt-2 pb-2 ml-5 mr-5 rounded-lg shadow-lg">
         <div class="flex flex-col items-start pl-10">
             <p class="text-sm pb-1">Poin Anda</p>
             <div class="flex space-x-2 justify-center">
@@ -59,8 +59,4 @@ $poin_terkumpul = $stmt->fetchColumn();
             <span>Riwayat</span>
         </a>
     </nav>
-    <div class="p-5 border-t mt-10">
-        <a href="#" class="block text-black-600 hover:text-blue-500">Bantuan</a>
-        <a href="#" class="block text-black-600 hover:text-blue-500 mt-3">Pengaturan</a>
-    </div>
 </div>

@@ -69,7 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="flex flex-col md:flex-row min-h-screen">
         <div class="relative w-full md:w-1/2">
             <div class="relative w-full h-64 md:h-full p-4">
-                <a href="landingPage.php" class="absolute top-8 left-10 h-4 lg:top-12 lg:left-14">
+                <a href="index.html" class="absolute top-8 left-10 h-4 lg:top-12 lg:left-14">
                     <img src="assets/icon/back icon.png" alt="Back" class="w-6 h-6">
                 </a>
                 <img src="assets/image/orang buang sampah.jpg" alt="Background" class="w-full h-full object-cover rounded-xl">
