@@ -45,6 +45,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['confirm_exchange'])) {
             $stmtInsert = $pdo->prepare("INSERT INTO order_sembako (user_id, sembako, jumlah_poin, status, created_at) VALUES (?, ?, ?, 'pending', NOW())");
             $stmtInsert->execute([$user_id, $sembako['id'], $poinRequired]);
 
+            // Tambahkan notifikasi
+            $pesan_notifikasi = "Anda telah menukarkan " . htmlspecialchars($sembako['title']) . " dengan " . $poinRequired . " poin.";
+            $stmtNotifikasi = $pdo->prepare("INSERT INTO notifications (message, created_at) VALUES (?, NOW())");
+            $stmtNotifikasi->execute([$pesan_notifikasi]);
+
             // Commit transaksi
             $pdo->commit();
 

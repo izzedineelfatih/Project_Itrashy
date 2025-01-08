@@ -101,6 +101,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     // Update status di tabel orders
     $stmt = $pdo->prepare("UPDATE orders SET status = :status WHERE id = :id");
     $stmt->execute(['status' => $status, 'id' => $orderId]);
+
+    if ($action === 'done') {
+        // ... kode yang ada untuk menangani aksi 'done'
+    
+        // Tambahkan notifikasi untuk penyelesaian pesanan
+        $notification_message = "Pesanan ID: {$orderId} telah selesai.";
+        $stmt = $pdo->prepare("INSERT INTO notifications (message, created_at) VALUES (?, NOW())");
+        $stmt->execute([$notification_message]);
+    }
     
     // Jika accept => pickup, update order_tukarPoin
     if ($action === 'accept') {

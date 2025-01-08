@@ -5,7 +5,124 @@ if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
 }
+
+require 'config.php';
+
+// Ambil ID user yang sedang login
+$user_id = $_SESSION['user_id'];
+$stmt = $pdo->prepare("
+    SELECT 
+        pickup_date,
+        SUM(total_berat_sampah) as total_weight
+    FROM orders
+    WHERE user_id = :user_id 
+    AND status = 'done'
+    GROUP BY DATE_FORMAT(pickup_date, '%Y-%m')
+    ORDER BY pickup_date ASC
+");
+$stmt->execute(['user_id' => $user_id]);
+$garbage_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+$garbage_data = array_map(function($item) {
+    // Ambil tahun sekarang
+    $currentYear = date('Y');
+    // Ambil tahun dari pickup_date
+    $year = date('Y', strtotime($item['pickup_date']));
+    // Ambil bulan singkat
+    $month = date('M', strtotime($item['pickup_date']));
+
+    // Jika tahun berbeda, tambahkan tahun ke bulan
+    $monthDisplay = ($year == $currentYear) ? $month : "$month $year";
+
+    return [
+        'month' => $monthDisplay,
+        'total_weight' => $item['total_weight']
+    ];
+}, $garbage_data);
+
+// Hitung jejak karbon (asumsi: 1 kg sampah = 2.5 kg CO2)
+$carbon_data = array_map(function($item) {
+    return [
+        'month' => $item['month'],
+        'carbon' => $item['total_weight'] * 2.5
+    ];
+}, $garbage_data);
+$total_weight = array_sum(array_column($garbage_data, 'total_weight'));
+
+require('config.php');
+
+// Query untuk mendapatkan data leaderboard
+$query = "
+    SELECT 
+        u.id, 
+        u.username, 
+        u.profile_picture, 
+        COALESCE(SUM(o.total_berat_sampah), 0) AS total_weight
+    FROM 
+        users u
+    LEFT JOIN 
+        orders o ON u.id = o.user_id
+    GROUP BY 
+        u.id
+    ORDER BY 
+        total_weight DESC
+    LIMIT 10
+";
+
+// Eksekusi query dengan error handling
+try {
+    $stmt = $pdo->query($query);
+    $leaderboard = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Error: " . $e->getMessage();
+    $leaderboard = []; // Pastikan $leaderboard tetap didefinisikan
+}
+// Ambil ID pengguna dari session
+$user_id = $_SESSION['user_id'];
+
+try {
+    // Query untuk mengambil data sampah berdasarkan user_id
+    $stmt = $pdo->prepare("
+        SELECT 
+            j.name AS waste_type,
+            j.image,
+            SUM(oi.quantity) AS total_quantity
+        FROM 
+            order_items oi
+        JOIN 
+            `orders` o
+        ON 
+            oi.order_id = o.id
+        JOIN 
+            users u
+        ON 
+            o.user_id = u.id
+        JOIN 
+            jenis_sampah j
+        ON 
+            oi.waste_type = j.name
+        WHERE 
+            u.id = :user_id
+        GROUP BY 
+            j.name, j.image
+        ORDER BY 
+            total_quantity DESC
+        LIMIT 3
+    ");
+    $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
+    $stmt->execute();
+
+    // Ambil hasil query
+    $waste_data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Error: " . $e->getMessage());
+}
 ?>
+
+
+
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -33,8 +150,11 @@ if (!isset($_SESSION['user_id'])) {
     <?php include 'sidebar.php'; ?>
     <div class="flex-1 flex flex-col min-h-screen lg:ml-0">
     <?php include 'header.php'; ?>
+   
 
     <div class="min-h-screen bg-gray-50 overflow-y-auto">
+        
+
         <div class="container mx-auto p-6 space-y-8">
             <!-- Header -->
             <h2 class="text-2xl font-bold text-gray-800 text-center sm:text-left">
@@ -46,118 +166,122 @@ if (!isset($_SESSION['user_id'])) {
                 <!-- Statistik Section -->
                 <div class="col-span-1 lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
                     <!-- Sampah Terkumpul -->
-                    <div class="bg-white rounded-lg shadow-md p-6">
-                        <h3 class="text-lg font-semibold text-gray-800">Sampah Terkumpul</h3>
-                        <canvas id="sampahTerkumpulChart" class="my-4"></canvas>
-                        <p class="text-2xl font-bold text-gray-800">140 Kg</p>
-                        <p class="text-gray-500 text-sm">
-                            Kumpulkan sampahmu, kurangi tumpukan sampah di TPA!
-                        </p>
-                    </div>
-    
-                    <!-- Jejak Karbon -->
-                    <div class="bg-white rounded-lg shadow-md p-6">
-                        <h3 class="text-lg font-semibold text-gray-800">Jejak Karbon Berkurang</h3>
-                        <canvas id="jejakKarbonChart" class="my-4"></canvas>
-                        <p class="text-2xl font-bold text-gray-800">63 Kg CO<sub>2</sub></p>
-                        <p class="text-gray-500 text-sm">
-                            Ayo olah sampahmu untuk kurangi jejak karbonmu!
-                        </p>
-                    </div>
-                </div>
-    
-                <!-- Leaderboard Section -->
-                <div class="bg-blue-500 text-white rounded-lg shadow-md p-6">
-                    <h3 class="text-lg font-bold text-center mb-6">Leaderboard</h3>
-                    <div class="flex justify-around items-center mb-6">
-                        <!-- Top 3 -->
-                        <div class="text-center">
-                            <div class="w-16 h-16 mx-auto bg-white rounded-full overflow-hidden">
-                                <img src="https://via.placeholder.com/100" alt="Alena Donin" class="w-full h-full object-cover">
-                            </div>
-                            <p class="font-bold mt-2">Alena Donin</p>
-                            <p class="text-sm">45 Kg</p>
-                        </div>
-                        <div class="text-center">
-                            <div class="w-20 h-20 mx-auto bg-white rounded-full overflow-hidden border-4 border-yellow-300">
-                                <img src="https://via.placeholder.com/100" alt="Davis Curtis" class="w-full h-full object-cover">
-                            </div>
-                            <p class="font-bold mt-2">Davis Curtis</p>
-                            <p class="text-sm">50 Kg</p>
-                        </div>
-                        <div class="text-center">
-                            <div class="w-16 h-16 mx-auto bg-white rounded-full overflow-hidden">
-                                <img src="https://via.placeholder.com/100" alt="Craig Gouse" class="w-full h-full object-cover">
-                            </div>
-                            <p class="font-bold mt-2">Craig Gouse</p>
-                            <p class="text-sm">36 Kg</p>
-                        </div>
-                    </div>
-    
-                    <!-- Additional Leaderboard -->
-                    <ul class="bg-white text-gray-800 rounded-lg p-4 space-y-4">
-                        <li class="flex justify-between items-center">
-                            <p>4. Madelyn Dias</p>
-                            <p>35 Kg</p>
-                        </li>
-                        <li class="flex justify-between items-center">
-                            <p>5. Joko Anwar</p>
-                            <p>30 Kg</p>
-                        </li>
-                        <li class="flex justify-between items-center">
-                            <p>6. Frederick Stafford</p>
-                            <p>28 Kg</p>
-                        </li>
-                        <li class="flex justify-between items-center">
-                            <p>7. Andi Setiabudi</p>
-                            <p>25 Kg</p>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-    <!-- #region -->
-            <!-- Paling Sering Dikumpulkan -->
-            <div class="h-screen overflow-y-auto bg-gray-50">
-                <div class="container mx-auto p-6 space-y-8 pb-20">
-                    <!-- Paling Sering Dikumpulkan -->
-                    <div class="bg-white rounded-lg shadow-md p-6">
-                        <h3 class="text-lg font-semibold text-gray-800 mb-4">Paling Sering Dikumpulkan</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                            <!-- Sampah Plastik -->
-                            <div class="flex items-center space-x-4">
-                                <img src="assets/image/botol_plastik.png" alt="Sampah Plastik" class="w-12 h-12">
-                                <div>
-                                    <p class="font-bold text-gray-800">Sampah Plastik</p>
-                                    <p class="text-sm text-gray-500">30 Kg</p>
-                                    <p class="text-xs text-gray-400">Botol PET, Gelas plastik, Plastik lainnya</p>
-                                </div>
-                            </div>
-                            <!-- Sampah Organik -->
-                            <div class="flex items-center space-x-4">
-                                <img src="assets/image/sampah_organik.png" alt="Sampah Organik" class="w-12 h-12">
-                                <div>
-                                    <p class="font-bold text-gray-800">Sampah Organik</p>
-                                    <p class="text-sm text-gray-500">25 Kg</p>
-                                    <p class="text-xs text-gray-400">Sampah sisa dapur dan daun kering</p>
-                                </div>
-                            </div>
-                            <!-- Sampah Kardus -->
-                            <div class="flex items-center space-x-4">
-                                <img src="assets/image/kardus.png" alt="Sampah Kardus" class="w-12 h-12">
-                                <div>
-                                    <p class="font-bold text-gray-800">Sampah Kardus</p>
-                                    <p class="text-sm text-gray-500">15 Kg</p>
-                                    <p class="text-xs text-gray-400">Kardus tebal, kardus tipis, Kardus karton</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>   
+                <!-- Jejak Karbon -->
+<div class="bg-white rounded-lg shadow-md p-6">
+    <h3 class="text-lg font-semibold text-gray-800">Jejak Sampah Terkumpul</h3>
+    <div class="h-[300px]">
+    <canvas id="garbageChart" class="my-4"></canvas> <!-- Grafik Sampah Terkumpul -->
     </div>
+    <p class="text-2xl font-bold text-gray-800 total-weight"></p>
+    <p class="text-gray-500 text-sm">
+        Ayo setorkan sampahmu!
+    </p>
+</div>
+
+<!-- Grafik Jejak Karbon -->
+<div class="bg-white rounded-lg shadow-md p-6">
+    <h3 class="text-lg font-semibold text-gray-800">Jejak Karbon</h3>
+    <div class="h-[300px]">
+    <canvas id="carbonChart" class="my-4"></canvas> <!-- Grafik Jejak Karbon -->
+    </div>
+    <p class="text-2xl font-bold text-gray-800 total-carbon"></p>
+    <p class="text-gray-500 text-sm">
+        Ayo olah sampahmu untuk kurangi jejak karbonmu!
+    </p>
+</div>
+</div>
+<div class="bg-white w-full max-w-md rounded-lg shadow-lg p-6">
+    <h3 class="text-3xl font-bold  text-center border-b border-purple-600 pb-4">Leaderboard</h3>
+    
+    <!-- Scrollable Area -->
+    <div class="mt-4 space-y-4 max-h-[400px] overflow-y-auto scrollbar-thin scrollbar-thumb-purple-500 scrollbar-track-purple-300">
+        <?php if (!empty($leaderboard)): ?>
+            <?php foreach ($leaderboard as $index => $user): ?>
+                <div class="flex items-center bg-gray-200 p-4 rounded-lg shadow-sm hover:bg-purple-600 transition">
+                    <!-- Rank -->
+                    <div class="flex items-center justify-center bg-white font-bold text-xl w-12 h-12 rounded-full">
+                        <?= $index + 1; ?>
+                    </div>
+                    <!-- Profile -->
+                    <div class="ml-4 flex-shrink-0">
+                        <img src="<?= !empty($user['profile_picture']) ? htmlspecialchars($user['profile_picture']) : 'assets/icon/user.png'; ?>" alt="Avatar" class="w-14 h-14 rounded-full ">
+                    </div>
+                    <!-- User Info -->
+                    <div class="ml-4">
+                        <h3 class="text-lg font-medium "><?= htmlspecialchars($user['username']); ?></h3>
+                        <p class="text-sm ">Total Berat: <strong><?= htmlspecialchars($user['total_weight']); ?> Kg</strong></p>
+                    </div>
+                </div>
+            <?php endforeach; ?>
+        <?php else: ?>
+            <p class="text-purple-200 text-center">Belum ada data untuk ditampilkan.</p>
+        <?php endif; ?>
+    </div>
+</div>
+
+</div>
+
+<div class=" overflow-y-auto">
+        <div class="container mx-auto p-6 space-y-8 pb-20">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Paling Sering Dikumpulkan</h3>
+                <div id="waste-list" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- PHP Loop untuk render data -->
+                    <?php if (count($waste_data) > 0): ?>
+                        <?php foreach ($waste_data as $waste): ?>
+                            <div class="flex items-center space-x-4 bg-white p-4 rounded-lg shadow-md">
+                                <img src="assets/image/<?php echo htmlspecialchars($waste['image']); ?>" alt="<?php echo htmlspecialchars($waste['waste_type']); ?>" class="w-12 h-12">
+                                <div>
+                                    <p class="font-bold text-gray-800"><?php echo htmlspecialchars($waste['waste_type']); ?></p>
+                                    <p class="text-sm text-gray-500"><?php echo htmlspecialchars($waste['total_quantity']); ?> Kg</p>
+                                </div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p class="text-gray-500">Tidak ada data sampah yang ditemukan untuk pengguna ini.</p>
+                    <?php endif; ?>
+                </div>
+            </div>
+            <div class="flex-1 overflow-y-auto">
+            </div>
+            <?php include 'footer.php'; ?>
+
+        </div>
+        
+    </div>
+    
+</div>
+
+    </div>
+    
+
+
+
+
+   
 
     <script>
+        
+        fetch('get_leaderboard.php')
+    .then(response => response.text())
+    .then(data => {
+        // Memasukkan data yang diterima ke dalam elemen dengan id 'leaderboard-container'
+        document.getElementById('leaderboard-container').innerHTML = data;
+    })
+    .catch(error => console.error('Error loading leaderboard:', error));
+         // Data dari PHP
+    const totalWeight = <?php echo $total_weight; ?>;
+    const totalCarbon = <?php echo $total_weight * 2.5; ?>; // Menggunakan total_weight dari PHP untuk hitung CO2
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Update elemen HTML dengan data total berat
+        const totalWeightElement = document.querySelector('.total-weight');
+        totalWeightElement.textContent = `${totalWeight} Kg`;
+
+        // Update elemen HTML dengan data total jejak karbon
+        const totalCarbonElement = document.querySelector('.total-carbon');
+        totalCarbonElement.textContent = `${totalCarbon.toFixed(2)} Kg CO₂`;
+    });
         document.addEventListener('DOMContentLoaded', function() {
         initializeMenu();
         initializeCharts();
@@ -197,40 +321,70 @@ if (!isset($_SESSION['user_id'])) {
                 }
             });
         }
-
-        // Chart.js for Sampah Terkumpul
         function initializeCharts() {
-        const ctx1 = document.getElementById('sampahTerkumpulChart').getContext('2d');
-        new Chart(ctx1, {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Sampah Terkumpul',
-                    data: [10, 20, 30, 40, 25, 15],
-                    backgroundColor: '#6366F1',
-                }]
-            },
-            options: { responsive: true }
-        });
+            const chartConfig = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false
+                        }
+                    },
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            };
 
-        // Chart.js for Jejak Karbon
-        const ctx2 = document.getElementById('jejakKarbonChart').getContext('2d');
-        new Chart(ctx2, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Jejak Karbon',
-                    data: [5, 15, 10, 20, 8, 4],
-                    borderColor: '#1E3A8A',
-                    fill: true,
-                    backgroundColor: 'rgba(59, 130, 246, 0.2)',
-                }]
-            },
-            options: { responsive: true }
-        });
-        }  
+         // Data dari PHP
+         const garbageData = <?php echo json_encode($garbage_data); ?>;
+            const carbonData = <?php echo json_encode($carbon_data); ?>;
+
+            // Garbage Chart
+            const garbageChart = new Chart(document.getElementById('garbageChart').getContext('2d'), {
+                type: 'bar',
+                data: {
+                    labels: garbageData.map(item => item.month),
+                    datasets: [{
+                        label: 'Sampah Terkumpul (kg)',
+                        data: garbageData.map(item => item.total_weight),
+                        backgroundColor: '#6C63FF',
+                        borderRadius: 5,
+                        barThickness: 20,
+                    }]
+                },
+                options: chartConfig
+            });
+
+            // Carbon Chart
+            const carbonCtx = document.getElementById('carbonChart').getContext('2d');
+            const gradient = carbonCtx.createLinearGradient(0, 0, 0, 200);
+            gradient.addColorStop(0, 'rgba(108, 99, 255, 0.5)');
+            gradient.addColorStop(1, 'rgba(108, 99, 255, 0)');
+
+            const carbonChart = new Chart(carbonCtx, {
+                type: 'line',
+                data: {
+                    labels: carbonData.map(item => item.month),
+                    datasets: [{
+                        label: 'Jejak Karbon (kg CO₂)',
+                        data: carbonData.map(item => item.carbon),
+                        borderColor: '#6C63FF',
+                        backgroundColor: gradient,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: chartConfig
+            });
+
+        }
     </script>
 </body>
 </html>
