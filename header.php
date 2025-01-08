@@ -6,7 +6,7 @@ if (!isset($_SESSION['user_id'])) {
 
 // Menghubungkan ke database
 require 'config.php';
-
+$user_id = $_SESSION['user_id'];    
 // Ambil notifikasi
 $stmt = $pdo->prepare("SELECT * FROM notifications ORDER BY created_at DESC LIMIT 5");
 $stmt->execute();
@@ -50,9 +50,7 @@ $notificationCount = count($notifications);
                 <h3 class="text-lg font-semibold text-gray-800">Notifikasi Baru</h3>
                 <p class="text-gray-500 text-sm"><?= htmlspecialchars($notification['created_at']) ?></p>
                 <p class="text-gray-600 mt-2"><?= htmlspecialchars($notification['message']) ?></p>
-                <button class="mt-3 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                    Lacak Trashy Picker
-                </button>
+                
             </div>
         </li>
     <?php endforeach; ?>
