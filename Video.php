@@ -5,6 +5,23 @@ if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
 }
+require 'config.php';
+// Ambil data video berdasarkan ID dari URL
+$video = null;
+if (isset($_GET['id'])) {
+    $stmt = $pdo->prepare("SELECT * FROM videos WHERE id = ?");
+    $stmt->execute([$_GET['id']]);
+    $video = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if (!$video) {
+        echo "Video tidak ditemukan!";
+        exit();
+    }
+} else {
+    echo "ID video tidak valid!";
+    exit();
+}
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -54,73 +71,31 @@ if (!isset($_SESSION['user_id'])) {
     </style>
 </head>
 <body class="bg-[#f5f6fb] font-sans">
-  <!-- Main Layout Container -->
   <div class="flex h-screen overflow-hidden">
-      <!-- Sidebar -->
       <?php include 'sidebar.php'; ?>
-
-      <!-- Main Content Area -->
       <div class="flex-1 flex flex-col min-h-screen lg:ml-0">
-          <!-- Header -->
           <?php include 'header.php'; ?>
-
-          <!-- Content Section -->
           <div class="flex flex-1 overflow-auto p-4">
-              <!-- Left Section for Video -->
               <div class="flex-1 p-6 space-y-4 overflow-auto">
-                  <div class=" overflow-hidden">
-                      <!-- Video Thumbnail and Video -->
-                      <div id="video-container" class="relative w-full h-fit">
-                          <img id="video-thumbnail" src="assets/image/gambar4.png" alt="Video Thumbnail" class="w-full h-full cursor-pointer">
-                          <video id="video" class="hidden w-full h-64 object-cover" controls>
-                              <source src="path/to/your-video.mp4" type="video/mp4">
-                              <source src="path/to/your-video.webm" type="video/webm">
-                              Your browser does not support the video tag.
-                          </video>
-                      </div>
-                      <div class="p-6">
-                          <h2 class="text-xl font-bold">Tips Memilah Sampah Tanpa Ribet yang Bisa Dilakukan di Rumah Masing-Masing</h2>
-                          <p class="text-gray-500 mt-2">Halo teman-teman! 👋 Sampah yang tidak terkelola dengan baik bisa berdampak buruk bagi lingkungan kita...</p>
-                      </div>
-                  </div>
-              </div>
+                  <div id="video-container" class="relative w-full h-fit">
+                      <!-- Display the first video dynamically -->
+                      <?php if (!empty($video)) : ?>
+                        <video id="video" class="w-full h-64 object-cover" controls>
+    <source src="uploads/videoedukasi.mp4?= $video['video_url'] ?>" type="video/mp4">
+    Your browser does not support the video tag.
+</video>
 
-              <!-- Right Section for Other Videos -->
-              <div id="rightSection" class="ml-5 w-full h-fit lg:w-1/3 bg-white rounded-lg shadow-lg p-6 space-y-4 lg:block hidden sticky top-4">
-                  <h3 class="text-xl font-bold mb-4">Video Lainnya</h3>
-                  <div class="space-y-4">
-                      <!-- Video Card 1 -->
-                      <div class="bg-white rounded-lg shadow p-4 items-start space-x-4">
-                          <img src="assets/image/gambar6.png" alt="Video Thumbnail 1" class="w-full h-fit object-cover rounded-md">
-                          <div>
-                              <h4 class="font-semibold mt-2">Berapa lama sampah plastik dapat terurai? Yuk, cari tau</h4>
-                              <p class="text-xs text-gray-500 mt-1">I-Trashy • 02 Januari 2024</p>
+                          <div class="p-6">
+                              <h2 class="text-xl font-bold"><?= htmlspecialchars($video['title']) ?></h2>
+                              <p class="text-gray-500 mt-2"><?= htmlspecialchars($video['content']) ?></p>
                           </div>
-                      </div>
-                      <!-- Video Card 2 -->
-                      <div class="bg-white rounded-lg shadow p-4 items-start space-x-4">
-                          <img src="assets/image/gambar5.png" alt="Video Thumbnail 2" class="w-full h-fit object-cover rounded-md">
-                          <div>
-                              <h4 class="font-semibold mt-2">Gerakan bersih - bersih pantai di Indonesia</h4>
-                              <p class="text-xs text-gray-500 mt-1">I-Trashy • 02 Januari 2024</p>
-                          </div>
-                      </div>
-                      <!-- Video Card 3 -->
-                      <div class="bg-white rounded-lg shadow p-4 items-start space-x-4">
-                          <img src="assets/image/gambar4.png" alt="Video Thumbnail 3" class="w-full h-fit object-cover rounded-md">
-                          <div>
-                              <h4 class="font-semibold mt-2">Kisah perjuangan pengumpul sampah plastik</h4>
-                              <p class="text-xs text-gray-500 mt-1">I-Trashy • 02 Januari 2024</p>
-                          </div>
-                      </div>
+                      <?php else : ?>
+                          <p>No videos available.</p>
+                      <?php endif; ?>
                   </div>
               </div>
+             
           </div>
-      </div>
-
-      <!-- Toggle Button -->
-      <div class="absolute bottom-4 right-4 lg:hidden">
-          <button id="toggleRightSection" class="bg-blue-500 text-white px-4 py-2 rounded-full shadow-lg">Video Lainnya</button>
       </div>
   </div>
 

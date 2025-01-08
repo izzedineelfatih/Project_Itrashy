@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Jika ada file video yang diunggah
     if (isset($_FILES['video_file']) && $_FILES['video_file']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = 'uploads/gambar/';  // Folder tempat menyimpan video
+        $uploadDir = 'uploads/';  // Folder tempat menyimpan video
         $fileName = basename($_FILES['video_file']['name']);  // Mendapatkan nama file
         $targetFilePath = $uploadDir . $fileName;  // Path lengkap file
         $fileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION));  // Mendapatkan ekstensi file
@@ -29,11 +29,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Simpan data video ke database
-    $stmt = $pdo->prepare("INSERT INTO videos (title, video_url,content) VALUES (?, ?)");
-    $stmt->execute([$title, $videoUrl]);  // Menyimpan judul dan URL video
+    $stmt = $pdo->prepare("INSERT INTO videos (title, video_url,content) VALUES (?, ?,?)");
+    $stmt->execute([$title, $videoUrl,$content]);  // Menyimpan judul dan URL video
 
     // Redirect ke halaman admin setelah berhasil
-    header('Location: admin_panel.php');
+    header('Location: katalog_edukasi.php');
     exit();
 }
 
